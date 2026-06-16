@@ -1,0 +1,1208 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEAD SIGNAL — Combat</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --bg:      #0a0a0b;
+  --surface: #0f0f12;
+  --border:  #1e1e24;
+  --dim:     #2e2e38;
+  --muted:   #5a5a68;
+  --body:    #c0c0cc;
+  --bright:  #e8e8f0;
+  --red:     #c0392b;
+  --red2:    #e74c3c;
+  --green:   #27ae60;
+  --green2:  #2ecc71;
+  --amber:   #e67e22;
+  --blue:    #2980b9;
+  --purple:  #8e44ad;
+  --mono:    'Share Tech Mono', monospace;
+  --serif:   'Crimson Pro', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 3rem;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ─────────────────────────────────── */
+#combat-header {
+  width: 100%;
+  max-width: 700px;
+  padding: 1.5rem 1.5rem 0;
+  text-align: center;
+}
+
+.combat-eyebrow {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+#encounter-name {
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  letter-spacing: 0.12em;
+  color: var(--red2);
+  text-shadow: 0 0 24px rgba(231,76,60,0.5);
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+#encounter-flavor {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.hline {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), var(--red), var(--border), transparent);
+  margin-bottom: 1.2rem;
+}
+
+/* ── COMBATANT CARDS ──────────────────────────── */
+#arena {
+  width: 100%;
+  max-width: 700px;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: start;
+  margin-bottom: 1.2rem;
+}
+
+.combatant-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1rem;
+}
+
+.card-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.card-name {
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--bright);
+  margin-bottom: 0.8rem;
+  font-weight: bold;
+}
+
+/* HP Bar */
+.hp-label {
+  font-size: 0.55rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.3rem;
+}
+
+.hp-bar-track {
+  width: 100%;
+  height: 8px;
+  background: var(--dim);
+  position: relative;
+  overflow: hidden;
+}
+
+.hp-bar-fill {
+  height: 100%;
+  background: var(--green);
+  transition: width 0.4s ease, background 0.4s ease;
+  position: relative;
+}
+
+.hp-bar-fill.danger { background: var(--red2); }
+.hp-bar-fill.warning { background: var(--amber); }
+
+.hp-number {
+  font-size: 0.75rem;
+  color: var(--bright);
+  margin-top: 0.3rem;
+  letter-spacing: 0.05em;
+}
+
+/* Status badges */
+.status-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+  min-height: 18px;
+}
+
+.badge {
+  font-size: 0.52rem;
+  padding: 0.15rem 0.4rem;
+  letter-spacing: 0.1em;
+  border: 1px solid currentColor;
+  text-transform: uppercase;
+}
+.badge-stun   { color: var(--amber); }
+.badge-bleed  { color: var(--red2); }
+.badge-guard  { color: var(--blue); }
+.badge-rage   { color: var(--purple); }
+.badge-slow   { color: var(--muted); }
+
+/* VS divider */
+#vs-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2.5rem;
+  gap: 0.5rem;
+}
+
+.vs-text {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+}
+
+.vs-round {
+  font-size: 0.6rem;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+/* ── ENEMY PORTRAIT / ASCII ART ──────────────── */
+#enemy-portrait {
+  font-size: 0.55rem;
+  line-height: 1.3;
+  color: var(--dim);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+  user-select: none;
+}
+
+/* ── BATTLE LOG ───────────────────────────────── */
+#battle-log-wrapper {
+  width: 100%;
+  max-width: 700px;
+  padding: 0 1.5rem;
+  margin-bottom: 1rem;
+}
+
+#battle-log {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--dim);
+  padding: 0.8rem 1rem;
+  height: 130px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  scroll-behavior: smooth;
+}
+
+.log-line {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  opacity: 0;
+  animation: logFade 0.3s ease forwards;
+}
+.log-line.player  { color: var(--green2); }
+.log-line.enemy   { color: var(--red2); }
+.log-line.system  { color: var(--muted); }
+.log-line.special { color: var(--amber); }
+.log-line.capture { color: var(--purple); }
+
+@keyframes logFade {
+  from { opacity: 0; transform: translateX(-4px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── TURN INDICATOR ───────────────────────────── */
+#turn-indicator {
+  width: 100%;
+  max-width: 700px;
+  padding: 0 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.turn-bar {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.turn-pip {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.turn-pip.enemy-turn { background: var(--red2); }
+
+/* ── ACTION BUTTONS ───────────────────────────── */
+#actions-wrapper {
+  width: 100%;
+  max-width: 700px;
+  padding: 0 1.5rem;
+}
+
+#actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.action-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--body);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  padding: 0.8rem 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.action-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.action-btn:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.action-btn .btn-title {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.action-btn .btn-desc {
+  display: block;
+  font-size: 0.6rem;
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: 0.03em;
+}
+
+.action-btn .btn-cost {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.5rem;
+  font-size: 0.55rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+/* Action color themes */
+.btn-attack  { border-color: rgba(192,57,43,0.4); }
+.btn-attack:not(:disabled):hover  { border-color: var(--red2); background: rgba(192,57,43,0.08); color: var(--red2); }
+
+.btn-heavy   { border-color: rgba(192,57,43,0.25); }
+.btn-heavy:not(:disabled):hover   { border-color: var(--red); background: rgba(192,57,43,0.05); color: var(--red2); }
+
+.btn-dodge   { border-color: rgba(39,174,96,0.3); }
+.btn-dodge:not(:disabled):hover   { border-color: var(--green); background: rgba(39,174,96,0.07); color: var(--green2); }
+
+.btn-item    { border-color: rgba(230,126,34,0.3); }
+.btn-item:not(:disabled):hover    { border-color: var(--amber); background: rgba(230,126,34,0.07); color: var(--amber); }
+
+.btn-stun    { border-color: rgba(142,68,173,0.3); }
+.btn-stun:not(:disabled):hover    { border-color: var(--purple); background: rgba(142,68,173,0.07); color: var(--purple); }
+
+.btn-run     { border-color: rgba(90,90,104,0.4); }
+.btn-run:not(:disabled):hover     { border-color: var(--muted); background: rgba(90,90,104,0.07); color: var(--body); }
+
+/* Item sub-menu */
+#item-menu {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.item-btn {
+  background: none;
+  border: 1px solid rgba(230,126,34,0.3);
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.1s;
+}
+
+.item-btn:hover:not(:disabled) { background: rgba(230,126,34,0.08); }
+.item-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+
+.item-count {
+  float: right;
+  color: var(--muted);
+  font-size: 0.58rem;
+}
+
+#back-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+#back-btn:hover { color: var(--body); }
+
+/* ── OUTCOME OVERLAY ──────────────────────────── */
+#outcome-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,11,0.92);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+#outcome-overlay.show { display: flex; }
+
+#outcome-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+#outcome-title {
+  font-size: clamp(1.2rem, 5vw, 2rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+#outcome-text {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 440px;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+#outcome-stat {
+  font-size: 0.7rem;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+}
+
+#outcome-btn {
+  background: none;
+  border: 1px solid currentColor;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  padding: 0.7rem 2rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.15s;
+  margin-top: 0.5rem;
+}
+
+#outcome-btn:hover { background: rgba(255,255,255,0.05); }
+
+/* Screen flash */
+@keyframes flashRed {
+  0%   { background: rgba(192,57,43,0.15); }
+  100% { background: transparent; }
+}
+@keyframes flashGreen {
+  0%   { background: rgba(39,174,96,0.1); }
+  100% { background: transparent; }
+}
+
+.flash-red  { animation: flashRed 0.35s ease; }
+.flash-green { animation: flashGreen 0.35s ease; }
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media (max-width: 480px) {
+  #arena { grid-template-columns: 1fr 30px 1fr; gap: 0.5rem; }
+  .combatant-card { padding: 0.7rem; }
+  #actions { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="combat-header">
+  <div class="combat-eyebrow">⚠ ENCOUNTER</div>
+  <div id="encounter-name">LOADING…</div>
+  <div id="encounter-flavor"></div>
+  <div class="hline"></div>
+</div>
+
+<!-- ARENA -->
+<div id="arena">
+  <!-- PLAYER CARD -->
+  <div class="combatant-card" id="player-card">
+    <div class="card-label">YOU</div>
+    <div class="card-name" id="player-name">SURVIVOR</div>
+    <div class="hp-label">HP</div>
+    <div class="hp-bar-track"><div class="hp-bar-fill" id="player-hp-bar" style="width:100%"></div></div>
+    <div class="hp-number"><span id="player-hp">100</span> / <span id="player-maxhp">100</span></div>
+    <div class="status-badges" id="player-badges"></div>
+  </div>
+
+  <!-- VS -->
+  <div id="vs-divider">
+    <div class="vs-text">VS</div>
+    <div class="vs-round">RND<br><span id="round-num">1</span></div>
+  </div>
+
+  <!-- ENEMY CARD -->
+  <div class="combatant-card" id="enemy-card">
+    <div class="card-label">ENEMY</div>
+    <div id="enemy-portrait"></div>
+    <div class="card-name" id="enemy-name">UNKNOWN</div>
+    <div class="hp-label">HP</div>
+    <div class="hp-bar-track"><div class="hp-bar-fill" id="enemy-hp-bar" style="width:100%"></div></div>
+    <div class="hp-number"><span id="enemy-hp">??</span> / <span id="enemy-maxhp">??</span></div>
+    <div class="status-badges" id="enemy-badges"></div>
+  </div>
+</div>
+
+<!-- BATTLE LOG -->
+<div id="battle-log-wrapper">
+  <div id="battle-log"></div>
+</div>
+
+<!-- TURN INDICATOR -->
+<div id="turn-indicator">
+  <div class="turn-bar">
+    <div class="turn-pip" id="turn-pip"></div>
+    <span id="turn-text">YOUR TURN</span>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div id="actions-wrapper">
+  <div id="actions">
+    <button class="action-btn btn-attack" id="btn-quick" onclick="doAction('quick')">
+      <span class="btn-cost">−8 to −14 HP</span>
+      <span class="btn-title">Quick Strike</span>
+      <span class="btn-desc">Fast, reliable hit. High accuracy.</span>
+    </button>
+    <button class="action-btn btn-heavy" id="btn-heavy" onclick="doAction('heavy')">
+      <span class="btn-cost">−18 to −28 HP</span>
+      <span class="btn-title">Heavy Blow</span>
+      <span class="btn-desc">Powerful but 30% miss chance.</span>
+    </button>
+    <button class="action-btn btn-dodge" id="btn-dodge" onclick="doAction('dodge')">
+      <span class="btn-cost">GUARD</span>
+      <span class="btn-title">Dodge & Brace</span>
+      <span class="btn-desc">Reduce incoming damage by 60%.</span>
+    </button>
+    <button class="action-btn btn-stun" id="btn-stun" onclick="doAction('stun')">
+      <span class="btn-cost">50% CHANCE</span>
+      <span class="btn-title">Disrupt</span>
+      <span class="btn-desc">Try to stun enemy, skip their turn.</span>
+    </button>
+    <button class="action-btn btn-item" id="btn-item" onclick="toggleItems()">
+      <span class="btn-cost" id="item-count-label"></span>
+      <span class="btn-title">Use Item</span>
+      <span class="btn-desc">Bandage, adrenaline, smoke.</span>
+    </button>
+    <button class="action-btn btn-run" id="btn-run" onclick="doAction('run')">
+      <span class="btn-cost">RISK</span>
+      <span class="btn-title">Flee</span>
+      <span class="btn-desc">60% escape. Failure = heavy damage.</span>
+    </button>
+  </div>
+
+  <!-- Item sub-menu -->
+  <div id="item-menu">
+    <button class="item-btn" id="item-bandage" onclick="useItem('bandage')">
+      Bandage <span class="item-count" id="bandage-count">×2</span>
+    </button>
+    <button class="item-btn" id="item-adrenaline" onclick="useItem('adrenaline')">
+      Adrenaline <span class="item-count" id="adrenaline-count">×1</span>
+    </button>
+    <button class="item-btn" id="item-smoke" onclick="useItem('smoke')">
+      Smoke Grenade <span class="item-count" id="smoke-count">×1</span>
+    </button>
+    <button id="back-btn" onclick="toggleItems()">← Back</button>
+  </div>
+</div>
+
+<!-- OUTCOME OVERLAY -->
+<div id="outcome-overlay">
+  <div id="outcome-icon"></div>
+  <div id="outcome-title"></div>
+  <div id="outcome-text"></div>
+  <div id="outcome-stat"></div>
+  <button id="outcome-btn" onclick="sendResult()"></button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   ENCOUNTER DEFINITIONS
+═══════════════════════════════════════════════ */
+const ENCOUNTERS = {
+  horde: {
+    name: 'THE DEAD MASS',
+    flavor: 'A wall of rotting bodies blocks your path. They haven\'t seen you yet.',
+    portrait: [
+      ' ░░▓▓░░▓▓░░▓▓ ',
+      '▓▒░▓▓▒░▓▓▒░▓▓▒',
+      '▓█▓▓█▓▓█▓▓█▓▓█',
+      '▒▓▒▓▒▓▒▓▒▓▒▓▒▓',
+      '░▒░▒░▒░▒░▒░▒░▒',
+    ].join('\n'),
+    hp: 80,
+    atk: [8, 14],
+    special: { name: 'Swarm', chance: 0.25, effect: 'bleed', desc: 'Overwhelms you — BLEED for 3 HP/turn' },
+    captureText: 'The horde swallows you whole. You are dragged into the mass...',
+    winText: 'You punch a hole through the dead. Gasping, bleeding, you emerge on the other side.',
+    type: 'zombie'
+  },
+  crawler: {
+    name: 'THE CRAWLER',
+    flavor: 'Something long and wrong skitters out of the pharmacy. Eight limbs. One used to be a person.',
+    portrait: [
+      '    /\\_____/\\   ',
+      '   ( o . o )   ',
+      '  ==( Y Y )==  ',
+      ' /  \\ | | /  \\ ',
+      '/\\   \\_/  /\\  /',
+    ].join('\n'),
+    hp: 60,
+    atk: [12, 20],
+    special: { name: 'Pounce', chance: 0.3, effect: 'stun', desc: 'Pins you down — YOU are stunned 1 turn' },
+    captureText: 'The Crawler pins you to the ground. Everything goes black.',
+    winText: 'The mutated thing collapses. Its many limbs go still one by one. You stand over it, shaking.',
+    type: 'mutant'
+  },
+  vantara: {
+    name: 'VANTARA OPERATIVE',
+    flavor: 'Hazmat gear. Tranq rifle. Professional body language. They\'re not here to kill you.',
+    portrait: [
+      '  ┌───────┐   ',
+      '  │ ◉ ◉ │   ',
+      '  │  ─── │   ',
+      '  └──┬───┘   ',
+      '  ═══╪═══   ',
+    ].join('\n'),
+    hp: 65,
+    atk: [10, 16],
+    special: { name: 'Tranq Shot', chance: 0.35, effect: 'slow', desc: 'Tranquilizer — your actions deal 50% damage next turn' },
+    captureText: 'The dart finds your neck. The world goes warm and slow. They have you.',
+    winText: 'The operative goes down. Their radio crackles uselessly. You take their keycard and keep moving.',
+    type: 'human'
+  },
+  bloater: {
+    name: 'THE BLOATER',
+    flavor: 'A swollen mass that was once a man blocks the corridor. It pulses. It sees you.',
+    portrait: [
+      '   ╔═══════╗   ',
+      '  ╔╝░▓▓▓░░╚╗  ',
+      ' ╔╝░▓▓▓▓▓░░╚╗ ',
+      ' ╚╗░▓▓▓▓▓░░╔╝ ',
+      '  ╚╗░░░░░░╔╝  ',
+    ].join('\n'),
+    hp: 100,
+    atk: [6, 10],
+    special: { name: 'Toxic Burst', chance: 0.4, effect: 'bleed', desc: 'Acid spray — BLEED 5 HP/turn for 3 turns' },
+    captureText: 'The Bloater ruptures — the acid cloud knocks you unconscious.',
+    winText: 'The Bloater detonates with a wet crack. You cover your face and survive the spray. Barely.',
+    type: 'mutant'
+  },
+  squad: {
+    name: 'VANTARA SQUAD',
+    flavor: 'Three operatives in formation. Comms earpieces. They\'ve been following you for two blocks.',
+    portrait: [
+      ' ┌──┐ ┌──┐ ┌──┐',
+      ' │◉◉│ │◉◉│ │◉◉│',
+      ' └──┘ └──┘ └──┘',
+      '═════ ═════ ═════',
+    ].join('\n'),
+    hp: 90,
+    atk: [14, 22],
+    special: { name: 'Coordinated Fire', chance: 0.45, effect: 'stun', desc: 'Suppressing fire — stunned and pinned 1 turn' },
+    captureText: 'Outnumbered and outgunned. They have you zip-tied before you hit the ground.',
+    winText: 'Two down, one fled. You stand in the alley breathing hard. They\'ll send more.',
+    type: 'human'
+  }
+};
+
+/* ═══════════════════════════════════════════════
+   GAME STATE
+═══════════════════════════════════════════════ */
+let combat = {
+  round: 1,
+  playerTurn: true,
+  busy: false,
+  done: false,
+  player: {
+    hp: 100,
+    maxHp: 100,
+    statuses: [],   // { type, turns }
+    dodging: false,
+  },
+  enemy: null,
+  encounter: null,
+  items: { bandage: 2, adrenaline: 1, smoke: 1 },
+  bleedTurns: 0,
+  bleedAmt: 0,
+  // passed in from parent
+  returnScene: '',
+  captureScene: '',
+  startHealth: 100,
+};
+
+/* ═══════════════════════════════════════════════
+   INIT — read URL params from parent
+═══════════════════════════════════════════════ */
+function init() {
+  const params = new URLSearchParams(window.location.search);
+  const encId  = params.get('encounter') || 'horde';
+  combat.returnScene  = params.get('win')     || '';
+  combat.captureScene = params.get('lose')    || '';
+  combat.startHealth  = parseInt(params.get('hp') || '100');
+
+  // Player HP passed in from story
+  combat.player.hp    = Math.max(10, combat.startHealth);
+  combat.player.maxHp = 100;
+
+  // Items: trust level affects starting items
+  const trust = parseInt(params.get('trust') || '0');
+  if (trust >= 2)  combat.items.bandage++;
+  if (trust >= 3)  combat.items.adrenaline++;
+
+  const enc = ENCOUNTERS[encId] || ENCOUNTERS['horde'];
+  combat.encounter = encId;
+  combat.enemy = {
+    name: enc.name,
+    hp: enc.hp,
+    maxHp: enc.hp,
+    statuses: [],
+  };
+
+  // Render encounter info
+  document.getElementById('encounter-name').textContent = enc.name;
+  document.getElementById('encounter-flavor').textContent = enc.flavor;
+  document.getElementById('enemy-portrait').textContent = enc.portrait;
+  document.getElementById('enemy-name').textContent = enc.name;
+
+  updateUI();
+  updateItemCounts();
+  log('system', `— Round 1. ${enc.name} stands before you. —`);
+  log('system', `Special ability: [${enc.special.name}] — ${enc.special.desc}`);
+}
+
+/* ═══════════════════════════════════════════════
+   LOGGING
+═══════════════════════════════════════════════ */
+function log(type, msg) {
+  const el = document.getElementById('battle-log');
+  const line = document.createElement('div');
+  line.className = `log-line ${type}`;
+  line.textContent = msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+/* ═══════════════════════════════════════════════
+   UI UPDATE
+═══════════════════════════════════════════════ */
+function updateUI() {
+  const p = combat.player;
+  const e = combat.enemy;
+
+  // Player
+  const pPct = Math.max(0, (p.hp / p.maxHp) * 100);
+  const pBar = document.getElementById('player-hp-bar');
+  pBar.style.width = pPct + '%';
+  pBar.className = 'hp-bar-fill' + (pPct < 25 ? ' danger' : pPct < 50 ? ' warning' : '');
+  document.getElementById('player-hp').textContent = Math.max(0, p.hp);
+  document.getElementById('player-maxhp').textContent = p.maxHp;
+  renderBadges('player-badges', p.statuses);
+
+  // Enemy
+  const ePct = Math.max(0, (e.hp / e.maxHp) * 100);
+  const eBar = document.getElementById('enemy-hp-bar');
+  eBar.style.width = ePct + '%';
+  eBar.className = 'hp-bar-fill' + (ePct < 25 ? ' danger' : ePct < 50 ? ' warning' : '');
+  document.getElementById('enemy-hp').textContent = Math.max(0, e.hp);
+  document.getElementById('enemy-maxhp').textContent = e.maxHp;
+  renderBadges('enemy-badges', e.statuses);
+
+  // Round
+  document.getElementById('round-num').textContent = combat.round;
+
+  // Turn pip
+  const pip = document.getElementById('turn-pip');
+  const txt = document.getElementById('turn-text');
+  if (combat.playerTurn) {
+    pip.className = 'turn-pip';
+    txt.textContent = 'YOUR TURN';
+    setActionsEnabled(true);
+  } else {
+    pip.className = 'turn-pip enemy-turn';
+    txt.textContent = 'ENEMY TURN…';
+    setActionsEnabled(false);
+  }
+
+  updateItemCounts();
+}
+
+function renderBadges(containerId, statuses) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  statuses.forEach(s => {
+    const b = document.createElement('span');
+    b.className = `badge badge-${s.type}`;
+    b.textContent = s.type.toUpperCase() + (s.turns ? ` (${s.turns})` : '');
+    el.appendChild(b);
+  });
+}
+
+function setActionsEnabled(enabled) {
+  if (combat.done) enabled = false;
+  ['btn-quick','btn-heavy','btn-dodge','btn-stun','btn-item','btn-run'].forEach(id => {
+    document.getElementById(id).disabled = !enabled;
+  });
+}
+
+function updateItemCounts() {
+  const total = combat.items.bandage + combat.items.adrenaline + combat.items.smoke;
+  document.getElementById('item-count-label').textContent = `×${total}`;
+  document.getElementById('bandage-count').textContent = `×${combat.items.bandage}`;
+  document.getElementById('adrenaline-count').textContent = `×${combat.items.adrenaline}`;
+  document.getElementById('smoke-count').textContent = `×${combat.items.smoke}`;
+  document.getElementById('item-bandage').disabled = combat.items.bandage <= 0;
+  document.getElementById('item-adrenaline').disabled = combat.items.adrenaline <= 0;
+  document.getElementById('item-smoke').disabled = combat.items.smoke <= 0;
+}
+
+/* ═══════════════════════════════════════════════
+   COMBAT ACTIONS
+═══════════════════════════════════════════════ */
+function rand(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function hasStatus(who, type) {
+  return who.statuses.some(s => s.type === type);
+}
+
+function removeStatus(who, type) {
+  who.statuses = who.statuses.filter(s => s.type !== type);
+}
+
+function tickStatuses(who) {
+  who.statuses = who.statuses
+    .map(s => ({ ...s, turns: s.turns - 1 }))
+    .filter(s => s.turns > 0);
+}
+
+function flashBody(cls) {
+  document.body.classList.remove('flash-red', 'flash-green');
+  void document.body.offsetWidth;
+  document.body.classList.add(cls);
+  setTimeout(() => document.body.classList.remove(cls), 400);
+}
+
+function doAction(action) {
+  if (combat.busy || !combat.playerTurn || combat.done) return;
+  hideItems();
+  combat.busy = true;
+  combat.player.dodging = false;
+
+  const enc = ENCOUNTERS[combat.encounter];
+  const p = combat.player;
+  const e = combat.enemy;
+
+  // Check player stun
+  if (hasStatus(p, 'stun')) {
+    removeStatus(p, 'stun');
+    log('system', '⚡ You are STUNNED — turn skipped!');
+    endPlayerTurn();
+    return;
+  }
+
+  // Slow debuff multiplier
+  const slowMult = hasStatus(p, 'slow') ? 0.5 : 1;
+  if (hasStatus(p, 'slow')) removeStatus(p, 'slow');
+
+  switch (action) {
+    case 'quick': {
+      const dmg = Math.round(rand(8, 14) * slowMult);
+      e.hp -= dmg;
+      log('player', `⚔ Quick Strike — dealt ${dmg} damage to ${e.name}.`);
+      flashBody('flash-red');
+      shakeCard('enemy-card');
+      break;
+    }
+    case 'heavy': {
+      if (Math.random() < 0.30) {
+        log('player', `✗ Heavy Blow — missed! The enemy dodges.`);
+      } else {
+        const dmg = Math.round(rand(18, 28) * slowMult);
+        e.hp -= dmg;
+        log('player', `💥 Heavy Blow — crushed for ${dmg} damage!`);
+        flashBody('flash-red');
+        shakeCard('enemy-card');
+        // 20% chance to stun enemy
+        if (Math.random() < 0.20) {
+          e.statuses.push({ type: 'stun', turns: 1 });
+          log('special', `★ Enemy STUNNED by your blow!`);
+        }
+      }
+      break;
+    }
+    case 'dodge': {
+      p.dodging = true;
+      p.statuses.push({ type: 'guard', turns: 1 });
+      log('player', `🛡 Dodge & Brace — incoming damage reduced 60% this turn.`);
+      break;
+    }
+    case 'stun': {
+      if (Math.random() < 0.50) {
+        e.statuses.push({ type: 'stun', turns: 1 });
+        log('player', `⚡ Disrupt — ${e.name} is STUNNED! Their turn is skipped.`);
+        flashBody('flash-red');
+      } else {
+        log('player', `✗ Disrupt failed — they shook it off.`);
+      }
+      break;
+    }
+    case 'run': {
+      if (Math.random() < 0.60) {
+        log('player', `🏃 You flee! Escaping into the darkness...`);
+        setTimeout(() => showOutcome('flee'), 800);
+        return;
+      } else {
+        const penalty = rand(15, 25);
+        p.hp -= penalty;
+        log('player', `✗ Flee failed — caught! Took ${penalty} damage.`);
+        flashBody('flash-red');
+        shakeCard('player-card');
+        if (checkDeath()) return;
+      }
+      break;
+    }
+  }
+
+  if (checkEnemyDeath()) return;
+
+  setTimeout(() => {
+    endPlayerTurn();
+  }, 400);
+}
+
+function useItem(item) {
+  if (combat.busy || !combat.playerTurn || combat.done) return;
+  hideItems();
+
+  const p = combat.player;
+
+  switch (item) {
+    case 'bandage':
+      if (combat.items.bandage <= 0) return;
+      combat.items.bandage--;
+      const heal = rand(18, 25);
+      p.hp = Math.min(p.maxHp, p.hp + heal);
+      log('player', `🩹 Bandage applied — recovered ${heal} HP.`);
+      flashBody('flash-green');
+      break;
+    case 'adrenaline':
+      if (combat.items.adrenaline <= 0) return;
+      combat.items.adrenaline--;
+      p.hp = Math.min(p.maxHp, p.hp + 10);
+      // next attack boosted — use a flag
+      p.statuses.push({ type: 'rage', turns: 2 });
+      log('player', `💉 Adrenaline! +10 HP, +50% damage for 2 turns.`);
+      flashBody('flash-green');
+      break;
+    case 'smoke':
+      if (combat.items.smoke <= 0) return;
+      combat.items.smoke--;
+      // Enemy misses next turn
+      combat.enemy.statuses.push({ type: 'slow', turns: 1 });
+      log('player', `💨 Smoke Grenade — enemy blinded next turn, −70% accuracy!`);
+      break;
+  }
+
+  combat.busy = true;
+  updateUI();
+  setTimeout(() => { endPlayerTurn(); }, 400);
+}
+
+function endPlayerTurn() {
+  updateUI();
+  combat.playerTurn = false;
+
+  // Bleed tick on player
+  if (combat.bleedTurns > 0) {
+    combat.bleedTurns--;
+    combat.player.hp -= combat.bleedAmt;
+    log('enemy', `🩸 BLEED — you take ${combat.bleedAmt} damage (${combat.bleedTurns} turns left).`);
+    if (checkDeath()) return;
+  }
+
+  updateUI();
+  setTimeout(() => { enemyTurn(); }, 700);
+}
+
+function enemyTurn() {
+  const enc = ENCOUNTERS[combat.encounter];
+  const p = combat.player;
+  const e = combat.enemy;
+
+  // Check enemy stun
+  if (hasStatus(e, 'stun')) {
+    removeStatus(e, 'stun');
+    log('system', `⚡ ${e.name} is STUNNED — their turn is skipped!`);
+    startPlayerTurn();
+    return;
+  }
+
+  // Smoke debuff = 70% miss
+  const smokeBlind = hasStatus(e, 'slow');
+  if (smokeBlind) removeStatus(e, 'slow');
+
+  if (smokeBlind && Math.random() < 0.70) {
+    log('enemy', `💨 ${e.name} swings blindly through the smoke — MISS!`);
+    startPlayerTurn();
+    return;
+  }
+
+  // Special ability check
+  let usedSpecial = false;
+  if (Math.random() < enc.special.chance) {
+    usedSpecial = true;
+    log('special', `★ ${e.name} uses [${enc.special.name}]! ${enc.special.desc}`);
+    if (enc.special.effect === 'bleed') {
+      combat.bleedTurns = 3;
+      combat.bleedAmt = enc.type === 'mutant' ? 5 : 3;
+      p.statuses.push({ type: 'bleed', turns: 3 });
+    } else if (enc.special.effect === 'stun') {
+      p.statuses.push({ type: 'stun', turns: 1 });
+    } else if (enc.special.effect === 'slow') {
+      p.statuses.push({ type: 'slow', turns: 1 });
+    }
+  }
+
+  if (!usedSpecial || enc.special.effect !== 'stun') {
+    // Normal attack
+    let dmg = rand(enc.atk[0], enc.atk[1]);
+
+    // Rage buff on player reduces incoming? No — adrenaline is offense.
+    // Guard / dodge
+    if (p.dodging || hasStatus(p, 'guard')) {
+      dmg = Math.round(dmg * 0.40);
+      removeStatus(p, 'guard');
+      log('enemy', `🛡 ${e.name} attacks — BLOCKED! Took only ${dmg} damage.`);
+    } else {
+      log('enemy', `☠ ${e.name} attacks — you take ${dmg} damage!`);
+    }
+
+    // Rage multiplier on player's attack (already used), so just note
+    p.hp -= dmg;
+    flashBody('flash-red');
+    shakeCard('player-card');
+    if (checkDeath()) return;
+  }
+
+  tickStatuses(p);
+  tickStatuses(e);
+  updateUI();
+  startPlayerTurn();
+}
+
+function startPlayerTurn() {
+  combat.round++;
+  combat.player.dodging = false;
+  combat.busy = false;
+  combat.playerTurn = true;
+  updateUI();
+}
+
+/* ═══════════════════════════════════════════════
+   DEATH CHECKS
+═══════════════════════════════════════════════ */
+function checkDeath() {
+  if (combat.player.hp <= 0) {
+    combat.player.hp = 0;
+    updateUI();
+    setTimeout(() => showOutcome('lose'), 600);
+    return true;
+  }
+  return false;
+}
+
+function checkEnemyDeath() {
+  if (combat.enemy.hp <= 0) {
+    combat.enemy.hp = 0;
+    updateUI();
+    setTimeout(() => showOutcome('win'), 600);
+    return true;
+  }
+  return false;
+}
+
+/* ═══════════════════════════════════════════════
+   SHAKE ANIMATION
+═══════════════════════════════════════════════ */
+function shakeCard(id) {
+  const card = document.getElementById(id);
+  card.style.transition = 'transform 0.05s';
+  card.style.transform = 'translateX(-4px)';
+  setTimeout(() => { card.style.transform = 'translateX(4px)'; }, 60);
+  setTimeout(() => { card.style.transform = 'translateX(-2px)'; }, 120);
+  setTimeout(() => { card.style.transform = 'translateX(0)'; }, 180);
+}
+
+/* ═══════════════════════════════════════════════
+   ITEM TOGGLE
+═══════════════════════════════════════════════ */
+function toggleItems() {
+  const menu = document.getElementById('item-menu');
+  menu.style.display = menu.style.display === 'grid' ? 'none' : 'grid';
+}
+
+function hideItems() {
+  document.getElementById('item-menu').style.display = 'none';
+}
+
+/* ═══════════════════════════════════════════════
+   OUTCOME
+═══════════════════════════════════════════════ */
+function showOutcome(result) {
+  combat.done = true;
+  setActionsEnabled(false);
+  updateUI();
+
+  const enc = ENCOUNTERS[combat.encounter];
+  const overlay = document.getElementById('outcome-overlay');
+  overlay.classList.add('show');
+
+  const hpLost = combat.startHealth - Math.max(0, combat.player.hp);
+  const hpLeft = Math.max(0, combat.player.hp);
+
+  if (result === 'win') {
+    document.getElementById('outcome-icon').textContent = '☑';
+    document.getElementById('outcome-title').style.color = 'var(--green2)';
+    document.getElementById('outcome-title').textContent = 'SURVIVED';
+    document.getElementById('outcome-text').textContent = enc.winText;
+    document.getElementById('outcome-stat').textContent = `HP REMAINING: ${hpLeft} | ROUNDS: ${combat.round} | DAMAGE TAKEN: ${hpLost}`;
+    document.getElementById('outcome-btn').style.color = 'var(--green2)';
+    document.getElementById('outcome-btn').textContent = '→ CONTINUE THE STORY';
+    document.getElementById('outcome-btn').dataset.result = 'win';
+  } else if (result === 'lose') {
+    document.getElementById('outcome-icon').textContent = '☠';
+    document.getElementById('outcome-title').style.color = 'var(--purple)';
+    document.getElementById('outcome-title').textContent = 'CAPTURED';
+    document.getElementById('outcome-text').textContent = enc.captureText;
+    document.getElementById('outcome-stat').textContent = `You fought for ${combat.round} rounds before going down.`;
+    document.getElementById('outcome-btn').style.color = 'var(--purple)';
+    document.getElementById('outcome-btn').textContent = '→ SEE WHAT HAPPENS NEXT';
+    document.getElementById('outcome-btn').dataset.result = 'lose';
+  } else if (result === 'flee') {
+    document.getElementById('outcome-icon').textContent = '🏃';
+    document.getElementById('outcome-title').style.color = 'var(--amber)';
+    document.getElementById('outcome-title').textContent = 'ESCAPED';
+    document.getElementById('outcome-text').textContent = 'You run. You don\'t stop running until the sounds fade. Your route is changed. Something else waits ahead.';
+    document.getElementById('outcome-stat').textContent = `HP: ${hpLeft} | You escaped on round ${combat.round}`;
+    document.getElementById('outcome-btn').style.color = 'var(--amber)';
+    document.getElementById('outcome-btn').textContent = '→ CONTINUE';
+    document.getElementById('outcome-btn').dataset.result = 'flee';
+  }
+}
+
+function sendResult() {
+  const result = document.getElementById('outcome-btn').dataset.result;
+  const hpLeft = Math.max(0, combat.player.hp);
+
+  // Send result back to parent window (if embedded in iframe)
+  if (window.opener) {
+    window.opener.postMessage({
+      type: 'COMBAT_RESULT',
+      result: result,
+      hp: hpLeft,
+      encounter: combat.encounter,
+      winScene: combat.returnScene,
+      loseScene: combat.captureScene,
+    }, '*');
+    window.close();
+  } else if (window.parent !== window) {
+    window.parent.postMessage({
+      type: 'COMBAT_RESULT',
+      result: result,
+      hp: hpLeft,
+      encounter: combat.encounter,
+      winScene: combat.returnScene,
+      loseScene: combat.captureScene,
+    }, '*');
+  } else {
+    // Fallback: use URL navigation
+    const base = (result === 'win') ? combat.returnScene : combat.captureScene;
+    const url = `zombie_survival.html?resume=${base}&hp=${hpLeft}&result=${result}`;
+    window.location.href = url;
+  }
+}
+
+/* ── BOOT ── */
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
