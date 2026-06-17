@@ -50,12 +50,10 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 #story-panel::-webkit-scrollbar { width: 4px; }
 #story-panel::-webkit-scrollbar-track { background: var(--bg); }
 #story-panel::-webkit-scrollbar-thumb { background: var(--dim); }
 
-/* Status bar */
 #status-bar {
   display: flex;
   justify-content: space-between;
@@ -69,7 +67,6 @@ body {
   letter-spacing: 0.08em;
   flex-shrink: 0;
 }
-
 .stat { display: flex; gap: 0.3rem; align-items: center; }
 .stat-label { color: var(--dim); }
 .stat-val-day    { color: var(--green2); }
@@ -77,14 +74,12 @@ body {
 .stat-val-health { color: var(--accent2); }
 .stat-val-chap   { color: var(--muted); }
 
-/* Game title strip */
 #title-strip {
   padding: 0.6rem 1rem 0;
   display: flex;
   align-items: baseline;
   gap: 0.8rem;
 }
-
 .game-title {
   font-family: var(--mono);
   font-size: 1rem;
@@ -94,12 +89,7 @@ body {
   text-transform: uppercase;
 }
 
-/* Scene content */
-#scene-content {
-  padding: 0.5rem 1rem 0.8rem;
-  flex: 1;
-}
-
+#scene-content { padding: 0.5rem 1rem 0.8rem; flex: 1; }
 #scene-label {
   font-family: var(--mono);
   font-size: 0.55rem;
@@ -108,7 +98,6 @@ body {
   text-transform: uppercase;
   margin-bottom: 0.3rem;
 }
-
 #scene-title {
   font-family: var(--serif);
   font-size: 1.1rem;
@@ -117,7 +106,6 @@ body {
   margin-bottom: 0.6rem;
   line-height: 1.25;
 }
-
 #scene-text {
   font-family: var(--serif);
   font-size: 0.9rem;
@@ -125,7 +113,6 @@ body {
   color: var(--body);
   white-space: pre-line;
 }
-
 #scene-text em    { color: var(--amber); font-style: italic; }
 #scene-text strong { color: var(--bright); font-weight: 600; }
 
@@ -148,7 +135,6 @@ body {
   display: block;
   margin-bottom: 0.3rem;
 }
-
 .capture-callout {
   margin: 0.8rem 0;
   padding: 0.7rem 1rem;
@@ -177,7 +163,6 @@ body {
   background: #0a0a0b;
   min-height: 0;
 }
-
 #map-canvas {
   display: block;
   width: 100%;
@@ -186,12 +171,9 @@ body {
   image-rendering: crisp-edges;
 }
 
-/* Hint bar above map */
 #map-hint {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   background: rgba(10,10,11,0.85);
   border-top: 1px solid var(--border);
   padding: 0.4rem 1rem;
@@ -204,11 +186,27 @@ body {
   z-index: 10;
 }
 
-/* Choice tooltip when near hotspot */
+/* Zombie alert banner */
+#zombie-alert {
+  position: absolute;
+  top: 8px; left: 50%;
+  transform: translateX(-50%);
+  background: rgba(192,57,43,0.15);
+  border: 1px solid var(--accent);
+  padding: 4px 14px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--accent2);
+  letter-spacing: 0.15em;
+  pointer-events: none;
+  display: none;
+  z-index: 15;
+}
+
+/* Choice tooltip */
 #choice-tooltip {
   position: absolute;
-  bottom: 36px;
-  left: 50%;
+  bottom: 36px; left: 50%;
   transform: translateX(-50%);
   background: rgba(15,15,18,0.97);
   border: 1px solid var(--accent2);
@@ -224,7 +222,6 @@ body {
   display: none;
   line-height: 1.5;
 }
-
 #choice-tooltip .tooltip-key {
   display: block;
   margin-top: 0.3rem;
@@ -233,91 +230,58 @@ body {
   letter-spacing: 0.2em;
 }
 
-.tooltip-tag {
-  display: inline-block;
-  font-size: 0.52rem;
-  padding: 0.1rem 0.3rem;
-  border: 1px solid currentColor;
-  margin-left: 0.4rem;
-  letter-spacing: 0.1em;
-  vertical-align: middle;
-}
-.tag-risk { color: var(--accent2); }
-.tag-safe { color: var(--green); }
-.tag-trust { color: var(--amber); }
-
 /* Mobile D-pad */
 #dpad {
   position: absolute;
-  bottom: 50px;
-  left: 12px;
-  width: 96px;
-  height: 96px;
+  bottom: 50px; left: 12px;
+  width: 96px; height: 96px;
   z-index: 30;
   display: none;
   user-select: none;
   -webkit-user-select: none;
 }
-
 .dpad-btn {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 30px; height: 30px;
   background: rgba(40,40,50,0.85);
   border: 1px solid var(--border);
   border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--muted);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  touch-action: none;
-  user-select: none;
+  touch-action: none; user-select: none;
 }
 .dpad-btn:active, .dpad-btn.pressed { background: rgba(192,57,43,0.3); border-color: var(--accent2); color: var(--bright); }
 .dpad-up    { top: 0;    left: 33px; }
 .dpad-down  { bottom: 0; left: 33px; }
-.dpad-left  { top: 33px; left: 0;   }
-.dpad-right { top: 33px; right: 0;  }
+.dpad-left  { top: 33px; left: 0; }
+.dpad-right { top: 33px; right: 0; }
 
-/* Interact button (mobile) */
 #interact-btn {
   position: absolute;
-  bottom: 50px;
-  right: 12px;
-  width: 52px;
-  height: 52px;
+  bottom: 50px; right: 12px;
+  width: 52px; height: 52px;
   background: rgba(192,57,43,0.25);
   border: 2px solid var(--accent2);
   border-radius: 50%;
   display: none;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  color: var(--accent2);
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  z-index: 30;
-  flex-direction: column;
-  line-height: 1.2;
+  align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 0.65rem;
+  color: var(--accent2); letter-spacing: 0.05em;
+  cursor: pointer; z-index: 30;
+  flex-direction: column; line-height: 1.2;
   -webkit-tap-highlight-color: transparent;
-  touch-action: none;
-  text-align: center;
+  touch-action: none; text-align: center;
 }
 
-/* Combat overlay iframe */
+/* Combat overlay */
 #combat-overlay {
   display: none;
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.95);
   z-index: 200;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column; align-items: center; justify-content: center;
 }
 #combat-overlay.active { display: flex; }
 #combat-frame { width: 100%; max-width: 700px; height: 100dvh; border: none; background: #0a0a0b; }
@@ -325,14 +289,12 @@ body {
 /* Ending screen */
 #ending-overlay {
   display: none;
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: var(--bg);
   z-index: 300;
   overflow-y: auto;
   padding: 2rem 1.5rem 3rem;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column; align-items: center;
 }
 #ending-overlay.show { display: flex; }
 .ending-inner { max-width: 560px; width: 100%; }
@@ -342,27 +304,17 @@ body {
 .ending-text  { font-family: var(--serif); font-size: 1rem; line-height: 1.85; color: var(--body); white-space: pre-line; margin-bottom: 2rem; }
 .ending-divider { width: 100%; height: 1px; background: var(--border); margin: 1.5rem 0; }
 #restart-btn {
-  background: none;
-  border: 1px solid var(--dim);
-  color: var(--muted);
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  padding: 0.7rem 1.5rem;
-  text-transform: uppercase;
-  cursor: pointer;
+  background: none; border: 1px solid var(--dim); color: var(--muted);
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em;
+  padding: 0.7rem 1.5rem; text-transform: uppercase; cursor: pointer;
   transition: border-color 0.15s, color 0.15s;
 }
 #restart-btn:hover { border-color: var(--body); color: var(--body); }
 
-/* Scene transition overlay */
+/* Scene transition */
 #transition-overlay {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 150;
-  pointer-events: none;
-  opacity: 0;
+  position: fixed; inset: 0; background: #000;
+  z-index: 150; pointer-events: none; opacity: 0;
   transition: opacity 0.3s ease;
 }
 #transition-overlay.fade-in  { opacity: 1; }
@@ -371,7 +323,6 @@ body {
 </head>
 <body>
 
-<!-- Story panel (top) -->
 <div id="story-panel">
   <div id="status-bar">
     <div class="stat"><span class="stat-label">DAY</span><span class="stat-val-day" id="stat-day">1</span></div>
@@ -389,16 +340,14 @@ body {
   </div>
 </div>
 
-<!-- Map panel (bottom) -->
 <div id="map-panel">
   <canvas id="map-canvas"></canvas>
+  <div id="zombie-alert">⚠ ZOMBIE SPOTTED</div>
   <div id="choice-tooltip">
     <span id="tooltip-text">—</span>
-    <span class="tooltip-key">[ E ] hoặc [ SPACE ] để chọn</span>
+    <span class="tooltip-key">[ E ] or [ SPACE ] to choose</span>
   </div>
-  <div id="map-hint">WASD / MŨI TÊN — di chuyển &nbsp;|&nbsp; E / SPACE — tương tác</div>
-
-  <!-- Mobile controls -->
+  <div id="map-hint">WASD / ARROWS — move &nbsp;|&nbsp; E / SPACE — interact</div>
   <div id="dpad">
     <div class="dpad-btn dpad-up"    data-dir="up">▲</div>
     <div class="dpad-btn dpad-down"  data-dir="down">▼</div>
@@ -408,12 +357,10 @@ body {
   <div id="interact-btn">E<br><span style="font-size:0.5rem">ENTER</span></div>
 </div>
 
-<!-- Combat overlay -->
 <div id="combat-overlay">
   <iframe id="combat-frame" src="" title="Combat"></iframe>
 </div>
 
-<!-- Ending overlay -->
 <div id="ending-overlay">
   <div class="ending-inner">
     <div class="ending-label">ENDING REACHED</div>
@@ -421,387 +368,832 @@ body {
     <div id="ending-title" class="ending-title"></div>
     <div class="ending-divider"></div>
     <div id="ending-text" class="ending-text"></div>
-    <button id="restart-btn" onclick="startGame()">↺ CHƠI LẠI</button>
+    <button id="restart-btn" onclick="startGame()">↺ PLAY AGAIN</button>
   </div>
 </div>
 
-<!-- Transition overlay -->
 <div id="transition-overlay"></div>
 
 <script>
-/* ═══════════════════════════════════════════════════
-   COLOUR PALETTE (for canvas drawing)
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   PALETTE
+═══════════════════════════════════════ */
 const C = {
-  bg:      '#0a0a0b',
-  road:    '#141418',
-  roadMark:'#2a2a32',
-  sidewalk:'#1a1a1e',
-  grass:   '#0e1a0e',
-  grass2:  '#0c160c',
-  rubble:  '#1e1c1a',
-  buildA:  '#161618',
-  buildB:  '#18181c',
-  buildC:  '#14141a',
-  window0: '#0a0a0c',
-  window1: '#1a2a18',
-  window2: '#2a1a10',
-  windowL: '#c8a040',
-  car1:    '#1a2030',
-  car2:    '#2a1018',
-  car3:    '#1a2818',
-  blood:   '#3a0a08',
-  fence:   '#2a2828',
-  player:  '#e8e8f0',
-  playerAcc:'#e74c3c',
-  zombie:  '#4a3820',
-  zombieAcc:'#8a2018',
-  zombieEye:'#c0392b',
-  hotspot: '#e74c3c',
-  hotspotG: '#27ae60',
-  hotspotB: '#2980b9',
-  hotspotP: '#8e44ad',
-  amber:   '#e67e22',
+  bg:'#0a0a0b', road:'#131316', road2:'#161619',
+  side:'#1c1c22', side2:'#1e1e24',
+  build0:'#13131a', build1:'#16161f', build2:'#111119', buildTop:'#0d0d14',
+  win0:'#0a0a10', winAmber:'#c8901c', winGreen:'#1a3a18', winBlue:'#0e2038',
+  rubble:'#1e1b16',
+  car0:'#151c28', car1:'#221014', car2:'#141f10',
+  blood:'#2e0808',
+  player:'#e0e0e8', playerJacket:'#232840', playerHead:'#c0906e',
+  z0:'#3c2e14', z1:'#2c3a14', z2:'#3a1a0a', zEye:'#c0302a',
+  hotRed:'#e74c3c', hotGreen:'#27ae60', hotAmber:'#e67e22', hotBlue:'#2980b9',
+  streetLine:'rgba(50,50,60,0.5)',
 };
 
-/* ═══════════════════════════════════════════════════
-   TILE CONSTANTS
-═══════════════════════════════════════════════════ */
-const TILE = 24;
-const COLS = 26;
-const ROWS = 18;
+/* ═══════════════════════════════════════
+   TILE IDs
+═══════════════════════════════════════ */
+const T = { ROAD:0, SIDE:1, BUILD:2, RUBBLE:3, CAR:4, BLOOD:5 };
+const COLS = 26, ROWS = 18;
 
-/* Tile type IDs */
-const T = { ROAD:0, SIDE:1, GRASS:2, BUILD:3, RUBBLE:4, CAR:5, FENCE:6, BLOOD:7 };
+/* ═══════════════════════════════════════
+   SEEDED RNG
+═══════════════════════════════════════ */
+function seedRng(seed) {
+  let s = seed;
+  return () => { s=(s*1664525+1013904223)&0xffffffff; return (s>>>0)/0xffffffff; };
+}
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════
    MAP GENERATOR
-   Produces a fresh tile grid + building rects per scene
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════ */
 function generateMap(seed) {
-  // Seeded RNG
-  let s = seed * 9301 + 49297;
-  const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-  const ri = (a,b) => Math.floor(rng()*(b-a+1))+a;
-
+  const rng = seedRng(seed);
+  const ri  = (a,b) => Math.floor(rng()*(b-a+1))+a;
   const grid = Array.from({length:ROWS}, () => new Array(COLS).fill(T.ROAD));
 
-  // Horizontal road at row 8-9 (main street)
+  // Main roads
   for (let c=0;c<COLS;c++) { grid[8][c]=T.ROAD; grid[9][c]=T.ROAD; }
-  // Road markings stored separately
-
-  // Vertical road at col 12-13
   for (let r=0;r<ROWS;r++) { grid[r][12]=T.ROAD; grid[r][13]=T.ROAD; }
+  // Sidewalks
+  for (let c=0;c<COLS;c++) {
+    if(grid[7][c]!==T.ROAD)  grid[7][c]=T.SIDE;
+    if(grid[10][c]!==T.ROAD) grid[10][c]=T.SIDE;
+  }
+  for (let r=0;r<ROWS;r++) {
+    if(grid[r][11]!==T.ROAD) grid[r][11]=T.SIDE;
+    if(grid[r][14]!==T.ROAD) grid[r][14]=T.SIDE;
+  }
 
-  // Sidewalks around roads
-  const sidewalkRows = [7,10], sidewalkCols = [11,14];
-  for (let c=0;c<COLS;c++) { sidewalkRows.forEach(r=>{ if(grid[r][c]===T.ROAD) return; grid[r][c]=T.SIDE; }); }
-  for (let r=0;r<ROWS;r++) { sidewalkCols.forEach(c=>{ if(grid[r][c]===T.ROAD) return; grid[r][c]=T.SIDE; }); }
-
-  // Buildings in quadrants — leave 2 tile buffer around roads
+  // Buildings
   const buildings = [];
-  function placeBuilding(minC,maxC,minR,maxR,color) {
-    const w=ri(3,Math.min(5,maxC-minC)); const h=ri(3,Math.min(4,maxR-minR));
-    const c=ri(minC,maxC-w); const r=ri(minR,maxR-h);
-    buildings.push({c,r,w,h,color});
+  function placeB(mc,xc,mr,xr,ci) {
+    const w=ri(4,Math.min(6,xc-mc)), h=ri(3,Math.min(4,xr-mr));
+    const c=ri(mc,xc-w), r=ri(mr,xr-h);
+    buildings.push({c,r,w,h,ci:ci%3});
     for(let rr=r;rr<r+h;rr++) for(let cc=c;cc<c+w;cc++) grid[rr][cc]=T.BUILD;
   }
-  // Four quadrants
-  for(let i=0;i<3;i++) placeBuilding(0,10,0,6,ri(0,2));
-  for(let i=0;i<3;i++) placeBuilding(15,25,0,6,ri(0,2));
-  for(let i=0;i<3;i++) placeBuilding(0,10,11,17,ri(0,2));
-  for(let i=0;i<3;i++) placeBuilding(15,25,11,17,ri(0,2));
+  for(let i=0;i<4;i++) placeB(0,10,0,6,i);
+  for(let i=0;i<4;i++) placeB(15,25,0,6,i);
+  for(let i=0;i<4;i++) placeB(0,10,11,17,i);
+  for(let i=0;i<4;i++) placeB(15,25,11,17,i);
 
-  // Rubble patches
-  for(let i=0;i<8;i++) {
+  // Rubble
+  for(let i=0;i<10;i++) {
     const c=ri(0,COLS-1), r=ri(0,ROWS-1);
-    if(grid[r][c]===T.ROAD||grid[r][c]===T.SIDE) { grid[r][c]=T.RUBBLE; }
+    if(grid[r][c]===T.ROAD||grid[r][c]===T.SIDE) grid[r][c]=T.RUBBLE;
   }
 
-  // Wrecked cars on road
-  const cars = [];
-  for(let i=0;i<4;i++) {
-    const roadTiles = [[8,ri(1,10)],[8,ri(15,24)],[9,ri(1,10)],[9,ri(15,24)]];
-    const [rr,cc] = roadTiles[i % roadTiles.length];
-    if(grid[rr][cc]===T.ROAD) {
-      grid[rr][cc]=T.CAR;
-      cars.push({c:cc,r:rr,rot:ri(0,3),color:ri(0,2)});
-    }
-  }
+  // Cars
+  const carList = [];
+  [[8,ri(2,9)],[8,ri(16,24)],[9,ri(2,9)],[9,ri(16,24)],[12,ri(1,6)],[13,ri(11,16)]].forEach(([r,c])=>{
+    if(grid[r][c]===T.ROAD){ grid[r][c]=T.CAR; carList.push({r,c,rot:ri(0,3),ci:ri(0,2)}); }
+  });
 
   // Blood stains
-  for(let i=0;i<5;i++) {
-    const c=ri(0,COLS-1),r=ri(0,ROWS-1);
+  for(let i=0;i<8;i++) {
+    const c=ri(0,COLS-1), r=ri(0,ROWS-1);
     if(grid[r][c]===T.ROAD||grid[r][c]===T.SIDE) grid[r][c]=T.BLOOD;
   }
 
-  return {grid, buildings, cars, rng};
+  return {grid, buildings, carList, rng};
 }
 
-/* ═══════════════════════════════════════════════════
-   DRAW FUNCTIONS
-═══════════════════════════════════════════════════ */
-function drawTile(ctx, c, r, type, frame) {
-  const x = c*TILE, y = r*TILE;
-  switch(type) {
-    case T.ROAD:
-      ctx.fillStyle = C.road;
-      ctx.fillRect(x,y,TILE,TILE);
-      // subtle noise
-      if((c+r)%3===0){ ctx.fillStyle='rgba(255,255,255,0.012)'; ctx.fillRect(x,y,TILE,TILE); }
-      break;
-    case T.SIDE:
-      ctx.fillStyle = C.sidewalk;
-      ctx.fillRect(x,y,TILE,TILE);
-      // crack lines
-      if((c*3+r*7)%11===0){
-        ctx.strokeStyle='rgba(0,0,0,0.3)'; ctx.lineWidth=0.5;
-        ctx.beginPath(); ctx.moveTo(x+4,y+4); ctx.lineTo(x+TILE-4,y+TILE-4); ctx.stroke();
-      }
-      break;
-    case T.GRASS:
-      ctx.fillStyle = (c+r)%2===0?C.grass:C.grass2;
-      ctx.fillRect(x,y,TILE,TILE);
-      break;
-    case T.BUILD:
-      // Buildings drawn separately as rects, tiles just show interior
-      ctx.fillStyle = C.buildA;
-      ctx.fillRect(x,y,TILE,TILE);
-      break;
-    case T.RUBBLE:
-      ctx.fillStyle = C.rubble;
-      ctx.fillRect(x,y,TILE,TILE);
-      // rubble dots
-      ctx.fillStyle='rgba(80,70,60,0.4)';
-      for(let i=0;i<4;i++) ctx.fillRect(x+((c*7+i*5)%18)+2, y+((r*5+i*7)%18)+2, 2, 2);
-      break;
-    case T.BLOOD:
-      ctx.fillStyle = C.road;
-      ctx.fillRect(x,y,TILE,TILE);
-      ctx.fillStyle = C.blood;
-      ctx.beginPath();
-      ctx.ellipse(x+TILE/2,y+TILE/2,TILE/3,TILE/4,c*0.5,0,Math.PI*2);
-      ctx.fill();
-      break;
-    case T.CAR:
-      ctx.fillStyle = C.road;
-      ctx.fillRect(x,y,TILE,TILE);
-      break;
+/* ═══════════════════════════════════════
+   CANVAS + STATE
+═══════════════════════════════════════ */
+const canvas = document.getElementById('map-canvas');
+const ctx    = canvas.getContext('2d');
+
+let grid, buildings, carList, hotspots;
+let player, zombies;
+let frame=0, pulse=0;
+let mapReady=false;
+let nearHotspot=null;
+let alertTimer=0;
+let encounterCooldown=0;
+
+// Game state
+let state = { day:1, trust:0, health:100, chapter:1, flags:{} };
+let currentScene = null, pendingCombat = null;
+
+const keys={}, mobileDir={};
+
+function initCanvas() {
+  const panel = document.getElementById('map-panel');
+  canvas.width  = panel.clientWidth;
+  canvas.height = panel.clientHeight;
+}
+
+/* ═══════════════════════════════════════
+   WALKABILITY
+═══════════════════════════════════════ */
+function isWalkable(nx, ny) {
+  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
+  const pts=[[nx-7,ny-5],[nx+7,ny-5],[nx-7,ny+7],[nx+7,ny+7]];
+  for(const [px,py] of pts){
+    const c=Math.floor(px/cw), r=Math.floor(py/ch);
+    if(c<0||c>=COLS||r<0||r>=ROWS) return false;
+    if(grid[r][c]===T.BUILD) return false;
   }
+  return true;
 }
 
-function drawBuilding(ctx, b) {
-  const x=b.c*TILE, y=b.r*TILE, w=b.w*TILE, h=b.h*TILE;
-  const colors=[C.buildA,C.buildB,C.buildC];
-  ctx.fillStyle=colors[b.color%3];
-  ctx.fillRect(x,y,w,h);
-  // outline
-  ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
-  ctx.strokeRect(x+0.5,y+0.5,w-1,h-1);
-  // windows
-  const wCols=Math.max(1,b.w-1), wRows=Math.max(1,b.h-1);
-  for(let wr=0;wr<wRows;wr++) for(let wc=0;wc<wCols;wc++) {
-    const wx=x+(wc+0.5)*(w/wCols)-4;
-    const wy=y+(wr+0.5)*(h/wRows)-3;
-    const litRand=(b.c*17+b.r*13+wr*7+wc*3)%11;
-    ctx.fillStyle=litRand<4?C.window0:litRand<7?C.window1:litRand<9?C.window2:C.window0;
-    ctx.fillRect(wx,wy,8,6);
-    // occasional lit window
-    if((b.c+b.r+wr+wc)%9===0){
-      ctx.fillStyle=C.windowL; ctx.globalAlpha=0.5;
-      ctx.fillRect(wx+1,wy+1,6,4);
-      ctx.globalAlpha=1;
+/* ═══════════════════════════════════════
+   BUILD MAP FOR SCENE
+═══════════════════════════════════════ */
+function buildMap(sceneId) {
+  const scene = scenes[sceneId];
+  if (!scene) return;
+
+  const seed = sceneId.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const gen  = generateMap(seed);
+  grid      = gen.grid;
+  buildings = gen.buildings;
+  carList   = gen.carList;
+
+  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
+
+  // Player spawns at road intersection
+  player = { x:12.5*cw, y:8.5*ch, dir:'down', moving:false, speed:1.8, hitTimer:0 };
+
+  // Hotspots from scene choices
+  hotspots = placeHotspots(scene.choices, cw, ch);
+
+  // Spawn zombies at fixed quadrant positions
+  const zseeds = [
+    [3,3],[22,3],[3,14],[22,14],
+    [7,5],[18,5],[7,13],[18,13],
+    [5,8],[20,9],[10,2],[15,15]
+  ];
+  zombies = zseeds.map(([ zc,zr ],i)=>{
+    // nudge to nearest walkable
+    let fc=zc, fr=zr;
+    outer: for(let dr=-3;dr<=3;dr++) for(let dc=-3;dc<=3;dc++){
+      const nr=zr+dr, nc=zc+dc;
+      if(nr<0||nr>=ROWS||nc<0||nc>=COLS) continue;
+      if(grid[nr][nc]===T.ROAD||grid[nr][nc]===T.SIDE||grid[nr][nc]===T.BLOOD||grid[nr][nc]===T.RUBBLE){
+        fc=nc; fr=nr; break outer;
+      }
+    }
+    const rng = seedRng(seed + i*77);
+    return {
+      x:(fc+0.5)*cw, y:(fr+0.5)*ch,
+      dir: rng()*Math.PI*2,
+      wanderTimer:0,
+      state:'wander',      // 'wander' | 'chase'
+      variant: i%3,
+      frame: 0,
+      alertFlash: 0,
+      speed: 0.5+rng()*0.25,
+      visionLen: 85+rng()*40,
+      visionAng: 0.5+rng()*0.2,
+      dead: false,
+    };
+  });
+
+  mapReady = true;
+  nearHotspot = null;
+  encounterCooldown = 0;
+  hideTooltip();
+}
+
+function placeHotspots(choices, cw, ch) {
+  const positions = [
+    {qc:2,  qr:2 },
+    {qc:20, qr:2 },
+    {qc:2,  qr:14},
+    {qc:20, qr:14},
+    {qc:6,  qr:8 },
+    {qc:18, qr:9 },
+    {qc:12, qr:3 },
+    {qc:13, qr:14},
+  ];
+  const tagColor = { combat:C.hotRed, risk:C.hotRed, safe:C.hotGreen, trust:C.hotAmber, default:C.hotBlue };
+
+  return (choices||[]).map((choice, i) => {
+    const pos = positions[i % positions.length];
+    let bc=pos.qc, br=pos.qr;
+    outer: for(let dr=-3;dr<=3;dr++) for(let dc=-3;dc<=3;dc++){
+      const r=pos.qr+dr, c=pos.qc+dc;
+      if(r<0||r>=ROWS||c<0||c>=COLS) continue;
+      if(grid[r][c]===T.ROAD||grid[r][c]===T.SIDE||grid[r][c]===T.BLOOD){ bc=c; br=r; break outer; }
+    }
+    const tag = choice.encounter ? 'combat' : (choice.tag || 'default');
+    return {
+      x:(bc+0.5)*cw, y:(br+0.5)*ch,
+      label: choice.label || choice.text.slice(0,18)+'…',
+      tag, color: tagColor[tag]||C.hotBlue,
+      choice,
+    };
+  });
+}
+
+/* ═══════════════════════════════════════
+   UPDATE PLAYER
+═══════════════════════════════════════ */
+function updatePlayer() {
+  if (player.hitTimer>0) { player.hitTimer--; return; }
+  let dx=0, dy=0;
+  if (keys['ArrowUp']   ||keys['KeyW']||mobileDir.up)    dy=-1;
+  if (keys['ArrowDown'] ||keys['KeyS']||mobileDir.down)  dy=1;
+  if (keys['ArrowLeft'] ||keys['KeyA']||mobileDir.left)  dx=-1;
+  if (keys['ArrowRight']||keys['KeyD']||mobileDir.right) dx=1;
+
+  if (dx||dy) {
+    const len=Math.sqrt(dx*dx+dy*dy); dx/=len; dy/=len;
+    const nx=player.x+dx*player.speed, ny=player.y+dy*player.speed;
+    if(isWalkable(nx,player.y)) player.x=Math.max(8,Math.min(canvas.width-8,nx));
+    if(isWalkable(player.x,ny)) player.y=Math.max(8,Math.min(canvas.height-8,ny));
+    if(Math.abs(dx)>Math.abs(dy)) player.dir=dx>0?'right':'left';
+    else player.dir=dy>0?'down':'up';
+    player.moving=true;
+  } else { player.moving=false; }
+  if(encounterCooldown>0) encounterCooldown--;
+}
+
+/* ═══════════════════════════════════════
+   ZOMBIE VISION CHECK
+   Returns true if player is inside zombie's vision cone
+═══════════════════════════════════════ */
+function zombieCanSeePlayer(z) {
+  const dx=player.x-z.x, dy=player.y-z.y;
+  const dist=Math.hypot(dx,dy);
+  if(dist>z.visionLen) return false;
+  const ang=Math.atan2(dy,dx);
+  let diff=ang-z.dir;
+  while(diff> Math.PI) diff-=Math.PI*2;
+  while(diff<-Math.PI) diff+=Math.PI*2;
+  return Math.abs(diff)<z.visionAng;
+}
+
+/* ═══════════════════════════════════════
+   UPDATE ZOMBIES
+═══════════════════════════════════════ */
+function updateZombies() {
+  let anyAlert=false;
+  zombies.forEach(z => {
+    if(z.dead) return;
+    z.frame++;
+    const dx=player.x-z.x, dy=player.y-z.y;
+    const dist=Math.hypot(dx,dy);
+
+    if(z.state==='wander') {
+      if(zombieCanSeePlayer(z)) {
+        z.state='chase'; z.alertFlash=70; anyAlert=true;
+      } else {
+        z.wanderTimer++;
+        if(z.wanderTimer>90) { z.dir+=(Math.random()-.5)*1.6; z.wanderTimer=0; }
+        const nx=z.x+Math.cos(z.dir)*z.speed*.5;
+        const ny=z.y+Math.sin(z.dir)*z.speed*.5;
+        if(isWalkable(nx,ny))  { z.x=nx; z.y=ny; }
+        else { z.dir+=Math.PI+(Math.random()-.5)*.5; }
+      }
+    } else if(z.state==='chase') {
+      anyAlert=true;
+      if(z.alertFlash>0) z.alertFlash--;
+      // Lose the player if too far
+      if(dist>z.visionLen*1.8) z.state='wander';
+
+      // Move toward player
+      const ang=Math.atan2(dy,dx);
+      z.dir=ang;
+      const spd=z.speed*1.7;
+      const nx=z.x+Math.cos(ang)*spd, ny=z.y+Math.sin(ang)*spd;
+      if(isWalkable(nx,ny))          { z.x=nx; z.y=ny; }
+      else if(isWalkable(nx,z.y))    { z.x=nx; }
+      else if(isWalkable(z.x,ny))    { z.y=ny; }
+
+      // Melee hit
+      if(dist<20 && encounterCooldown<=0) {
+        state.health = Math.max(0, state.health-8);
+        player.hitTimer = 45;
+        encounterCooldown = 200;
+        document.getElementById('stat-health').textContent=state.health;
+        if(state.health<=0) showEnding('ending_burned');
+      }
+    }
+  });
+
+  const alertEl = document.getElementById('zombie-alert');
+  if(anyAlert) { alertEl.style.display='block'; alertTimer=30; }
+  else if(alertTimer>0) { alertTimer--; if(!alertTimer) alertEl.style.display='none'; }
+}
+
+/* ═══════════════════════════════════════
+   CHECK HOTSPOT PROXIMITY
+═══════════════════════════════════════ */
+function checkHotspots() {
+  nearHotspot=null;
+  hotspots.forEach(h=>{
+    if(Math.hypot(player.x-h.x,player.y-h.y)<34) nearHotspot=h;
+  });
+  if(nearHotspot) showTooltip(nearHotspot);
+  else hideTooltip();
+}
+
+/* ═══════════════════════════════════════
+   DRAW: GROUND TILES
+═══════════════════════════════════════ */
+function drawGround() {
+  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) {
+    const x=c*cw, y=r*ch, t=grid[r][c];
+    switch(t){
+      case T.ROAD:
+        ctx.fillStyle=(c+r)%2===0?C.road:C.road2;
+        ctx.fillRect(x,y,cw+1,ch+1);
+        if((c*3+r*5)%7===0){ ctx.fillStyle='rgba(255,255,255,0.013)'; ctx.fillRect(x,y,cw,ch); }
+        break;
+      case T.SIDE:
+        ctx.fillStyle=(c+r)%2===0?C.side:C.side2;
+        ctx.fillRect(x,y,cw+1,ch+1);
+        if((c*7+r*3)%9===0){
+          ctx.strokeStyle='rgba(0,0,0,0.22)'; ctx.lineWidth=.5;
+          ctx.beginPath(); ctx.moveTo(x+2,y+2); ctx.lineTo(x+cw*.7,y+ch*.7); ctx.stroke();
+        }
+        break;
+      case T.BUILD:
+        ctx.fillStyle=C.buildTop; ctx.fillRect(x,y,cw+1,ch+1); break;
+      case T.RUBBLE:
+        ctx.fillStyle=C.rubble; ctx.fillRect(x,y,cw+1,ch+1);
+        ctx.fillStyle='rgba(80,70,55,.32)';
+        for(let i=0;i<4;i++){
+          ctx.fillRect(x+((c*7+i*13)%Math.floor(cw*.65)),
+                       y+((r*11+i*9)%Math.floor(ch*.65)),
+                       cw*.22, ch*.19);
+        }
+        break;
+      case T.CAR:
+        ctx.fillStyle=C.road; ctx.fillRect(x,y,cw+1,ch+1); break;
+      case T.BLOOD:
+        ctx.fillStyle=C.road; ctx.fillRect(x,y,cw+1,ch+1);
+        ctx.save(); ctx.globalAlpha=.72; ctx.fillStyle=C.blood;
+        ctx.beginPath(); ctx.ellipse(x+cw/2,y+ch/2,cw*.4,ch*.32,c*.6,0,Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(x+cw*.3,y+ch*.6,cw*.14,ch*.11,(c+r)*.4,0,Math.PI*2); ctx.fill();
+        ctx.globalAlpha=1; ctx.restore();
+        break;
     }
   }
 }
 
-function drawCar(ctx, car) {
-  const x=car.c*TILE, y=car.r*TILE;
-  const carColors=[C.car1,C.car2,C.car3];
+function drawRoadMarkings() {
+  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
   ctx.save();
-  ctx.translate(x+TILE/2, y+TILE/2);
-  if(car.rot%2===1) ctx.rotate(Math.PI*0.5);
-  ctx.fillStyle=carColors[car.color%3];
-  // Body
-  ctx.fillRect(-10,-6,20,12);
-  // Windows
-  ctx.fillStyle='rgba(100,150,200,0.15)';
-  ctx.fillRect(-6,-4,12,8);
-  // Damage
-  ctx.strokeStyle='rgba(0,0,0,0.4)'; ctx.lineWidth=1;
-  ctx.strokeRect(-10,-6,20,12);
-  ctx.restore();
-}
-
-/* ═══════════════════════════════════════════════════
-   HOTSPOT ICONS
-═══════════════════════════════════════════════════ */
-const HOTSPOT_ICONS = {
-  risk:    (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.hotspot,'⚠'),
-  safe:    (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.hotspotG,'🛡'),
-  trust:   (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.amber,'♦'),
-  combat:  (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.hotspot,'⚔'),
-  default: (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.hotspotB,'→'),
-};
-
-function drawHotspot(ctx, x, y, pulse, label, color, icon) {
-  const r = 10 + Math.sin(pulse)*2;
-  // Glow
-  ctx.save();
-  ctx.globalAlpha = 0.15 + 0.08*Math.sin(pulse);
-  ctx.fillStyle = color;
-  ctx.beginPath(); ctx.arc(x,y,r+8,0,Math.PI*2); ctx.fill();
-  ctx.globalAlpha = 1;
-
-  // Ring
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 1.5;
-  ctx.setLineDash([3,3]);
-  ctx.lineDashOffset = -pulse*2;
-  ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
+  ctx.strokeStyle=C.streetLine; ctx.lineWidth=1;
+  ctx.setLineDash([cw*.35,cw*.5]);
+  ctx.beginPath(); ctx.moveTo(0,8.5*ch); ctx.lineTo(canvas.width,8.5*ch); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(12.5*cw,0); ctx.lineTo(12.5*cw,canvas.height); ctx.stroke();
   ctx.setLineDash([]);
-
-  // Center dot
-  ctx.fillStyle = color;
-  ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
-
-  // Label
-  ctx.fillStyle = color;
-  ctx.font = '500 8px Share Tech Mono, monospace';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'bottom';
-  // Background for readability
-  const tw = ctx.measureText(label).width;
-  ctx.fillStyle='rgba(10,10,11,0.85)';
-  ctx.fillRect(x-tw/2-3, y-r-14, tw+6, 11);
-  ctx.fillStyle=color;
-  ctx.fillText(label, x, y-r-4);
+  ctx.strokeStyle='rgba(40,40,50,.35)'; ctx.lineWidth=.5;
+  ctx.strokeRect(0,7*ch,canvas.width,3*ch);
+  ctx.strokeRect(11*cw,0,3*cw,canvas.height);
   ctx.restore();
 }
 
-/* ═══════════════════════════════════════════════════
-   PLAYER SPRITE
-═══════════════════════════════════════════════════ */
-function drawPlayer(ctx, px, py, dir, frame, isMoving) {
-  const x=Math.round(px), y=Math.round(py);
-  const walkFrame = isMoving ? Math.floor(frame/8)%4 : 0;
+function drawBuildings() {
+  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
+  const bcs=[C.build0,C.build1,C.build2];
+  buildings.forEach(b=>{
+    const x=b.c*cw, y=b.r*ch, w=b.w*cw, h=b.h*ch;
+    // Face
+    ctx.fillStyle=bcs[b.ci]; ctx.fillRect(x,y,w,h);
+    // Top edge highlight
+    ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1;
+    ctx.strokeRect(x+.5,y+.5,w-1,h-1);
+    // Depth shadow (right + bottom)
+    ctx.fillStyle='rgba(0,0,0,.22)';
+    ctx.fillRect(x+w,y+3,3,h-3);
+    ctx.fillRect(x+3,y+h,w-3,3);
+    // Inner dark line
+    ctx.strokeStyle='rgba(0,0,0,.28)'; ctx.lineWidth=1.5;
+    ctx.strokeRect(x+1.5,y+1.5,w-3,h-3);
+    // Windows
+    const wCols=Math.max(1,b.w-1), wRows=Math.max(1,b.h-1);
+    const ww=cw*.54, wh=ch*.44;
+    for(let wr=0;wr<wRows;wr++) for(let wc=0;wc<wCols;wc++){
+      const wx=x+(wc+.5)*(w/wCols)-ww/2;
+      const wy=y+(wr+.5)*(h/wRows)-wh/2;
+      const lr=(b.c*17+b.r*13+wr*7+wc*3)%13;
+      ctx.fillStyle=lr<5?C.win0:lr<8?C.winGreen:lr<10?C.winBlue:C.win0;
+      ctx.fillRect(wx,wy,ww,wh);
+      // Occasional amber glow
+      if((b.c+b.r+wr+wc)%8===0){
+        ctx.save(); ctx.globalAlpha=.45+.18*Math.sin(frame*.04+(b.c+wr)*.7);
+        ctx.fillStyle=C.winAmber; ctx.fillRect(wx+1,wy+1,ww-2,wh-2); ctx.restore();
+      }
+      ctx.strokeStyle='rgba(0,0,0,.3)'; ctx.lineWidth=.5;
+      ctx.strokeRect(wx,wy,ww,wh);
+    }
+  });
+}
 
+function drawCars() {
+  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
+  const ccs=[C.car0,C.car1,C.car2];
+  carList.forEach(car=>{
+    const x=car.c*cw, y=car.r*ch;
+    ctx.save(); ctx.translate(x+cw/2,y+ch/2);
+    if(car.rot%2===1) ctx.rotate(Math.PI*.5);
+    const bw=cw*.8, bh=ch*.52;
+    ctx.fillStyle=ccs[car.ci]; ctx.fillRect(-bw/2,-bh/2,bw,bh);
+    ctx.fillStyle='rgba(80,110,160,.11)'; ctx.fillRect(-bw/2+3,-bh/2+2,bw-6,bh-4);
+    // Windshield
+    ctx.fillStyle='rgba(60,80,120,.18)'; ctx.fillRect(-bw/2+2,-bh/2+2,bw-4,bh/2-2);
+    // Damage scratch
+    ctx.strokeStyle='rgba(0,0,0,.5)'; ctx.lineWidth=1; ctx.strokeRect(-bw/2,-bh/2,bw,bh);
+    ctx.strokeStyle='rgba(200,160,80,.2)'; ctx.lineWidth=.5;
+    ctx.beginPath(); ctx.moveTo(-bw/2+4,-bh/2+3); ctx.lineTo(-bw/2+bw*.4,0); ctx.stroke();
+    // Shadow
+    ctx.fillStyle='rgba(0,0,0,.22)'; ctx.fillRect(-bw/2+2,bh/2,bw-2,2);
+    ctx.restore();
+  });
+}
+
+/* ═══════════════════════════════════════
+   DRAW: ZOMBIE VISION CONE
+═══════════════════════════════════════ */
+function drawZombieVision(z) {
+  const isAlert=z.state==='chase'||z.alertFlash>0;
   ctx.save();
-  ctx.translate(x, y);
+  const len=z.visionLen*(isAlert?1.18:1);
+  ctx.globalAlpha=isAlert?.2:.08;
+  ctx.fillStyle=isAlert?'#e74c3c':'#9a5020';
+  ctx.beginPath();
+  ctx.moveTo(z.x,z.y);
+  ctx.arc(z.x,z.y,len,z.dir-z.visionAng,z.dir+z.visionAng);
+  ctx.closePath(); ctx.fill();
+  // Cone edge lines
+  ctx.globalAlpha=isAlert?.15:.06;
+  ctx.strokeStyle=isAlert?'#e74c3c':'#9a5020';
+  ctx.lineWidth=1; ctx.stroke();
+  ctx.restore();
+
+  // Alert dot above zombie when spotting
+  if(isAlert && z.alertFlash>0){
+    ctx.save();
+    ctx.globalAlpha=(z.alertFlash/70)*.7;
+    ctx.fillStyle='#e74c3c';
+    ctx.beginPath(); ctx.arc(z.x,z.y-20,5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#fff';
+    ctx.font='bold 7px monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('!',z.x,z.y-20);
+    ctx.restore();
+  }
+}
+
+/* ═══════════════════════════════════════
+   DRAW: ZOMBIE SPRITE
+═══════════════════════════════════════ */
+function drawZombie(z) {
+  const x=Math.round(z.x), y=Math.round(z.y);
+  const isChase=z.state==='chase';
+  const t=z.frame*.06;
+  const wobble=Math.sin(t+z.variant*.8)*1.8;
+  const isMoving=true;
+  const zc=[C.z0,C.z1,C.z2][z.variant];
+
+  ctx.save(); ctx.translate(x,y);
 
   // Shadow
-  ctx.fillStyle='rgba(0,0,0,0.35)';
-  ctx.beginPath(); ctx.ellipse(0,9,6,3,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(0,0,0,.32)';
+  ctx.beginPath(); ctx.ellipse(0,10,7,3,0,0,Math.PI*2); ctx.fill();
 
-  // Legs animation
-  const legSwing = isMoving ? Math.sin(frame*0.25)*3 : 0;
-  ctx.fillStyle='#2a2a38';
-  if(walkFrame===0||walkFrame===2) {
-    ctx.fillRect(-4,5,3,8);
-    ctx.fillRect(1,5,3,8);
-  } else if(walkFrame===1) {
-    ctx.save(); ctx.translate(-2,9); ctx.rotate(legSwing*0.15);
-    ctx.fillRect(-2,-4,3,8); ctx.restore();
-    ctx.save(); ctx.translate(2,9); ctx.rotate(-legSwing*0.15);
-    ctx.fillRect(-1,-4,3,8); ctx.restore();
-  } else {
-    ctx.save(); ctx.translate(-2,9); ctx.rotate(-legSwing*0.15);
-    ctx.fillRect(-2,-4,3,8); ctx.restore();
-    ctx.save(); ctx.translate(2,9); ctx.rotate(legSwing*0.15);
-    ctx.fillRect(-1,-4,3,8); ctx.restore();
-  }
+  const lStep=Math.sin(t)*(isChase?5:3);
+  // Legs
+  ctx.fillStyle=z.variant===0?'#241c0a':z.variant===1?'#1a2808':'#2a1008';
+  ctx.save(); ctx.translate(-3,9); ctx.rotate(lStep*.12); ctx.fillRect(-2,-5,4,9); ctx.restore();
+  ctx.save(); ctx.translate(3,9);  ctx.rotate(-lStep*.12); ctx.fillRect(-2,-5,4,9); ctx.restore();
 
-  // Body (jacket)
-  ctx.fillStyle='#2e3040';
-  ctx.fillRect(-5,-2,10,9);
-  // Belt
-  ctx.fillStyle='#3a3020';
-  ctx.fillRect(-5,5,10,2);
+  // Body
+  ctx.fillStyle=zc;
+  ctx.save(); ctx.rotate(wobble*.03); ctx.fillRect(-5,0,10,8); ctx.restore();
+  ctx.fillStyle='rgba(0,0,0,.2)'; ctx.fillRect(-5,6,10,2);
+
+  // Arms — reaching further when chasing
+  const reach=isChase?Math.sin(t)*8:Math.sin(t)*2;
+  ctx.fillStyle=zc;
+  ctx.save(); ctx.translate(-6,2); ctx.rotate(.4+reach*.07); ctx.fillRect(-1,0,4,9); ctx.restore();
+  ctx.save(); ctx.translate(6,2);  ctx.rotate(-.4-reach*.07); ctx.fillRect(-3,0,4,9); ctx.restore();
+
+  // Head
+  ctx.fillStyle='#3e2e12';
+  ctx.save(); ctx.rotate(wobble*.05);
+  ctx.fillRect(-5,-10,10,9);
+  // Rot
+  ctx.fillStyle='rgba(90,20,10,.55)';
+  ctx.fillRect(-3,-9,4,4); ctx.fillRect(1,-6,3,2);
+  ctx.restore();
+
+  // Eyes — brighter red when chasing
+  ctx.fillStyle=isChase?'#e03020':C.zEye;
+  ctx.fillRect(-4,-8,3,2); ctx.fillRect(1,-8,3,2);
+
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════
+   DRAW: PLAYER SPRITE
+═══════════════════════════════════════ */
+function drawPlayer() {
+  const x=Math.round(player.x), y=Math.round(player.y);
+  const isHit=player.hitTimer>0;
+
+  ctx.save(); ctx.translate(x,y);
+  if(isHit && Math.floor(frame/4)%2===0) ctx.globalAlpha=.35;
+
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,.42)';
+  ctx.beginPath(); ctx.ellipse(0,10,7,3,0,0,Math.PI*2); ctx.fill();
+  ctx.globalAlpha=1;
+
+  const legSwing=player.moving?Math.sin(frame*.22)*5:0;
+  // Legs
+  ctx.fillStyle='#1e2030';
+  ctx.save(); ctx.translate(-3,9);  ctx.rotate(legSwing*.14);  ctx.fillRect(-2,-5,4,9); ctx.restore();
+  ctx.save(); ctx.translate(3,9);   ctx.rotate(-legSwing*.14); ctx.fillRect(-2,-5,4,9); ctx.restore();
+
+  // Body
+  ctx.fillStyle=C.playerJacket; ctx.fillRect(-5,-1,10,9);
+  ctx.fillStyle='#2e2818';      ctx.fillRect(-5,6,10,2);
+  // Collar detail
+  ctx.fillStyle='#303858'; ctx.fillRect(-6,-1,2,2); ctx.fillRect(4,-1,2,2);
 
   // Arms
-  const armSwing = isMoving ? Math.sin(frame*0.25)*4 : 0;
-  ctx.fillStyle='#2e3040';
-  ctx.save(); ctx.translate(-6,2); ctx.rotate(-armSwing*0.08);
-  ctx.fillRect(-1,-1,3,7); ctx.restore();
-  ctx.save(); ctx.translate(6,2); ctx.rotate(armSwing*0.08);
-  ctx.fillRect(-2,-1,3,7); ctx.restore();
+  const armSwing=player.moving?Math.sin(frame*.22)*5:0;
+  ctx.fillStyle=C.playerJacket;
+  ctx.save(); ctx.translate(-7,2); ctx.rotate(-armSwing*.1); ctx.fillRect(-1,0,4,8); ctx.restore();
+  ctx.save(); ctx.translate(7,2);  ctx.rotate(armSwing*.1);  ctx.fillRect(-3,0,4,8); ctx.restore();
 
   // Head
-  ctx.fillStyle='#c8a880';
-  ctx.fillRect(-4,-10,8,8);
-
-  // Hair / direction indicator
-  ctx.fillStyle='#3a2a10';
-  ctx.fillRect(-4,-10,8,3);
+  ctx.fillStyle=C.playerHead; ctx.fillRect(-4,-11,8,9);
+  ctx.fillStyle='#2c1e0c';    ctx.fillRect(-4,-11,8,3);
 
   // Eyes based on direction
-  ctx.fillStyle='#1a1a2a';
-  if(dir==='right')  { ctx.fillRect(2,-7,2,2); }
-  else if(dir==='left') { ctx.fillRect(-4,-7,2,2); }
-  else if(dir==='up')   { ctx.fillRect(-2,-8,2,2); ctx.fillRect(1,-8,2,2); }
-  else                  { ctx.fillRect(-2,-4,2,2); ctx.fillRect(1,-4,2,2); }
+  ctx.fillStyle='#0e0e1a';
+  const dir=player.dir;
+  if(dir==='right')     { ctx.fillRect(1,-8,2,2); ctx.fillRect(1,-6,1,1); }
+  else if(dir==='left') { ctx.fillRect(-3,-8,2,2); ctx.fillRect(-2,-6,1,1); }
+  else if(dir==='up')   { ctx.fillRect(-3,-10,2,2); ctx.fillRect(1,-10,2,2); }
+  else                  { ctx.fillRect(-3,-4,2,2);  ctx.fillRect(1,-4,2,2); }
 
-  // Player highlight dot (accent color)
-  ctx.fillStyle=C.hotspot;
-  ctx.fillRect(-1,-11,3,2);
-
-  ctx.restore();
-}
-
-/* ═══════════════════════════════════════════════════
-   ZOMBIE SPRITES
-═══════════════════════════════════════════════════ */
-function drawZombie(ctx, zx, zy, frame, variant) {
-  const x=Math.round(zx), y=Math.round(zy);
-  ctx.save();
-  ctx.translate(x,y);
-
-  // Shadow
-  ctx.fillStyle='rgba(0,0,0,0.3)';
-  ctx.beginPath(); ctx.ellipse(0,8,5,2.5,0,0,Math.PI*2); ctx.fill();
-
-  const t = frame*0.04;
-  const wobble = Math.sin(t+variant)*2;
-
-  // Legs (shuffling)
-  ctx.fillStyle=variant%2===0?'#2a1808':'#1a2010';
-  const lStep = Math.sin(t)*3;
-  ctx.fillRect(-4+lStep,4,3,7);
-  ctx.fillRect(1-lStep,4,3,7);
-
-  // Body (hunched)
-  ctx.fillStyle=variant%3===0?'#3a2010':'#2a3010';
-  ctx.save(); ctx.rotate(wobble*0.04);
-  ctx.fillRect(-4,-1,9,7);
-  ctx.restore();
-
-  // Arms (hanging/reaching)
-  ctx.fillStyle=variant%2===0?'#3a2010':'#2a3010';
-  const reach = Math.sin(t+1)*4;
-  ctx.save(); ctx.translate(-5,1); ctx.rotate(0.3+reach*0.05);
-  ctx.fillRect(-1,0,3,8); ctx.restore();
-  ctx.save(); ctx.translate(5,1); ctx.rotate(-0.3+reach*0.05);
-  ctx.fillRect(-2,0,3,8); ctx.restore();
-
-  // Head
-  ctx.fillStyle='#4a3820';
-  ctx.save(); ctx.rotate(wobble*0.06);
-  ctx.fillRect(-4,-9,8,8);
-  // Rot patch
-  ctx.fillStyle='rgba(80,20,10,0.5)';
-  ctx.fillRect(-2,-8,3,3);
-  // Eyes
-  ctx.fillStyle=C.zombieEye;
-  ctx.fillRect(-3,-7,2,2);
-  ctx.fillRect(1,-7,2,2);
-  ctx.restore();
+  // Red indicator dot
+  ctx.fillStyle='#c0392b'; ctx.fillRect(-1,-13,3,2);
 
   ctx.restore();
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════
+   DRAW: HOTSPOTS
+═══════════════════════════════════════ */
+function drawHotspots() {
+  hotspots.forEach((h,i)=>{
+    const r=9+Math.sin(pulse+i)*2;
+    const near=Math.hypot(player.x-h.x,player.y-h.y)<34;
+
+    ctx.save();
+    // Glow
+    ctx.globalAlpha=.12+.06*Math.sin(pulse+i);
+    ctx.fillStyle=h.color;
+    ctx.beginPath(); ctx.arc(h.x,h.y,r+10,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=.65+.2*Math.sin(pulse+i);
+
+    // Ring
+    ctx.strokeStyle=h.color; ctx.lineWidth=1.5;
+    ctx.setLineDash([3,3]); ctx.lineDashOffset=-pulse*2;
+    ctx.beginPath(); ctx.arc(h.x,h.y,r,0,Math.PI*2); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Center dot
+    ctx.globalAlpha=1;
+    ctx.fillStyle=h.color;
+    ctx.beginPath(); ctx.arc(h.x,h.y,4,0,Math.PI*2); ctx.fill();
+
+    // Label
+    ctx.font='bold 8px monospace'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+    const tw=ctx.measureText(h.label).width;
+    ctx.fillStyle='rgba(8,8,10,.88)';
+    ctx.fillRect(h.x-tw/2-3,h.y-r-16,tw+6,12);
+    ctx.fillStyle=h.color;
+    ctx.fillText(h.label,h.x,h.y-r-5);
+
+    // Proximity ring on player
+    if(near){
+      ctx.globalAlpha=.3+.15*Math.sin(pulse*4);
+      ctx.strokeStyle=h.color; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(player.x,player.y,15,0,Math.PI*2); ctx.stroke();
+    }
+    ctx.restore();
+  });
+}
+
+/* ═══════════════════════════════════════
+   MAIN RENDER
+═══════════════════════════════════════ */
+function renderMap() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#0a0a0b'; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  drawGround();
+  drawRoadMarkings();
+  drawBuildings();
+  drawCars();
+
+  // Vision cones (behind sprites)
+  zombies.forEach(z=>{ if(!z.dead) drawZombieVision(z); });
+
+  // Depth-sort sprites
+  const sprites=[
+    ...zombies.filter(z=>!z.dead).map(z=>({z, isZ:true})),
+    {isPlayer:true, y:player.y}
+  ].sort((a,b)=>(a.isPlayer?player.y:a.z.y)-(b.isPlayer?player.y:b.z.y));
+
+  sprites.forEach(s=>{
+    if(s.isPlayer) drawPlayer();
+    else drawZombie(s.z);
+  });
+
+  drawHotspots();
+}
+
+/* ═══════════════════════════════════════
+   GAME LOOP
+═══════════════════════════════════════ */
+let animId;
+function gameLoop() {
+  animId=requestAnimationFrame(gameLoop);
+  if(!mapReady) return;
+  frame++; pulse+=.05;
+  updatePlayer();
+  updateZombies();
+  checkHotspots();
+  renderMap();
+}
+
+/* ═══════════════════════════════════════
+   TOOLTIP
+═══════════════════════════════════════ */
+function showTooltip(h) {
+  const el=document.getElementById('choice-tooltip');
+  const tagLabel={combat:'⚔ COMBAT',risk:'⚠ RISK',safe:'🛡 SAFE',trust:'♦ TRUST',default:''}[h.tag]||'';
+  document.getElementById('tooltip-text').innerHTML=
+    `<span style="color:${h.color}">${h.label}</span>`+
+    (tagLabel?`<br><span style="font-size:.58rem;color:${h.color};opacity:.7">${tagLabel}</span>`:'');
+  el.style.display='block';
+}
+function hideTooltip() { document.getElementById('choice-tooltip').style.display='none'; }
+
+/* ═══════════════════════════════════════
+   INTERACT
+═══════════════════════════════════════ */
+function interact() {
+  if(!nearHotspot) return;
+  const h=nearHotspot; nearHotspot=null; hideTooltip();
+  handleChoice(h.choice);
+}
+
+/* ═══════════════════════════════════════
+   SCENE MANAGEMENT
+═══════════════════════════════════════ */
+function goToScene(sceneId) {
+  const scene=scenes[sceneId];
+  if(!scene){ console.warn('Scene not found:',sceneId); return; }
+  currentScene=sceneId;
+  state.chapter=scene.chapter;
+  state.day++;
+  updateStatus();
+
+  const ov=document.getElementById('transition-overlay');
+  ov.classList.add('fade-in');
+  setTimeout(()=>{
+    document.getElementById('scene-label').textContent=scene.label;
+    document.getElementById('scene-title').textContent=scene.title;
+    document.getElementById('scene-text').innerHTML=scene.text;
+    document.getElementById('story-panel').scrollTop=0;
+    buildMap(sceneId);
+    ov.classList.remove('fade-in'); ov.classList.add('fade-out');
+    setTimeout(()=>ov.classList.remove('fade-out'),350);
+  },320);
+
+  if(scene.ending && !scene.choices) setTimeout(()=>showEnding(scene.ending),1200);
+}
+
+function handleChoice(choice) {
+  if(choice.trust)  state.trust  = Math.max(-5,Math.min(5,state.trust+choice.trust));
+  if(choice.health) state.health = Math.max(0,Math.min(100,state.health+choice.health));
+  if(choice.flag)   state.flags[choice.flag]=true;
+  updateStatus();
+
+  if(state.trust<=-4 && state.chapter>=4){ showEnding('ending_5'); return; }
+  if(state.health<=0){ showEnding('ending_burned'); return; }
+
+  if(choice.encounter) launchCombat(choice.encounter, choice.win, choice.lose);
+  else if(choice.next) {
+    if(choice.ending) showEnding(choice.ending);
+    else goToScene(choice.next);
+  } else if(scenes[currentScene]&&scenes[currentScene].ending) {
+    showEnding(scenes[currentScene].ending);
+  }
+}
+
+/* ═══════════════════════════════════════
+   COMBAT BRIDGE
+═══════════════════════════════════════ */
+function launchCombat(encounter, winScene, loseScene) {
+  pendingCombat={winScene,loseScene};
+  const url=`combat.html?encounter=${encounter}&win=${encodeURIComponent(winScene)}&lose=${encodeURIComponent(loseScene)}&hp=${state.health}&trust=${state.trust}`;
+  document.getElementById('combat-frame').src=url;
+  document.getElementById('combat-overlay').classList.add('active');
+}
+window.addEventListener('message', e=>{
+  if(!e.data||e.data.type!=='COMBAT_RESULT') return;
+  document.getElementById('combat-overlay').classList.remove('active');
+  document.getElementById('combat-frame').src='';
+  const {result,hp}=e.data;
+  state.health=Math.max(1,hp); updateStatus();
+  if(!pendingCombat) return;
+  const next=(result==='win'||result==='flee')?pendingCombat.winScene:pendingCombat.loseScene;
+  pendingCombat=null; goToScene(next);
+});
+
+/* ═══════════════════════════════════════
+   ENDINGS
+═══════════════════════════════════════ */
+function showEnding(endingId) {
+  const e=endings[endingId]||(endingId==='ending_5'?ending_5:null);
+  if(!e){ console.warn('No ending:',endingId); return; }
+  cancelAnimationFrame(animId);
+  const badge=document.getElementById('ending-badge');
+  badge.textContent=e.badge; badge.style.color=e.color; badge.style.borderColor=e.color;
+  document.getElementById('ending-title').textContent=e.title;
+  document.getElementById('ending-text').textContent=e.text;
+  document.getElementById('ending-overlay').classList.add('show');
+}
+
+/* ═══════════════════════════════════════
+   STATUS BAR
+═══════════════════════════════════════ */
+function updateStatus() {
+  document.getElementById('stat-day').textContent=state.day;
+  const t=state.trust;
+  document.getElementById('stat-trust').textContent=(t>0?'+':'')+t;
+  document.getElementById('stat-health').textContent=Math.max(0,state.health);
+  document.getElementById('stat-chapter').textContent=state.chapter+'/5';
+}
+
+/* ═══════════════════════════════════════
+   INPUT
+═══════════════════════════════════════ */
+document.addEventListener('keydown', e=>{
+  keys[e.code]=true;
+  if(e.code==='KeyE'||e.code==='Space'){ e.preventDefault(); interact(); }
+});
+document.addEventListener('keyup', e=>{ keys[e.code]=false; });
+
+document.querySelectorAll('.dpad-btn').forEach(btn=>{
+  const dir=btn.dataset.dir;
+  btn.addEventListener('touchstart',e=>{e.preventDefault();mobileDir[dir]=true;btn.classList.add('pressed');},{passive:false});
+  btn.addEventListener('touchend',  e=>{e.preventDefault();mobileDir[dir]=false;btn.classList.remove('pressed');},{passive:false});
+  btn.addEventListener('mousedown', ()=>{mobileDir[dir]=true;  btn.classList.add('pressed');});
+  btn.addEventListener('mouseup',   ()=>{mobileDir[dir]=false; btn.classList.remove('pressed');});
+});
+document.getElementById('interact-btn').addEventListener('click', interact);
+document.getElementById('interact-btn').addEventListener('touchstart',e=>{e.preventDefault();interact();},{passive:false});
+
+/* ═══════════════════════════════════════
+   MOBILE DETECTION + RESIZE
+═══════════════════════════════════════ */
+function checkMobile() {
+  const m=window.innerWidth<768||('ontouchstart' in window);
+  document.getElementById('dpad').style.display=m?'block':'none';
+  document.getElementById('interact-btn').style.display=m?'flex':'none';
+  document.getElementById('map-hint').textContent=m
+    ?'D-PAD — move  |  E — interact'
+    :'WASD / ARROWS — move  |  E / SPACE — interact';
+}
+window.addEventListener('resize',()=>{ initCanvas(); if(currentScene) buildMap(currentScene); checkMobile(); });
+
+/* ═══════════════════════════════════════
+   START
+═══════════════════════════════════════ */
+function startGame() {
+  state={day:1,trust:0,health:100,chapter:1,flags:{}};
+  pendingCombat=null; mapReady=false; frame=0; pulse=0;
+  document.getElementById('ending-overlay').classList.remove('show');
+  document.getElementById('combat-overlay').classList.remove('active');
+  document.getElementById('zombie-alert').style.display='none';
+  updateStatus(); initCanvas(); checkMobile();
+  cancelAnimationFrame(animId);
+  gameLoop();
+  goToScene('intro');
+}
+window.addEventListener('DOMContentLoaded', startGame);
+
+/* ═══════════════════════════════════════════════════════════════
    SCENE DATA
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════════════ */
 const scenes = {
   'intro': {
     chapter:1, label:'CHAPTER 1 — THE SIGNAL',
@@ -814,11 +1206,11 @@ A hand-crank radio crackles on the shelf. Through the static: <em>"...survivors 
 
 A note in your own handwriting: <strong>"DON'T GO UPSTAIRS. DON'T OPEN THE RED DOOR. FIND MARCUS."</strong>
 
-<strong>Di chuyển đến các vị trí trên bản đồ để chọn hành động.</strong>`,
+<strong>Move to each marker on the map to choose your action.</strong>`,
     choices:[
-      {text:'Force the door — fight whatever is up there', tag:'combat', encounter:'horde', win:'ch1_upstairs_clear', lose:'ch1_captured_basement', label:'UPSTAIRS'},
-      {text:'Follow the note — find Marcus', tag:'safe', next:'ch1_find_marcus', label:'EAST ROUTE'},
-      {text:'Crank the radio — try to respond', tag:'default', next:'ch1_radio', label:'RADIO'},
+      {text:'Force the door — fight whatever is up there',tag:'combat',encounter:'horde',win:'ch1_upstairs_clear',lose:'ch1_captured_basement',label:'UPSTAIRS'},
+      {text:'Follow the note — find Marcus',tag:'safe',next:'ch1_find_marcus',label:'EAST ROUTE'},
+      {text:'Crank the radio — try to respond',tag:'default',next:'ch1_radio',label:'RADIO'},
     ]
   },
   'ch1_upstairs_clear':{chapter:1,label:'CHAPTER 1 — THE SIGNAL',title:'The Red Door',text:`You clear the floor — hands slick with things you try not to name. The red door opens before you touch it.
@@ -853,7 +1245,6 @@ A woman nearly runs into you — <strong>Yara</strong>, breathless.
 <strong>"Did you hear it? Don't go to those coordinates. That's not rescue."</strong>
 
 <div class="twist-callout">She knows what the broadcast means without you explaining. She's been listening longer — or she helped build it.</div>`,choices:[{text:'"How do you know what the broadcast means?"',tag:'trust',next:'ch2_yara_radio_truth',label:'QUESTION YARA'},{text:'Head to the coordinates anyway',tag:'risk',next:'ch2_coordinates',label:'THE COORDINATES'},{text:'Trust Yara. Find Marcus first.',tag:'safe',next:'ch2_with_yara_trusted',label:'TRUST YARA'}]},
-
   'ch2_with_yara_trusted':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Safe Harbor',text:`Yara leads you to the Colony — a school gymnasium, barricaded, humming with forty survivors. It feels almost like hope.
 
 On your third supply run, the road back is blocked — a dozen infected piled against a car wreck.`,choices:[{text:'Push through the infected',tag:'combat',encounter:'horde',win:'ch2_colony_arrived',lose:'ch2_horde_captured',label:'FIGHT THROUGH'},{text:'Take the alley — slower but quieter',tag:'safe',next:'ch2_colony_arrived',label:'SIDE ALLEY'},{text:'Double back and warn by radio',tag:'trust',next:'ch2_colony_arrived',label:'WARN COLONY'}]},
@@ -959,7 +1350,6 @@ A bloated shape blocks the intersection — something that used to be a man.`,ch
   'ch2_bloater_captured':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Acid and Dark',text:`The Bloater ruptures. You're conscious long enough to see Yara pull you clear, then darkness. Vantara arrives before you wake. Yara is gone.
 
 <div class="capture-callout">Whether Yara sold you to Vantara or just couldn't stop them, you don't know. The result is the same.</div>`,choices:[{text:'Play cooperative. Find the angle.',tag:'safe',next:'ch3_play_along',label:'COOPERATE'},{text:'Make noise. Demand Marcus.',tag:'risk',next:'ch3_vantara_captive_resist',label:'RESIST'}]},
-
   'ch3_yara_confrontation':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'What She Really Did',text:`Yara doesn't deny it.
 
 <strong>"Yes. I filed the report. I chose me. I've hated myself for it every day since."</strong>
@@ -1035,7 +1425,6 @@ The north approach has a problem: a Bloater has colonized the loading area. The 
 <strong>"Then you'll need me too. I know the building better than he does."</strong>
 
 On the bridge, a Vantara squad checkpoint. Yara has a badge. Marcus has a cover story. The Crawler that's been tracking you will make the decision irrelevant if you stand here too long.`,choices:[{text:"Use Yara's badge — walk through clean",tag:'safe',next:'ch4_hospital_entry',label:'USE BADGE'},{text:'Fight through instead',tag:'combat',encounter:'vantara',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:'FIGHT THROUGH'}]},
-
   'ch4_hospital_entry':{chapter:4,label:'CHAPTER 4 — ROOM 4B',title:'Inside',text:`The hospital is colder than the dead city outside. Room 4B is real — a laboratory retrofitted from a patient room. On the central table: synthesis apparatus. Two vials of functional cure already complete.
 
 Then the door opens. Dr. Holt. The gray-suited man. Two Colony faces. <strong>Briggs sold you out.</strong>
@@ -1048,7 +1437,6 @@ Then the door opens. Dr. Holt. The gray-suited man. Two Colony faces. <strong>Br
 <strong>"Sign this and the process is painless. Don't sign it and we proceed anyway — but I'd rather have the form."</strong>
 
 You are still the key to everything. Including this door, if you're patient enough.`,choices:[{text:'Sign — and use the access to reach Room 4B',tag:'safe',next:'ch5_negotiate',label:'SIGN & PLAN'},{text:'Refuse and find your own way',tag:'combat',encounter:'squad',win:'ch5_destroy',lose:'ch5_captured_lab',label:'REFUSE & FIGHT'}]},
-
   'ch5_negotiate':{chapter:5,label:'CHAPTER 5 — THE END',title:'The Deal',text:`Four hours. Two broken promises from Holt. One moment where the gray-suited man looks at you with something that might be actual respect.
 
 Your terms: synthesis completes. Every dose to a neutral coalition. Vantara's proprietary rights: voided. Marcus released. Yara's testimony protected.
@@ -1138,479 +1526,7 @@ The world was saved. The cost was who got to own the saving.
 Some days you believe it might still be fixable.`},
 };
 
-/* ═══════════════════════════════════════════════════
-   GAME STATE
-═══════════════════════════════════════════════════ */
-let state = { day:1, trust:0, health:100, chapter:1, flags:{} };
-
-/* ═══════════════════════════════════════════════════
-   MAP ENGINE
-═══════════════════════════════════════════════════ */
-const canvas = document.getElementById('map-canvas');
-const ctx = canvas.getContext('2d');
-
-let mapState = {
-  grid: null,
-  buildings: [],
-  cars: [],
-  hotspots: [],
-  player: { x:0, y:0, dir:'down', speed:2 },
-  zombies: [],
-  frame: 0,
-  nearHotspot: null,
-  mapReady: false,
-  pulseT: 0,
-};
-
-// Input
-const keys = {};
-const mobileDir = {};
-
-function initCanvas() {
-  const panel = document.getElementById('map-panel');
-  canvas.width = panel.clientWidth;
-  canvas.height = panel.clientHeight;
-}
-
-function buildMap(sceneId) {
-  const scene = scenes[sceneId];
-  if (!scene) return;
-
-  // Generate map from scene seed
-  const seed = sceneId.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
-  const gen = generateMap(seed);
-  mapState.grid = gen.grid;
-  mapState.buildings = gen.buildings;
-  mapState.cars = gen.cars;
-
-  // Place player at center road intersection
-  const cw = canvas.width / COLS, ch = canvas.height / ROWS;
-  mapState.player.x = 12.5 * cw;
-  mapState.player.y = 8.5 * ch;
-  mapState.player.dir = 'down';
-
-  // Place hotspots for each choice
-  mapState.hotspots = placeHotspots(scene.choices, gen, cw, ch);
-
-  // Spawn ambient zombies
-  mapState.zombies = [];
-  for (let i=0; i<6; i++) {
-    const rng = gen.rng;
-    let zc, zr;
-    do {
-      zc = Math.floor(rng()*(COLS-2))+1;
-      zr = Math.floor(rng()*(ROWS-2))+1;
-    } while (mapState.grid[zr][zc] !== T.ROAD && mapState.grid[zr][zc] !== T.SIDE && mapState.grid[zr][zc] !== T.BLOOD);
-    mapState.zombies.push({
-      x: (zc+0.5)*cw, y: (zr+0.5)*ch,
-      dx: (rng()-0.5)*0.4, dy: (rng()-0.5)*0.4,
-      variant: i, wander: 0, wanderDir: rng()*Math.PI*2,
-    });
-  }
-
-  mapState.mapReady = true;
-  mapState.nearHotspot = null;
-  hideTooltip();
-}
-
-function placeHotspots(choices, gen, cw, ch) {
-  // Distribute hotspots across different quadrants
-  const positions = [
-    {qc:1, qr:1},   // top-left building zone
-    {qc:15, qr:1},  // top-right
-    {qc:1, qr:11},  // bottom-left
-    {qc:15, qr:11}, // bottom-right
-    // extras near roads
-    {qc:5, qr:8},   // left road
-    {qc:18, qr:9},  // right road
-    {qc:12, qr:3},  // top center road
-    {qc:13, qr:14}, // bottom center road
-  ];
-
-  return choices.map((choice, i) => {
-    const pos = positions[i % positions.length];
-    // Find nearest walkable tile in quadrant
-    let bestC = pos.qc, bestR = pos.qr;
-    for (let dr=-3; dr<=3; dr++) for (let dc=-3; dc<=3; dc++) {
-      const r=pos.qr+dr, c=pos.qc+dc;
-      if(r<0||r>=ROWS||c<0||c>=COLS) continue;
-      const t=mapState.grid[r][c];
-      if(t===T.ROAD||t===T.SIDE||t===T.BLOOD) { bestC=c; bestR=r; break; }
-    }
-    return {
-      x: (bestC+0.5)*cw,
-      y: (bestR+0.5)*ch,
-      label: choice.label || choice.text.slice(0,20)+'…',
-      fullText: choice.text,
-      tag: choice.encounter ? 'combat' : (choice.tag || 'default'),
-      choice: choice,
-      reached: false,
-    };
-  });
-}
-
-/* ═══════════════════════════════════════════════════
-   GAME LOOP
-═══════════════════════════════════════════════════ */
-let animId;
-
-function gameLoop() {
-  animId = requestAnimationFrame(gameLoop);
-  if (!mapState.mapReady) return;
-
-  mapState.frame++;
-  mapState.pulseT += 0.06;
-
-  updatePlayer();
-  updateZombies();
-  checkHotspots();
-  renderMap();
-}
-
-function updatePlayer() {
-  const p = mapState.player;
-  const cw = canvas.width / COLS, ch = canvas.height / ROWS;
-  let dx=0, dy=0;
-
-  if (keys['ArrowUp']||keys['KeyW']||mobileDir.up)    dy=-1;
-  if (keys['ArrowDown']||keys['KeyS']||mobileDir.down) dy=1;
-  if (keys['ArrowLeft']||keys['KeyA']||mobileDir.left) dx=-1;
-  if (keys['ArrowRight']||keys['KeyD']||mobileDir.right) dx=1;
-
-  if (dx||dy) {
-    const len=Math.sqrt(dx*dx+dy*dy);
-    dx/=len; dy/=len;
-
-    const nx=p.x+dx*p.speed, ny=p.y+dy*p.speed;
-    const nc=Math.floor(nx/cw), nr=Math.floor(ny/ch);
-
-    // Collision — can't walk into buildings
-    if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS) {
-      const t=mapState.grid[nr][nc];
-      if(t!==T.BUILD&&t!==T.FENCE) {
-        p.x=Math.max(8,Math.min(canvas.width-8,nx));
-        p.y=Math.max(8,Math.min(canvas.height-8,ny));
-      }
-    }
-
-    // Direction
-    if (Math.abs(dx)>Math.abs(dy)) p.dir=dx>0?'right':'left';
-    else p.dir=dy>0?'down':'up';
-
-    p.moving = true;
-  } else {
-    p.moving = false;
-  }
-}
-
-function updateZombies() {
-  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
-  mapState.zombies.forEach(z => {
-    z.wander++;
-    if(z.wander>80+z.variant*20) {
-      z.wanderDir += (Math.random()-0.5)*1.2;
-      z.wander=0;
-    }
-    const speed=0.3;
-    const nx=z.x+Math.cos(z.wanderDir)*speed;
-    const ny=z.y+Math.sin(z.wanderDir)*speed;
-    const nc=Math.floor(nx/cw), nr=Math.floor(ny/ch);
-    if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS) {
-      const t=mapState.grid[nr][nc];
-      if(t!==T.BUILD&&t!==T.FENCE) {
-        z.x=Math.max(8,Math.min(canvas.width-8,nx));
-        z.y=Math.max(8,Math.min(canvas.height-8,ny));
-      } else {
-        z.wanderDir += Math.PI + (Math.random()-0.5)*0.5;
-      }
-    }
-  });
-}
-
-function checkHotspots() {
-  const p=mapState.player;
-  const RADIUS=36;
-  mapState.nearHotspot=null;
-  mapState.hotspots.forEach(h=>{
-    const d=Math.hypot(p.x-h.x, p.y-h.y);
-    if(d<RADIUS) mapState.nearHotspot=h;
-  });
-  if(mapState.nearHotspot) showTooltip(mapState.nearHotspot);
-  else hideTooltip();
-}
-
-/* ═══════════════════════════════════════════════════
-   RENDER
-═══════════════════════════════════════════════════ */
-function renderMap() {
-  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  // Tiles
-  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) {
-    // Scale tile to canvas
-    ctx.save();
-    ctx.translate(c*cw-c*TILE+(c*cw), r*ch-r*TILE+(r*ch));
-    // Just draw scaled
-    ctx.restore();
-    drawTileScaled(ctx, c, r, mapState.grid[r][c], cw, ch);
-  }
-
-  // Road markings (dashed center lines)
-  ctx.strokeStyle='rgba(60,60,70,0.5)';
-  ctx.lineWidth=1;
-  ctx.setLineDash([cw*0.4,cw*0.6]);
-  ctx.beginPath();
-  ctx.moveTo(0, 8.5*ch); ctx.lineTo(canvas.width, 8.5*ch);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(12.5*cw, 0); ctx.lineTo(12.5*cw, canvas.height);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Buildings
-  mapState.buildings.forEach(b => {
-    drawBuildingScaled(ctx, b, cw, ch);
-  });
-
-  // Cars
-  mapState.cars.forEach(car => {
-    drawCarScaled(ctx, car, cw, ch);
-  });
-
-  // Hotspots
-  mapState.hotspots.forEach(h=>{
-    const drawFn = HOTSPOT_ICONS[h.tag] || HOTSPOT_ICONS.default;
-    drawFn(ctx, h.x, h.y, mapState.pulseT + mapState.hotspots.indexOf(h)*1.2, h.label);
-  });
-
-  // Zombies (behind player)
-  mapState.zombies.sort((a,b)=>a.y-b.y).forEach(z=>{
-    if(z.y<mapState.player.y) drawZombie(ctx, z.x, z.y, mapState.frame, z.variant);
-  });
-
-  // Player
-  drawPlayer(ctx, mapState.player.x, mapState.player.y, mapState.player.dir, mapState.frame, mapState.player.moving);
-
-  // Zombies (in front of player)
-  mapState.zombies.forEach(z=>{
-    if(z.y>=mapState.player.y) drawZombie(ctx, z.x, z.y, mapState.frame, z.variant);
-  });
-
-  // Near-hotspot highlight ring on player
-  if(mapState.nearHotspot) {
-    ctx.save();
-    ctx.globalAlpha=0.3+0.15*Math.sin(mapState.pulseT*3);
-    ctx.strokeStyle='#e74c3c';
-    ctx.lineWidth=2;
-    ctx.beginPath();
-    ctx.arc(mapState.player.x, mapState.player.y, 14, 0, Math.PI*2);
-    ctx.stroke();
-    ctx.restore();
-  }
-}
-
-function drawTileScaled(ctx, c, r, type, cw, ch) {
-  const x=c*cw, y=r*ch;
-  switch(type) {
-    case T.ROAD:
-      ctx.fillStyle=C.road;
-      ctx.fillRect(x,y,cw+1,ch+1);
-      if((c+r)%4===0){ ctx.fillStyle='rgba(255,255,255,0.015)'; ctx.fillRect(x,y,cw,ch); }
-      break;
-    case T.SIDE:
-      ctx.fillStyle=C.sidewalk;
-      ctx.fillRect(x,y,cw+1,ch+1);
-      if((c*3+r*7)%9===0){
-        ctx.strokeStyle='rgba(0,0,0,0.25)'; ctx.lineWidth=0.5;
-        ctx.beginPath(); ctx.moveTo(x+2,y+2); ctx.lineTo(x+cw-2,y+ch-2); ctx.stroke();
-      }
-      break;
-    case T.BUILD:
-      ctx.fillStyle=C.buildB;
-      ctx.fillRect(x,y,cw+1,ch+1);
-      break;
-    case T.RUBBLE:
-      ctx.fillStyle=C.rubble;
-      ctx.fillRect(x,y,cw+1,ch+1);
-      ctx.fillStyle='rgba(90,80,70,0.35)';
-      ctx.fillRect(x+2,y+2,cw*0.3,ch*0.3);
-      ctx.fillRect(x+cw*0.6,y+ch*0.5,cw*0.25,ch*0.25);
-      break;
-    case T.BLOOD:
-      ctx.fillStyle=C.road;
-      ctx.fillRect(x,y,cw+1,ch+1);
-      ctx.fillStyle=C.blood;
-      ctx.beginPath();
-      ctx.ellipse(x+cw/2,y+ch/2,cw*0.38,ch*0.3,c*0.5,0,Math.PI*2);
-      ctx.fill();
-      break;
-    case T.CAR:
-      ctx.fillStyle=C.road;
-      ctx.fillRect(x,y,cw+1,ch+1);
-      break;
-  }
-}
-
-function drawBuildingScaled(ctx, b, cw, ch) {
-  const x=b.c*cw, y=b.r*ch, w=b.w*cw, h=b.h*ch;
-  const colors=[C.buildA,C.buildB,C.buildC];
-  ctx.fillStyle=colors[b.color%3];
-  ctx.fillRect(x,y,w,h);
-  ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
-  ctx.strokeRect(x+0.5,y+0.5,w-1,h-1);
-  // Windows
-  const wCols=Math.max(1,b.w-1), wRows=Math.max(1,b.h-1);
-  const ww=cw*0.55, wh=ch*0.5;
-  for(let wr=0;wr<wRows;wr++) for(let wc=0;wc<wCols;wc++) {
-    const wx=x+(wc+0.5)*(w/wCols)-ww/2;
-    const wy=y+(wr+0.5)*(h/wRows)-wh/2;
-    const litRand=(b.c*17+b.r*13+wr*7+wc*3)%11;
-    ctx.fillStyle=litRand<4?C.window0:litRand<7?C.window1:litRand<9?C.window2:C.window0;
-    ctx.fillRect(wx,wy,ww,wh);
-    if((b.c+b.r+wr+wc)%9===0){
-      ctx.fillStyle=C.windowL; ctx.globalAlpha=0.4;
-      ctx.fillRect(wx+1,wy+1,ww-2,wh-2);
-      ctx.globalAlpha=1;
-    }
-  }
-}
-
-function drawCarScaled(ctx, car, cw, ch) {
-  const x=car.c*cw, y=car.r*ch;
-  const carColors=[C.car1,C.car2,C.car3];
-  ctx.save();
-  ctx.translate(x+cw/2, y+ch/2);
-  if(car.rot%2===1) ctx.rotate(Math.PI*0.5);
-  const bw=cw*0.75, bh=ch*0.55;
-  ctx.fillStyle=carColors[car.color%3];
-  ctx.fillRect(-bw/2,-bh/2,bw,bh);
-  ctx.fillStyle='rgba(100,150,200,0.12)';
-  ctx.fillRect(-bw/2+2,-bh/2+2,bw-4,bh-4);
-  ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.lineWidth=1;
-  ctx.strokeRect(-bw/2,-bh/2,bw,bh);
-  ctx.restore();
-}
-
-/* ═══════════════════════════════════════════════════
-   TOOLTIP
-═══════════════════════════════════════════════════ */
-function showTooltip(h) {
-  const el=document.getElementById('choice-tooltip');
-  const txt=document.getElementById('tooltip-text');
-  const tagColors={combat:C.hotspot,risk:C.hotspot,safe:C.hotspotG,trust:C.amber,default:C.hotspotB};
-  const color=tagColors[h.tag]||C.hotspotB;
-  const tagLabel=h.tag==='combat'?'⚔ COMBAT':h.tag==='risk'?'⚠ RISK':h.tag==='safe'?'🛡 SAFE':h.tag==='trust'?'♦ TRUST':'';
-  txt.innerHTML=`<span style="color:${color}">${h.label}</span>${tagLabel?`<br><span style="font-size:0.58rem;color:${color};opacity:0.7">${tagLabel}</span>`:''}`;
-  el.style.display='block';
-}
-
-function hideTooltip() {
-  document.getElementById('choice-tooltip').style.display='none';
-}
-
-/* ═══════════════════════════════════════════════════
-   SCENE MANAGEMENT
-═══════════════════════════════════════════════════ */
-let currentScene = null;
-let pendingCombat = null;
-
-function goToScene(sceneId) {
-  const scene = scenes[sceneId];
-  if (!scene) { console.warn('Scene not found:', sceneId); return; }
-
-  currentScene = sceneId;
-  state.chapter = scene.chapter;
-  state.day++;
-  updateStatus();
-
-  // Fade transition
-  const ov=document.getElementById('transition-overlay');
-  ov.classList.add('fade-in');
-
-  setTimeout(()=>{
-    // Update story text
-    document.getElementById('scene-label').textContent=scene.label;
-    document.getElementById('scene-title').textContent=scene.title;
-    document.getElementById('scene-text').innerHTML=scene.text;
-
-    // Scroll story to top
-    document.getElementById('story-panel').scrollTop=0;
-
-    // Rebuild map
-    buildMap(sceneId);
-
-    ov.classList.remove('fade-in');
-    ov.classList.add('fade-out');
-    setTimeout(()=>ov.classList.remove('fade-out'),350);
-  }, 320);
-
-  // Handle immediate ending scene
-  if (scene.ending && !scene.choices) {
-    setTimeout(()=>showEnding(scene.ending), 1200);
-  }
-}
-
-function handleChoice(choice) {
-  if (choice.trust)  state.trust  = Math.max(-5, Math.min(5, state.trust+choice.trust));
-  if (choice.health) state.health = Math.max(0, Math.min(100, state.health+choice.health));
-  if (choice.flag)   state.flags[choice.flag]=true;
-  if (choice.flag2)  state.flags[choice.flag2]=true;
-
-  // Ghost ending
-  if (state.trust<=-4 && state.chapter>=4) { showEnding('ending_5'); return; }
-  if (state.health<=0) { showEnding('ending_burned'); return; }
-
-  updateStatus();
-
-  if (choice.encounter) {
-    launchCombat(choice.encounter, choice.win, choice.lose);
-  } else if (choice.next) {
-    if (choice.ending) showEnding(choice.ending);
-    else goToScene(choice.next);
-  } else if (scenes[currentScene] && scenes[currentScene].ending) {
-    showEnding(scenes[currentScene].ending);
-  }
-}
-
-/* ═══════════════════════════════════════════════════
-   INTERACT — called when player presses E/Space
-═══════════════════════════════════════════════════ */
-function interact() {
-  if (!mapState.nearHotspot) return;
-  const h=mapState.nearHotspot;
-  mapState.nearHotspot=null;
-  hideTooltip();
-  handleChoice(h.choice);
-}
-
-/* ═══════════════════════════════════════════════════
-   COMBAT BRIDGE
-═══════════════════════════════════════════════════ */
-function launchCombat(encounter, winScene, loseScene) {
-  pendingCombat={winScene, loseScene};
-  const url=`combat.html?encounter=${encounter}&win=${encodeURIComponent(winScene)}&lose=${encodeURIComponent(loseScene)}&hp=${state.health}&trust=${state.trust}`;
-  document.getElementById('combat-frame').src=url;
-  document.getElementById('combat-overlay').classList.add('active');
-}
-
-window.addEventListener('message', (e)=>{
-  if(!e.data||e.data.type!=='COMBAT_RESULT') return;
-  document.getElementById('combat-overlay').classList.remove('active');
-  document.getElementById('combat-frame').src='';
-  const {result, hp}=e.data;
-  state.health=Math.max(1,hp);
-  updateStatus();
-  if(!pendingCombat) return;
-  const next=(result==='win'||result==='flee')?pendingCombat.winScene:pendingCombat.loseScene;
-  pendingCombat=null;
-  goToScene(next);
-});
-
-/* ═══════════════════════════════════════════════════
-   ENDINGS
-═══════════════════════════════════════════════════ */
-const ending_5={badge:'ENDING — THE GHOST',color:'#6b6b78',title:"You Disappeared",text:`Nobody finds you. This is, for a long time, the point.
+const ending_5 = {badge:'ENDING — THE GHOST',color:'#6b6b78',title:"You Disappeared",text:`Nobody finds you. This is, for a long time, the point.
 
 The world recovers through other paths — slower, more expensive in lives, but real. The outbreak ends the way most catastrophes end: not with a solution, but with exhaustion.
 
@@ -1619,94 +1535,6 @@ You become a folk story. Survivors in three cities have a legend about a person 
 Emil sends you the transcript and a note: "I know it's you. You don't have to tell me if you don't want to."
 
 You write back. You use your name.`};
-
-function showEnding(endingId) {
-  const e=endings[endingId]||(endingId==='ending_5'?ending_5:null);
-  if(!e){console.warn('No ending:',endingId);return;}
-  cancelAnimationFrame(animId);
-  const ov=document.getElementById('ending-overlay');
-  const badge=document.getElementById('ending-badge');
-  badge.textContent=e.badge;
-  badge.style.color=e.color;
-  badge.style.borderColor=e.color;
-  document.getElementById('ending-title').textContent=e.title;
-  document.getElementById('ending-text').textContent=e.text;
-  ov.classList.add('show');
-}
-
-/* ═══════════════════════════════════════════════════
-   STATUS
-═══════════════════════════════════════════════════ */
-function updateStatus() {
-  document.getElementById('stat-day').textContent=state.day;
-  const t=state.trust;
-  document.getElementById('stat-trust').textContent=(t>0?'+':'')+t;
-  document.getElementById('stat-health').textContent=Math.max(0,state.health);
-  document.getElementById('stat-chapter').textContent=state.chapter+'/5';
-}
-
-/* ═══════════════════════════════════════════════════
-   INPUT
-═══════════════════════════════════════════════════ */
-document.addEventListener('keydown', e=>{
-  keys[e.code]=true;
-  if(e.code==='KeyE'||e.code==='Space') { e.preventDefault(); interact(); }
-});
-document.addEventListener('keyup', e=>{ keys[e.code]=false; });
-
-// Mobile D-pad
-document.querySelectorAll('.dpad-btn').forEach(btn=>{
-  const dir=btn.dataset.dir;
-  btn.addEventListener('touchstart',e=>{e.preventDefault();mobileDir[dir]=true;btn.classList.add('pressed');},{passive:false});
-  btn.addEventListener('touchend',  e=>{e.preventDefault();mobileDir[dir]=false;btn.classList.remove('pressed');},{passive:false});
-  btn.addEventListener('mousedown', e=>{mobileDir[dir]=true; btn.classList.add('pressed');});
-  btn.addEventListener('mouseup',   e=>{mobileDir[dir]=false;btn.classList.remove('pressed');});
-});
-
-document.getElementById('interact-btn').addEventListener('click', interact);
-document.getElementById('interact-btn').addEventListener('touchstart', e=>{e.preventDefault();interact();},{passive:false});
-
-/* ═══════════════════════════════════════════════════
-   MOBILE DETECTION
-═══════════════════════════════════════════════════ */
-function checkMobile() {
-  const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
-  document.getElementById('dpad').style.display = isMobile ? 'block' : 'none';
-  document.getElementById('interact-btn').style.display = isMobile ? 'flex' : 'none';
-  document.getElementById('map-hint').textContent = isMobile
-    ? 'D-PAD — di chuyển  |  E — tương tác'
-    : 'WASD / MŨI TÊN — di chuyển  |  E / SPACE — tương tác';
-}
-
-/* ═══════════════════════════════════════════════════
-   RESIZE
-═══════════════════════════════════════════════════ */
-window.addEventListener('resize', ()=>{
-  initCanvas();
-  if(currentScene) buildMap(currentScene);
-  checkMobile();
-});
-
-/* ═══════════════════════════════════════════════════
-   START
-═══════════════════════════════════════════════════ */
-function startGame() {
-  state={day:1,trust:0,health:100,chapter:1,flags:{}};
-  pendingCombat=null;
-  mapState.mapReady=false;
-  mapState.frame=0;
-  mapState.pulseT=0;
-  document.getElementById('ending-overlay').classList.remove('show');
-  document.getElementById('combat-overlay').classList.remove('active');
-  updateStatus();
-  initCanvas();
-  checkMobile();
-  cancelAnimationFrame(animId);
-  gameLoop();
-  goToScene('intro');
-}
-
-window.addEventListener('DOMContentLoaded', startGame);
 </script>
 </body>
 </html>
