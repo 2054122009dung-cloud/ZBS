@@ -1,9 +1,8 @@
-﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>DEAD SIGNAL — A Zombie Survival Story</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
@@ -28,119 +27,101 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; }
+html, body { height: 100%; overflow: hidden; }
 
 body {
   background: var(--bg);
   color: var(--body);
   font-family: var(--serif);
-  font-size: 1.1rem;
-  line-height: 1.8;
-  min-height: 100vh;
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  height: 100dvh;
+  overflow: hidden;
 }
 
-header {
-  width: 100%;
-  max-width: 760px;
-  padding: 2rem 1.5rem 0;
+/* ── TOP: STORY PANEL ─────────────────────── */
+#story-panel {
+  flex: 0 0 auto;
+  max-height: 45vh;
+  overflow-y: auto;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
+}
+
+#story-panel::-webkit-scrollbar { width: 4px; }
+#story-panel::-webkit-scrollbar-track { background: var(--bg); }
+#story-panel::-webkit-scrollbar-thumb { background: var(--dim); }
+
+/* Status bar */
+#status-bar {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.stat { display: flex; gap: 0.3rem; align-items: center; }
+.stat-label { color: var(--dim); }
+.stat-val-day    { color: var(--green2); }
+.stat-val-trust  { color: var(--amber); }
+.stat-val-health { color: var(--accent2); }
+.stat-val-chap   { color: var(--muted); }
+
+/* Game title strip */
+#title-strip {
+  padding: 0.6rem 1rem 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
 }
 
 .game-title {
   font-family: var(--mono);
-  font-size: clamp(1.6rem, 5vw, 2.6rem);
-  letter-spacing: 0.18em;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
   color: var(--accent2);
-  text-shadow: 0 0 30px rgba(231,76,60,0.4);
+  text-shadow: 0 0 20px rgba(231,76,60,0.4);
   text-transform: uppercase;
 }
 
-.game-subtitle {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.3em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-.divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border), var(--accent), var(--border), transparent);
-  margin: 1.5rem 0 0;
-}
-
-#status-bar {
-  width: 100%;
-  max-width: 760px;
-  padding: 0.6rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-  border-bottom: 1px solid var(--border);
-}
-
-.status-item span { color: var(--dim); margin-right: 0.3rem; }
-.status-item.trust  { color: var(--amber); }
-.status-item.days   { color: var(--green); }
-.status-item.health { color: var(--accent2); }
-
-main {
-  width: 100%;
-  max-width: 760px;
-  padding: 0 1.5rem 4rem;
+/* Scene content */
+#scene-content {
+  padding: 0.5rem 1rem 0.8rem;
   flex: 1;
-}
-
-#scene-log { min-height: 60px; padding: 1.5rem 0; }
-
-.log-entry {
-  margin-bottom: 0.4rem;
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-family: var(--mono);
-  letter-spacing: 0.04em;
-  opacity: 0.5;
-  font-style: italic;
-}
-
-#scene-box {
-  border-top: 1px solid var(--border);
-  padding: 2rem 0;
 }
 
 #scene-label {
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.55rem;
   letter-spacing: 0.25em;
   color: var(--accent);
   text-transform: uppercase;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
 }
 
 #scene-title {
   font-family: var(--serif);
-  font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--bright);
-  margin-bottom: 1.2rem;
-  line-height: 1.3;
+  margin-bottom: 0.6rem;
+  line-height: 1.25;
 }
 
 #scene-text {
   font-family: var(--serif);
-  font-size: 1.08rem;
-  line-height: 1.9;
+  font-size: 0.9rem;
+  line-height: 1.75;
   color: var(--body);
   white-space: pre-line;
 }
@@ -149,93 +130,185 @@ main {
 #scene-text strong { color: var(--bright); font-weight: 600; }
 
 .twist-callout {
-  margin: 1.5rem 0;
-  padding: 1rem 1.4rem;
+  margin: 0.8rem 0;
+  padding: 0.7rem 1rem;
   border-left: 3px solid var(--accent2);
   background: rgba(192,57,43,0.06);
   font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
   color: var(--accent2);
-  line-height: 1.6;
+  line-height: 1.55;
 }
-
 .twist-callout::before {
   content: '⚠ REVELATION ';
-  font-size: 0.62rem;
+  font-size: 0.55rem;
   letter-spacing: 0.2em;
   color: var(--muted);
   display: block;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.3rem;
 }
 
-/* ── CHOICES ────────────────────────────────────── */
-#choices {
-  padding: 1.5rem 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-
-.choice-btn {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--body);
-  font-family: var(--serif);
-  font-size: 1rem;
-  padding: 0.9rem 1.2rem;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.1s;
-  line-height: 1.5;
-  position: relative;
-}
-
-.choice-btn::before { content: '›  '; font-family: var(--mono); color: var(--muted); transition: color 0.15s; }
-
-.choice-btn:hover {
-  border-color: var(--accent);
-  background: rgba(192,57,43,0.06);
-  color: var(--bright);
-  transform: translateX(4px);
-}
-.choice-btn:hover::before { color: var(--accent); }
-.choice-btn:active { transform: translateX(2px); }
-
-/* Combat-trigger choice */
-.choice-btn.combat-choice {
-  border-color: rgba(192,57,43,0.45);
-}
-.choice-btn.combat-choice::after {
-  content: '⚔ COMBAT';
-  position: absolute;
-  right: 0.8rem;
-  top: 50%;
-  transform: translateY(-50%);
+.capture-callout {
+  margin: 0.8rem 0;
+  padding: 0.7rem 1rem;
+  border-left: 3px solid var(--purple);
+  background: rgba(142,68,173,0.07);
   font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: #bb8fce;
+  line-height: 1.55;
+}
+.capture-callout::before {
+  content: '☠ CAPTURED ';
   font-size: 0.55rem;
   letter-spacing: 0.2em;
-  color: var(--accent2);
-  border: 1px solid var(--accent2);
-  padding: 0.1rem 0.35rem;
-  opacity: 0.7;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.3rem;
 }
-.choice-btn.combat-choice:hover { border-color: var(--accent2); background: rgba(192,57,43,0.1); }
 
-.tag {
+/* ── BOTTOM: MAP PANEL ─────────────────────── */
+#map-panel {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+  background: #0a0a0b;
+  min-height: 0;
+}
+
+#map-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Hint bar above map */
+#map-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10,10,11,0.85);
+  border-top: 1px solid var(--border);
+  padding: 0.4rem 1rem;
   font-family: var(--mono);
   font-size: 0.6rem;
-  padding: 0.15rem 0.4rem;
-  border-radius: 2px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Choice tooltip when near hotspot */
+#choice-tooltip {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15,15,18,0.97);
+  border: 1px solid var(--accent2);
+  padding: 0.6rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--bright);
+  letter-spacing: 0.05em;
+  text-align: center;
+  max-width: 320px;
+  pointer-events: none;
+  z-index: 20;
+  display: none;
+  line-height: 1.5;
+}
+
+#choice-tooltip .tooltip-key {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.55rem;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+}
+
+.tooltip-tag {
+  display: inline-block;
+  font-size: 0.52rem;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid currentColor;
+  margin-left: 0.4rem;
   letter-spacing: 0.1em;
   vertical-align: middle;
-  margin-left: 0.5rem;
 }
-.tag-trust { background: rgba(230,126,34,0.15); color: var(--amber); border: 1px solid rgba(230,126,34,0.3); }
-.tag-risk  { background: rgba(192,57,43,0.12);  color: var(--accent2); border: 1px solid rgba(192,57,43,0.3); }
-.tag-safe  { background: rgba(39,174,96,0.12);  color: var(--green);   border: 1px solid rgba(39,174,96,0.3); }
+.tag-risk { color: var(--accent2); }
+.tag-safe { color: var(--green); }
+.tag-trust { color: var(--amber); }
 
-/* ── COMBAT IFRAME OVERLAY ────────────────────── */
+/* Mobile D-pad */
+#dpad {
+  position: absolute;
+  bottom: 50px;
+  left: 12px;
+  width: 96px;
+  height: 96px;
+  z-index: 30;
+  display: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dpad-btn {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: rgba(40,40,50,0.85);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  user-select: none;
+}
+.dpad-btn:active, .dpad-btn.pressed { background: rgba(192,57,43,0.3); border-color: var(--accent2); color: var(--bright); }
+.dpad-up    { top: 0;    left: 33px; }
+.dpad-down  { bottom: 0; left: 33px; }
+.dpad-left  { top: 33px; left: 0;   }
+.dpad-right { top: 33px; right: 0;  }
+
+/* Interact button (mobile) */
+#interact-btn {
+  position: absolute;
+  bottom: 50px;
+  right: 12px;
+  width: 52px;
+  height: 52px;
+  background: rgba(192,57,43,0.25);
+  border: 2px solid var(--accent2);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--accent2);
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  z-index: 30;
+  flex-direction: column;
+  line-height: 1.2;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  text-align: center;
+}
+
+/* Combat overlay iframe */
 #combat-overlay {
   display: none;
   position: fixed;
@@ -246,89 +319,34 @@ main {
   align-items: center;
   justify-content: center;
 }
-
 #combat-overlay.active { display: flex; }
+#combat-frame { width: 100%; max-width: 700px; height: 100dvh; border: none; background: #0a0a0b; }
 
-#combat-frame {
-  width: 100%;
-  max-width: 700px;
-  height: 100dvh;
-  border: none;
-  background: #0a0a0b;
-}
-
-/* ── CAPTURE CALLOUT ──────────────────────────── */
-.capture-callout {
-  margin: 1.5rem 0;
-  padding: 1rem 1.4rem;
-  border-left: 3px solid var(--purple);
-  background: rgba(142,68,173,0.07);
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  color: #bb8fce;
-  line-height: 1.6;
-}
-.capture-callout::before {
-  content: '☠ CAPTURED ';
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.4rem;
-}
-
-/* ── ENDINGS ──────────────────────────────────── */
-#ending-screen {
+/* Ending screen */
+#ending-overlay {
   display: none;
-  padding: 2rem 0;
-  border-top: 1px solid var(--border);
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 300;
+  overflow-y: auto;
+  padding: 2rem 1.5rem 3rem;
+  flex-direction: column;
+  align-items: center;
 }
-
-.ending-label {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 1rem;
-}
-
-.ending-badge {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.8rem;
-  border: 1px solid currentColor;
-  display: inline-block;
-  margin-bottom: 1.5rem;
-}
-
-.ending-title {
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 4vw, 2.2rem);
-  font-weight: 600;
-  color: var(--bright);
-  margin-bottom: 1.2rem;
-  line-height: 1.25;
-}
-
-.ending-text {
-  font-family: var(--serif);
-  font-size: 1.08rem;
-  line-height: 1.9;
-  color: var(--body);
-  white-space: pre-line;
-  margin-bottom: 2rem;
-}
-
+#ending-overlay.show { display: flex; }
+.ending-inner { max-width: 560px; width: 100%; }
+.ending-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.3em; color: var(--muted); margin-bottom: 0.8rem; text-transform: uppercase; }
+.ending-badge { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid currentColor; display: inline-block; margin-bottom: 1.2rem; }
+.ending-title { font-family: var(--serif); font-size: clamp(1.3rem,4vw,2rem); font-weight: 600; color: var(--bright); margin-bottom: 1rem; line-height: 1.25; }
+.ending-text  { font-family: var(--serif); font-size: 1rem; line-height: 1.85; color: var(--body); white-space: pre-line; margin-bottom: 2rem; }
+.ending-divider { width: 100%; height: 1px; background: var(--border); margin: 1.5rem 0; }
 #restart-btn {
   background: none;
   border: 1px solid var(--dim);
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.15em;
   padding: 0.7rem 1.5rem;
   text-transform: uppercase;
@@ -337,198 +355,509 @@ main {
 }
 #restart-btn:hover { border-color: var(--body); color: var(--body); }
 
-@media (max-width: 500px) {
-  body { font-size: 1rem; }
-  #scene-text { font-size: 1rem; }
+/* Scene transition overlay */
+#transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 150;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
+#transition-overlay.fade-in  { opacity: 1; }
+#transition-overlay.fade-out { opacity: 0; }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="game-title">DEAD SIGNAL</div>
-  <div class="game-subtitle">A Zombie Survival Story &bull; 5 Endings &bull; Combat Encounters</div>
-  <div class="divider"></div>
-</header>
-
-<div id="status-bar">
-  <div class="status-item days"><span>DAY</span><span id="stat-day">1</span></div>
-  <div class="status-item trust"><span>TRUST</span><span id="stat-trust">0</span></div>
-  <div class="status-item health"><span>HP</span><span id="stat-health">100</span></div>
-  <div class="status-item"><span>CHAPTER</span><span id="stat-chapter">1 / 5</span></div>
-</div>
-
-<main>
-  <div id="scene-log"></div>
-
-  <div id="scene-box">
+<!-- Story panel (top) -->
+<div id="story-panel">
+  <div id="status-bar">
+    <div class="stat"><span class="stat-label">DAY</span><span class="stat-val-day" id="stat-day">1</span></div>
+    <div class="stat"><span class="stat-label">TRUST</span><span class="stat-val-trust" id="stat-trust">0</span></div>
+    <div class="stat"><span class="stat-label">HP</span><span class="stat-val-health" id="stat-health">100</span></div>
+    <div class="stat"><span class="stat-label">CH</span><span class="stat-val-chap" id="stat-chapter">1/5</span></div>
+  </div>
+  <div id="title-strip">
+    <span class="game-title">DEAD SIGNAL</span>
+  </div>
+  <div id="scene-content">
     <div id="scene-label"></div>
     <div id="scene-title"></div>
     <div id="scene-text"></div>
-    <div id="choices"></div>
   </div>
+</div>
 
-  <div id="ending-screen">
-    <div class="ending-label">ENDING REACHED</div>
-    <div id="ending-badge" class="ending-badge"></div>
-    <div id="ending-title" class="ending-title"></div>
-    <div id="ending-text" class="ending-text"></div>
-    <button id="restart-btn" onclick="startGame()">↺  PLAY AGAIN</button>
+<!-- Map panel (bottom) -->
+<div id="map-panel">
+  <canvas id="map-canvas"></canvas>
+  <div id="choice-tooltip">
+    <span id="tooltip-text">—</span>
+    <span class="tooltip-key">[ E ] hoặc [ SPACE ] để chọn</span>
   </div>
-</main>
+  <div id="map-hint">WASD / MŨI TÊN — di chuyển &nbsp;|&nbsp; E / SPACE — tương tác</div>
 
-<!-- COMBAT OVERLAY (iframe) -->
+  <!-- Mobile controls -->
+  <div id="dpad">
+    <div class="dpad-btn dpad-up"    data-dir="up">▲</div>
+    <div class="dpad-btn dpad-down"  data-dir="down">▼</div>
+    <div class="dpad-btn dpad-left"  data-dir="left">◄</div>
+    <div class="dpad-btn dpad-right" data-dir="right">►</div>
+  </div>
+  <div id="interact-btn">E<br><span style="font-size:0.5rem">ENTER</span></div>
+</div>
+
+<!-- Combat overlay -->
 <div id="combat-overlay">
   <iframe id="combat-frame" src="" title="Combat"></iframe>
 </div>
 
+<!-- Ending overlay -->
+<div id="ending-overlay">
+  <div class="ending-inner">
+    <div class="ending-label">ENDING REACHED</div>
+    <div id="ending-badge" class="ending-badge"></div>
+    <div id="ending-title" class="ending-title"></div>
+    <div class="ending-divider"></div>
+    <div id="ending-text" class="ending-text"></div>
+    <button id="restart-btn" onclick="startGame()">↺ CHƠI LẠI</button>
+  </div>
+</div>
+
+<!-- Transition overlay -->
+<div id="transition-overlay"></div>
+
 <script>
 /* ═══════════════════════════════════════════════════
-   STATE
+   COLOUR PALETTE (for canvas drawing)
 ═══════════════════════════════════════════════════ */
-let state = {
-  day: 1, trust: 0, health: 100, chapter: 1,
-  flags: {},
-  pendingCombatWin: null,
-  pendingCombatLose: null,
+const C = {
+  bg:      '#0a0a0b',
+  road:    '#141418',
+  roadMark:'#2a2a32',
+  sidewalk:'#1a1a1e',
+  grass:   '#0e1a0e',
+  grass2:  '#0c160c',
+  rubble:  '#1e1c1a',
+  buildA:  '#161618',
+  buildB:  '#18181c',
+  buildC:  '#14141a',
+  window0: '#0a0a0c',
+  window1: '#1a2a18',
+  window2: '#2a1a10',
+  windowL: '#c8a040',
+  car1:    '#1a2030',
+  car2:    '#2a1018',
+  car3:    '#1a2818',
+  blood:   '#3a0a08',
+  fence:   '#2a2828',
+  player:  '#e8e8f0',
+  playerAcc:'#e74c3c',
+  zombie:  '#4a3820',
+  zombieAcc:'#8a2018',
+  zombieEye:'#c0392b',
+  hotspot: '#e74c3c',
+  hotspotG: '#27ae60',
+  hotspotB: '#2980b9',
+  hotspotP: '#8e44ad',
+  amber:   '#e67e22',
 };
 
 /* ═══════════════════════════════════════════════════
-   SCENES
+   TILE CONSTANTS
+═══════════════════════════════════════════════════ */
+const TILE = 24;
+const COLS = 26;
+const ROWS = 18;
+
+/* Tile type IDs */
+const T = { ROAD:0, SIDE:1, GRASS:2, BUILD:3, RUBBLE:4, CAR:5, FENCE:6, BLOOD:7 };
+
+/* ═══════════════════════════════════════════════════
+   MAP GENERATOR
+   Produces a fresh tile grid + building rects per scene
+═══════════════════════════════════════════════════ */
+function generateMap(seed) {
+  // Seeded RNG
+  let s = seed * 9301 + 49297;
+  const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  const ri = (a,b) => Math.floor(rng()*(b-a+1))+a;
+
+  const grid = Array.from({length:ROWS}, () => new Array(COLS).fill(T.ROAD));
+
+  // Horizontal road at row 8-9 (main street)
+  for (let c=0;c<COLS;c++) { grid[8][c]=T.ROAD; grid[9][c]=T.ROAD; }
+  // Road markings stored separately
+
+  // Vertical road at col 12-13
+  for (let r=0;r<ROWS;r++) { grid[r][12]=T.ROAD; grid[r][13]=T.ROAD; }
+
+  // Sidewalks around roads
+  const sidewalkRows = [7,10], sidewalkCols = [11,14];
+  for (let c=0;c<COLS;c++) { sidewalkRows.forEach(r=>{ if(grid[r][c]===T.ROAD) return; grid[r][c]=T.SIDE; }); }
+  for (let r=0;r<ROWS;r++) { sidewalkCols.forEach(c=>{ if(grid[r][c]===T.ROAD) return; grid[r][c]=T.SIDE; }); }
+
+  // Buildings in quadrants — leave 2 tile buffer around roads
+  const buildings = [];
+  function placeBuilding(minC,maxC,minR,maxR,color) {
+    const w=ri(3,Math.min(5,maxC-minC)); const h=ri(3,Math.min(4,maxR-minR));
+    const c=ri(minC,maxC-w); const r=ri(minR,maxR-h);
+    buildings.push({c,r,w,h,color});
+    for(let rr=r;rr<r+h;rr++) for(let cc=c;cc<c+w;cc++) grid[rr][cc]=T.BUILD;
+  }
+  // Four quadrants
+  for(let i=0;i<3;i++) placeBuilding(0,10,0,6,ri(0,2));
+  for(let i=0;i<3;i++) placeBuilding(15,25,0,6,ri(0,2));
+  for(let i=0;i<3;i++) placeBuilding(0,10,11,17,ri(0,2));
+  for(let i=0;i<3;i++) placeBuilding(15,25,11,17,ri(0,2));
+
+  // Rubble patches
+  for(let i=0;i<8;i++) {
+    const c=ri(0,COLS-1), r=ri(0,ROWS-1);
+    if(grid[r][c]===T.ROAD||grid[r][c]===T.SIDE) { grid[r][c]=T.RUBBLE; }
+  }
+
+  // Wrecked cars on road
+  const cars = [];
+  for(let i=0;i<4;i++) {
+    const roadTiles = [[8,ri(1,10)],[8,ri(15,24)],[9,ri(1,10)],[9,ri(15,24)]];
+    const [rr,cc] = roadTiles[i % roadTiles.length];
+    if(grid[rr][cc]===T.ROAD) {
+      grid[rr][cc]=T.CAR;
+      cars.push({c:cc,r:rr,rot:ri(0,3),color:ri(0,2)});
+    }
+  }
+
+  // Blood stains
+  for(let i=0;i<5;i++) {
+    const c=ri(0,COLS-1),r=ri(0,ROWS-1);
+    if(grid[r][c]===T.ROAD||grid[r][c]===T.SIDE) grid[r][c]=T.BLOOD;
+  }
+
+  return {grid, buildings, cars, rng};
+}
+
+/* ═══════════════════════════════════════════════════
+   DRAW FUNCTIONS
+═══════════════════════════════════════════════════ */
+function drawTile(ctx, c, r, type, frame) {
+  const x = c*TILE, y = r*TILE;
+  switch(type) {
+    case T.ROAD:
+      ctx.fillStyle = C.road;
+      ctx.fillRect(x,y,TILE,TILE);
+      // subtle noise
+      if((c+r)%3===0){ ctx.fillStyle='rgba(255,255,255,0.012)'; ctx.fillRect(x,y,TILE,TILE); }
+      break;
+    case T.SIDE:
+      ctx.fillStyle = C.sidewalk;
+      ctx.fillRect(x,y,TILE,TILE);
+      // crack lines
+      if((c*3+r*7)%11===0){
+        ctx.strokeStyle='rgba(0,0,0,0.3)'; ctx.lineWidth=0.5;
+        ctx.beginPath(); ctx.moveTo(x+4,y+4); ctx.lineTo(x+TILE-4,y+TILE-4); ctx.stroke();
+      }
+      break;
+    case T.GRASS:
+      ctx.fillStyle = (c+r)%2===0?C.grass:C.grass2;
+      ctx.fillRect(x,y,TILE,TILE);
+      break;
+    case T.BUILD:
+      // Buildings drawn separately as rects, tiles just show interior
+      ctx.fillStyle = C.buildA;
+      ctx.fillRect(x,y,TILE,TILE);
+      break;
+    case T.RUBBLE:
+      ctx.fillStyle = C.rubble;
+      ctx.fillRect(x,y,TILE,TILE);
+      // rubble dots
+      ctx.fillStyle='rgba(80,70,60,0.4)';
+      for(let i=0;i<4;i++) ctx.fillRect(x+((c*7+i*5)%18)+2, y+((r*5+i*7)%18)+2, 2, 2);
+      break;
+    case T.BLOOD:
+      ctx.fillStyle = C.road;
+      ctx.fillRect(x,y,TILE,TILE);
+      ctx.fillStyle = C.blood;
+      ctx.beginPath();
+      ctx.ellipse(x+TILE/2,y+TILE/2,TILE/3,TILE/4,c*0.5,0,Math.PI*2);
+      ctx.fill();
+      break;
+    case T.CAR:
+      ctx.fillStyle = C.road;
+      ctx.fillRect(x,y,TILE,TILE);
+      break;
+  }
+}
+
+function drawBuilding(ctx, b) {
+  const x=b.c*TILE, y=b.r*TILE, w=b.w*TILE, h=b.h*TILE;
+  const colors=[C.buildA,C.buildB,C.buildC];
+  ctx.fillStyle=colors[b.color%3];
+  ctx.fillRect(x,y,w,h);
+  // outline
+  ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
+  ctx.strokeRect(x+0.5,y+0.5,w-1,h-1);
+  // windows
+  const wCols=Math.max(1,b.w-1), wRows=Math.max(1,b.h-1);
+  for(let wr=0;wr<wRows;wr++) for(let wc=0;wc<wCols;wc++) {
+    const wx=x+(wc+0.5)*(w/wCols)-4;
+    const wy=y+(wr+0.5)*(h/wRows)-3;
+    const litRand=(b.c*17+b.r*13+wr*7+wc*3)%11;
+    ctx.fillStyle=litRand<4?C.window0:litRand<7?C.window1:litRand<9?C.window2:C.window0;
+    ctx.fillRect(wx,wy,8,6);
+    // occasional lit window
+    if((b.c+b.r+wr+wc)%9===0){
+      ctx.fillStyle=C.windowL; ctx.globalAlpha=0.5;
+      ctx.fillRect(wx+1,wy+1,6,4);
+      ctx.globalAlpha=1;
+    }
+  }
+}
+
+function drawCar(ctx, car) {
+  const x=car.c*TILE, y=car.r*TILE;
+  const carColors=[C.car1,C.car2,C.car3];
+  ctx.save();
+  ctx.translate(x+TILE/2, y+TILE/2);
+  if(car.rot%2===1) ctx.rotate(Math.PI*0.5);
+  ctx.fillStyle=carColors[car.color%3];
+  // Body
+  ctx.fillRect(-10,-6,20,12);
+  // Windows
+  ctx.fillStyle='rgba(100,150,200,0.15)';
+  ctx.fillRect(-6,-4,12,8);
+  // Damage
+  ctx.strokeStyle='rgba(0,0,0,0.4)'; ctx.lineWidth=1;
+  ctx.strokeRect(-10,-6,20,12);
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════════════
+   HOTSPOT ICONS
+═══════════════════════════════════════════════════ */
+const HOTSPOT_ICONS = {
+  risk:    (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.hotspot,'⚠'),
+  safe:    (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.hotspotG,'🛡'),
+  trust:   (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.amber,'♦'),
+  combat:  (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.hotspot,'⚔'),
+  default: (ctx,x,y,pulse,label) => drawHotspot(ctx,x,y,pulse,label,C.hotspotB,'→'),
+};
+
+function drawHotspot(ctx, x, y, pulse, label, color, icon) {
+  const r = 10 + Math.sin(pulse)*2;
+  // Glow
+  ctx.save();
+  ctx.globalAlpha = 0.15 + 0.08*Math.sin(pulse);
+  ctx.fillStyle = color;
+  ctx.beginPath(); ctx.arc(x,y,r+8,0,Math.PI*2); ctx.fill();
+  ctx.globalAlpha = 1;
+
+  // Ring
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([3,3]);
+  ctx.lineDashOffset = -pulse*2;
+  ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Center dot
+  ctx.fillStyle = color;
+  ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+
+  // Label
+  ctx.fillStyle = color;
+  ctx.font = '500 8px Share Tech Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'bottom';
+  // Background for readability
+  const tw = ctx.measureText(label).width;
+  ctx.fillStyle='rgba(10,10,11,0.85)';
+  ctx.fillRect(x-tw/2-3, y-r-14, tw+6, 11);
+  ctx.fillStyle=color;
+  ctx.fillText(label, x, y-r-4);
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════════════
+   PLAYER SPRITE
+═══════════════════════════════════════════════════ */
+function drawPlayer(ctx, px, py, dir, frame, isMoving) {
+  const x=Math.round(px), y=Math.round(py);
+  const walkFrame = isMoving ? Math.floor(frame/8)%4 : 0;
+
+  ctx.save();
+  ctx.translate(x, y);
+
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,0.35)';
+  ctx.beginPath(); ctx.ellipse(0,9,6,3,0,0,Math.PI*2); ctx.fill();
+
+  // Legs animation
+  const legSwing = isMoving ? Math.sin(frame*0.25)*3 : 0;
+  ctx.fillStyle='#2a2a38';
+  if(walkFrame===0||walkFrame===2) {
+    ctx.fillRect(-4,5,3,8);
+    ctx.fillRect(1,5,3,8);
+  } else if(walkFrame===1) {
+    ctx.save(); ctx.translate(-2,9); ctx.rotate(legSwing*0.15);
+    ctx.fillRect(-2,-4,3,8); ctx.restore();
+    ctx.save(); ctx.translate(2,9); ctx.rotate(-legSwing*0.15);
+    ctx.fillRect(-1,-4,3,8); ctx.restore();
+  } else {
+    ctx.save(); ctx.translate(-2,9); ctx.rotate(-legSwing*0.15);
+    ctx.fillRect(-2,-4,3,8); ctx.restore();
+    ctx.save(); ctx.translate(2,9); ctx.rotate(legSwing*0.15);
+    ctx.fillRect(-1,-4,3,8); ctx.restore();
+  }
+
+  // Body (jacket)
+  ctx.fillStyle='#2e3040';
+  ctx.fillRect(-5,-2,10,9);
+  // Belt
+  ctx.fillStyle='#3a3020';
+  ctx.fillRect(-5,5,10,2);
+
+  // Arms
+  const armSwing = isMoving ? Math.sin(frame*0.25)*4 : 0;
+  ctx.fillStyle='#2e3040';
+  ctx.save(); ctx.translate(-6,2); ctx.rotate(-armSwing*0.08);
+  ctx.fillRect(-1,-1,3,7); ctx.restore();
+  ctx.save(); ctx.translate(6,2); ctx.rotate(armSwing*0.08);
+  ctx.fillRect(-2,-1,3,7); ctx.restore();
+
+  // Head
+  ctx.fillStyle='#c8a880';
+  ctx.fillRect(-4,-10,8,8);
+
+  // Hair / direction indicator
+  ctx.fillStyle='#3a2a10';
+  ctx.fillRect(-4,-10,8,3);
+
+  // Eyes based on direction
+  ctx.fillStyle='#1a1a2a';
+  if(dir==='right')  { ctx.fillRect(2,-7,2,2); }
+  else if(dir==='left') { ctx.fillRect(-4,-7,2,2); }
+  else if(dir==='up')   { ctx.fillRect(-2,-8,2,2); ctx.fillRect(1,-8,2,2); }
+  else                  { ctx.fillRect(-2,-4,2,2); ctx.fillRect(1,-4,2,2); }
+
+  // Player highlight dot (accent color)
+  ctx.fillStyle=C.hotspot;
+  ctx.fillRect(-1,-11,3,2);
+
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════════════
+   ZOMBIE SPRITES
+═══════════════════════════════════════════════════ */
+function drawZombie(ctx, zx, zy, frame, variant) {
+  const x=Math.round(zx), y=Math.round(zy);
+  ctx.save();
+  ctx.translate(x,y);
+
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,0.3)';
+  ctx.beginPath(); ctx.ellipse(0,8,5,2.5,0,0,Math.PI*2); ctx.fill();
+
+  const t = frame*0.04;
+  const wobble = Math.sin(t+variant)*2;
+
+  // Legs (shuffling)
+  ctx.fillStyle=variant%2===0?'#2a1808':'#1a2010';
+  const lStep = Math.sin(t)*3;
+  ctx.fillRect(-4+lStep,4,3,7);
+  ctx.fillRect(1-lStep,4,3,7);
+
+  // Body (hunched)
+  ctx.fillStyle=variant%3===0?'#3a2010':'#2a3010';
+  ctx.save(); ctx.rotate(wobble*0.04);
+  ctx.fillRect(-4,-1,9,7);
+  ctx.restore();
+
+  // Arms (hanging/reaching)
+  ctx.fillStyle=variant%2===0?'#3a2010':'#2a3010';
+  const reach = Math.sin(t+1)*4;
+  ctx.save(); ctx.translate(-5,1); ctx.rotate(0.3+reach*0.05);
+  ctx.fillRect(-1,0,3,8); ctx.restore();
+  ctx.save(); ctx.translate(5,1); ctx.rotate(-0.3+reach*0.05);
+  ctx.fillRect(-2,0,3,8); ctx.restore();
+
+  // Head
+  ctx.fillStyle='#4a3820';
+  ctx.save(); ctx.rotate(wobble*0.06);
+  ctx.fillRect(-4,-9,8,8);
+  // Rot patch
+  ctx.fillStyle='rgba(80,20,10,0.5)';
+  ctx.fillRect(-2,-8,3,3);
+  // Eyes
+  ctx.fillStyle=C.zombieEye;
+  ctx.fillRect(-3,-7,2,2);
+  ctx.fillRect(1,-7,2,2);
+  ctx.restore();
+
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════════════
+   SCENE DATA
 ═══════════════════════════════════════════════════ */
 const scenes = {
-
-  /* ═══════════ CHAPTER 1 ═══════════ */
-
   'intro': {
-    chapter: 1, label: 'CHAPTER 1 — THE SIGNAL',
-    title: 'Day One. You Wake Up Alone.',
-    text: `The basement smells like copper and damp concrete. You remember driving to your sister's apartment last night — the roads were wrong, the lights were wrong, someone was <em>eating someone</em> on the overpass.
+    chapter:1, label:'CHAPTER 1 — THE SIGNAL',
+    title:'Day One. You Wake Up Alone.',
+    text:`The basement smells like copper and damp concrete. You remember driving to your sister's apartment — the roads were wrong, the lights were wrong, someone was <em>eating someone</em> on the overpass.
 
 You don't remember getting here.
 
-A hand-crank radio crackles on the shelf. Through the static, fragments: <em>"...survivors at Mercy General... Military cordon at Route 9... Do NOT trust anyone who has been bitten and claims recovery..."</em>
+A hand-crank radio crackles on the shelf. Through the static: <em>"...survivors at Mercy General... Do NOT trust anyone who claims recovery..."</em>
 
-The signal dies. On the floor, a note in your own handwriting — you don't remember writing it:
+A note in your own handwriting: <strong>"DON'T GO UPSTAIRS. DON'T OPEN THE RED DOOR. FIND MARCUS."</strong>
 
-<strong>"DON'T GO UPSTAIRS. DON'T OPEN THE RED DOOR. FIND MARCUS."</strong>
-
-Footsteps above. Heavy, dragging. Then a wet impact against the ceiling. Then silence.`,
-    choices: [
-      { text: 'Force the basement door — clear whatever is up there', combat: true, encounter: 'horde', win: 'ch1_upstairs_clear', lose: 'ch1_captured_basement', tag: 'risk' },
-      { text: 'Ignore it — follow the note. Find Marcus.', next: 'ch1_find_marcus', flag: 'followed_note', tag: 'safe' },
-      { text: 'Crank the radio and try to respond to the signal', next: 'ch1_radio' },
+<strong>Di chuyển đến các vị trí trên bản đồ để chọn hành động.</strong>`,
+    choices:[
+      {text:'Force the door — fight whatever is up there', tag:'combat', encounter:'horde', win:'ch1_upstairs_clear', lose:'ch1_captured_basement', label:'UPSTAIRS'},
+      {text:'Follow the note — find Marcus', tag:'safe', next:'ch1_find_marcus', label:'EAST ROUTE'},
+      {text:'Crank the radio — try to respond', tag:'default', next:'ch1_radio', label:'RADIO'},
     ]
   },
+  'ch1_upstairs_clear':{chapter:1,label:'CHAPTER 1 — THE SIGNAL',title:'The Red Door',text:`You clear the floor — hands slick with things you try not to name. The red door opens before you touch it.
 
-  'ch1_upstairs_clear': {
-    chapter: 1, label: 'CHAPTER 1 — THE SIGNAL',
-    title: 'The Red Door',
-    text: `You clear the floor, heart hammering, hands slick with things you try not to name. The red door — painted in a hurry, still tacky — stands at the end of the hall. It opens before you touch it.
+A woman falls through, gasping, alive. <strong>Yara</strong>. Dried blood on her hands — not hers.
 
-A woman falls through, gasping, alive. <strong>Yara</strong>. Dried blood on her hands — not hers, from the way she holds them away from herself. Eyes wild but intelligent.
+<strong>"Thank god. Are you the one leaving notes? I found a dozen in the neighborhood."</strong>
 
-<strong>"Thank god. Are you the one leaving notes? I found a dozen in the neighborhood. All the same handwriting."</strong>
+She shows you her forearm. A bite mark. Weeks old. She's alive, lucid, walking.
 
-You have no memory of writing a single one. She says she's a nurse. Says she had "the shot" — a trial vaccine — before the outbreak. Then she shows you her forearm.
-
-<div class="twist-callout">A bite mark. Weeks old, faded to scar. She's alive, lucid, walking. Either she's immune — or the incubation period is longer than anyone thought. Either answer is terrifying.</div>`,
-    choices: [
-      { text: 'Trust her. The vaccine makes sense.', next: 'ch2_with_yara_trusted', trust: 2, flag: 'trust_yara', tag: 'trust' },
-      { text: 'Travel together — but watch her closely', next: 'ch2_with_yara_cautious', flag: 'watch_yara' },
-      { text: 'Lock her out. You didn\'t survive to die from charity.', next: 'ch2_alone_after_yara', trust: -2, flag: 'rejected_yara', tag: 'risk' },
-    ]
-  },
-
-  'ch1_captured_basement': {
-    chapter: 1, label: 'CHAPTER 1 — THE SIGNAL',
-    title: 'Taken',
-    text: `The horde takes you before you reach the top stair. You wake on a cot in a stranger's house — someone dragged you clear and bandaged your arm. The woman sitting across from you introduces herself as <strong>Yara</strong>. She pulled you out.
+<div class="twist-callout">A bite mark. Weeks old. She's alive. Either she's immune — or the incubation period is longer than anyone thought. Either answer is terrifying.</div>`,choices:[{text:'Trust her — the vaccine makes sense',tag:'trust',next:'ch2_with_yara_trusted',label:'TRUST YARA'},{text:'Travel together but watch her closely',tag:'default',next:'ch2_with_yara_cautious',label:'CAUTIOUS'},{text:"Lock her out. You didn't survive to die from charity.",tag:'risk',next:'ch2_alone_after_yara',label:'REJECT HER'}]},
+  'ch1_captured_basement':{chapter:1,label:'CHAPTER 1 — THE SIGNAL',title:'Taken',text:`The horde takes you. You wake on a cot — someone dragged you clear. The woman across from you is <strong>Yara</strong>. She pulled you out.
 
 <strong>"You were screaming something. About Marcus. Who's Marcus?"</strong>
 
-You don't know. The note is gone — torn from your pocket — but the name stays, burned into something deeper than memory.
-
-Yara says she knows the name. Her expression says knowing it costs something.`,
-    choices: [
-      { text: '"Tell me everything you know about Marcus."', next: 'ch1_find_marcus', trust: 1, flag: 'yara_rescued_you' },
-      { text: 'Say nothing. Take her supplies and move.', next: 'ch2_alone_after_yara', trust: -1, health: 15 },
-    ]
-  },
-
-  'ch1_find_marcus': {
-    chapter: 1, label: 'CHAPTER 1 — THE SIGNAL',
-    title: 'The Name in the Note',
-    text: `A map under the radio. A route marked in red ink — Kowalski Storage, Unit 7, three blocks east. The name "Marcus" circled at the destination.
-
-You don't know anyone named Marcus.
-
-At the warehouse, the unit is unlocked. Inside: a camp light, supplies, a man in his fifties with a soldier's posture and a preacher's patience. He looks at you like he expected you.
+You don't know. But the name burns deeper than memory.`,choices:[{text:'"Tell me everything about Marcus."',tag:'trust',next:'ch1_find_marcus',label:'ASK YARA'},{text:'Say nothing. Take her supplies and move.',tag:'risk',next:'ch2_alone_after_yara',label:'TAKE & LEAVE'}]},
+  'ch1_find_marcus':{chapter:1,label:'CHAPTER 1 — THE SIGNAL',title:'The Name in the Note',text:`A map under the radio — <em>Kowalski Storage, Unit 7</em>, three blocks east. Marcus is there: fifties, soldier's posture, preacher's patience.
 
 <strong>"Took you long enough. You really don't remember me?"</strong>
 
-He knows your name. Your sister's name. He says you met at the hospital the night it started. You have no memory of any hospital. He hands you a photograph — you and him, standing in a parking garage, smiling. Dated three weeks ago.
+He knows your name. Your sister's name. He hands you a photograph — you and him, smiling. Dated three weeks ago.
 
 <strong>The outbreak started ten days ago.</strong>
 
-<div class="twist-callout">Three weeks ago — before the outbreak — you apparently knew this man. Someone erased that knowledge from you. Someone who had access to your mind.</div>`,
-    choices: [
-      { text: '"How do you have a photo of me from before any of this?"', next: 'ch2_marcus_truth', trust: 1, flag: 'questioned_marcus' },
-      { text: 'Accept it. Whatever happened, Marcus is your only lead.', next: 'ch2_marcus_ally', trust: 2, flag: 'trust_marcus', tag: 'safe' },
-      { text: 'This is a trap. Run.', next: 'ch2_alone_no_marcus', trust: -1, health: -10, flag: 'fled_marcus', tag: 'risk' },
-    ]
-  },
-
-  'ch1_radio': {
-    chapter: 1, label: 'CHAPTER 1 — THE SIGNAL',
-    title: 'Static and Something Worse',
-    text: `Twenty minutes of cranking and tuning — then a frequency that shouldn't be there. Clear as glass: a man's voice, calm, professional, reading GPS coordinates followed by names. A roll call.
+<div class="twist-callout">Three weeks ago — before the outbreak — you apparently knew this man. Someone erased that knowledge from you.</div>`,choices:[{text:'"How do you have a photo of me from before any of this?"',tag:'trust',next:'ch2_marcus_truth',label:'QUESTION HIM'},{text:'Accept it. Marcus is your only lead.',tag:'safe',next:'ch2_marcus_ally',label:'TRUST MARCUS'},{text:'This is a trap. Run.',tag:'risk',next:'ch2_alone_no_marcus',label:'FLEE'}]},
+  'ch1_radio':{chapter:1,label:'CHAPTER 1 — THE SIGNAL',title:'Static and Something Worse',text:`Twenty minutes of cranking — then a frequency that shouldn't be there. Clear as glass: a man's voice reading GPS coordinates followed by names.
 
 Your name is on it.
 
-This isn't a rescue broadcast. It's a <em>catalog</em>. Someone is tracking survivors — and they knew your name before you gave it.
-
-A notebook behind the radio: a phone number, and one word: <strong>MARCUS.</strong>
-
-You step outside. A woman nearly runs into you — <strong>Yara</strong>, breathless, grabbing your arm.
+A woman nearly runs into you — <strong>Yara</strong>, breathless.
 
 <strong>"Did you hear it? Don't go to those coordinates. That's not rescue."</strong>
 
-<div class="twist-callout">She knows what the broadcast means without you explaining it. She's been listening for longer than she's letting on — or she already knows what it is because she helped build it.</div>`,
-    choices: [
-      { text: '"How do you know what the broadcast means?"', next: 'ch2_yara_radio_truth', trust: 1, flag: 'questioned_yara_radio' },
-      { text: 'Head to the coordinates anyway — answers are worth the risk', next: 'ch2_coordinates', health: -10, flag: 'went_to_coordinates', tag: 'risk' },
-      { text: 'Trust Yara. Find Marcus first.', next: 'ch2_with_yara_trusted', trust: 2, flag: 'trust_yara', tag: 'trust' },
-    ]
-  },
+<div class="twist-callout">She knows what the broadcast means without you explaining. She's been listening longer — or she helped build it.</div>`,choices:[{text:'"How do you know what the broadcast means?"',tag:'trust',next:'ch2_yara_radio_truth',label:'QUESTION YARA'},{text:'Head to the coordinates anyway',tag:'risk',next:'ch2_coordinates',label:'THE COORDINATES'},{text:'Trust Yara. Find Marcus first.',tag:'safe',next:'ch2_with_yara_trusted',label:'TRUST YARA'}]},
 
-  /* ═══════════ CHAPTER 2 ═══════════ */
+  'ch2_with_yara_trusted':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Safe Harbor',text:`Yara leads you to the Colony — a school gymnasium, barricaded, humming with forty survivors. It feels almost like hope.
 
-  'ch2_with_yara_trusted': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Safe Harbor',
-    text: `Yara leads you to the Colony — a school gymnasium on the edge of town, barricaded, humming with forty survivors. A garden in the parking lot. Children. It feels almost like hope.
-
-The Colony's leader, <strong>Briggs</strong>, runs things with the organized chaos of someone who's done logistics in worse situations. You earn your place through two days of supply runs.
-
-On the route back from the third run, you find the road to the gymnasium blocked.
-
-A knot of infected — a dozen at least — has piled against a car wreck across the only safe path. Slow, yes. But the noise will draw more.
-
-There is a side alley that might be clear. And there is the direct route, through them.`,
-    choices: [
-      { text: 'Push through the infected — get back to the Colony fast', combat: true, encounter: 'horde', win: 'ch2_colony_arrived', lose: 'ch2_horde_captured', tag: 'risk' },
-      { text: 'Take the alley — slower but quieter', next: 'ch2_colony_arrived', health: -5, tag: 'safe' },
-      { text: 'Double back and warn the Colony by radio', next: 'ch2_colony_arrived', trust: 1 },
-    ]
-  },
-
-  'ch2_colony_arrived': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'What Yara Found',
-    text: `You make it back. The Colony is intact. Briggs nods at you like that's the highest praise you'll ever receive.
-
-On day three, Yara pulls you aside. The warmth in her face has changed to something harder.
+On your third supply run, the road back is blocked — a dozen infected piled against a car wreck.`,choices:[{text:'Push through the infected',tag:'combat',encounter:'horde',win:'ch2_colony_arrived',lose:'ch2_horde_captured',label:'FIGHT THROUGH'},{text:'Take the alley — slower but quieter',tag:'safe',next:'ch2_colony_arrived',label:'SIDE ALLEY'},{text:'Double back and warn by radio',tag:'trust',next:'ch2_colony_arrived',label:'WARN COLONY'}]},
+  'ch2_colony_arrived':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'What Yara Found',text:`You make it back. On day three, Yara pulls you aside.
 
 <strong>"I need to tell you something about Marcus. About what really happened the night the outbreak started."</strong>
 
@@ -536,787 +865,225 @@ She opens a folder. Medical documents. Your name. A drug trial you apparently co
 
 <strong>"You weren't just a subject. You were enrolled as a <em>vector</em>."</strong>
 
-<div class="twist-callout">The drug wasn't a vaccine. It was a slow-release biological agent designed to survive in an asymptomatically infected host and spread at close contact. The outbreak didn't begin at the hospital. The outbreak began with you — in a grocery store, on a bus, in the streets of this city. Every person who died passed through the radius of your breath.</div>`,
-    choices: [
-      { text: '"Why are you telling me this now?"', next: 'ch3_yara_confrontation', flag: 'confronted_yara' },
-      { text: 'Ask to see Marcus. He signed you up for the trial.', next: 'ch3_find_marcus_angry', trust: -1, flag: 'want_marcus' },
-      { text: 'Tell Briggs and the Colony. They deserve the truth.', next: 'ch3_told_colony', trust: -2, health: -20, flag: 'told_colony', tag: 'risk' },
-    ]
-  },
+<div class="twist-callout">The drug wasn't a vaccine. You were the origin. Every person who died passed through the radius of your breath.</div>`,choices:[{text:'"Why are you telling me this now?"',tag:'default',next:'ch3_yara_confrontation',label:'CONFRONT YARA'},{text:'Ask to see Marcus. He signed you up.',tag:'risk',next:'ch3_find_marcus_angry',label:'FIND MARCUS'},{text:'Tell Briggs and the Colony the truth.',tag:'risk',next:'ch3_told_colony',label:'TELL EVERYONE'}]},
+  'ch2_horde_captured':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Pulled Under',text:`You wake in a Vantara holding room — white walls, antiseptic. Someone is there: <strong>Dr. Lena Holt</strong>.
 
-  'ch2_horde_captured': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Pulled Under',
-    text: `The horde takes you at the wreck. You wake in a Vantara holding room — white walls, generator hum, the smell of antiseptic. Someone pulled you out of the mass before it finished the job.
-
-That someone is a woman in a lab coat: <strong>Dr. Lena Holt</strong>. She smiles with professional warmth.
-
-<strong>"You're very lucky we were in the area. This is a Vantara recovery station — you're safe now."</strong>
+<strong>"You're very lucky we were in the area."</strong>
 
 You notice the door is locked from the outside.
 
-<div class="capture-callout">You're not rescued. You're collected. The horde was loose near a Vantara patrol route, and they've been sweeping the area for a specific kind of survivor. They've been looking for you specifically — they just didn't know you'd walk into their arms.</div>`,
-    choices: [
-      { text: 'Play along. Gather information.', next: 'ch3_play_along', flag: 'playing_dumb', flag2: 'vantara_captured', tag: 'safe' },
-      { text: 'Demand to know what Vantara is', next: 'ch3_vantara_captive_resist', flag: 'vantara_captured' },
-    ]
-  },
+<div class="capture-callout">You're not rescued. You're collected. They've been looking for you specifically.</div>`,choices:[{text:'Play along. Gather information.',tag:'safe',next:'ch3_play_along',label:'PLAY DUMB'},{text:"Demand to know what Vantara is",tag:'risk',next:'ch3_vantara_captive_resist',label:'RESIST'}]},
+  'ch2_with_yara_cautious':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Uneasy Alliance',text:`You travel together — Yara two steps ahead, you watching her hands. She navigates the dead city with uncanny precision.
 
-  'ch2_with_yara_cautious': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Uneasy Alliance',
-    text: `You travel together — Yara two steps ahead, you watching her hands. She navigates the dead city with uncanny precision. She knows this neighborhood like someone who mapped it deliberately.
-
-You reach the Colony. Yara is welcomed like a returning member. You're a stranger under Briggs's flat assessment.
-
-The route from your assigned supply sector to the Colony passes through a block that the dead have claimed completely. On day two, a Vantara operative steps out of a doorway ahead — hazmat-adjacent gear, tablet in hand, tranq rifle on their back. They haven't seen you yet.
-
-<strong>They're between you and home.</strong>`,
-    choices: [
-      { text: 'Neutralize the operative before they call it in', combat: true, encounter: 'vantara', win: 'ch2_operative_down', lose: 'ch2_operative_captured', tag: 'risk' },
-      { text: 'Backtrack and find another route', next: 'ch2_operative_bypassed', health: -5 },
-      { text: 'Let Yara handle it — she might know them', next: 'ch2_operative_bypassed', trust: 1, flag: 'yara_handled_operative' },
-    ]
-  },
-
-  'ch2_operative_down': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Keycard',
-    text: `The operative goes down. Their radio crackles with a check-in call they won't answer.
-
-In their jacket: a red-trimmed keycard. Vantara logo. And a dossier — a single page, your photograph at the top, your name below it, and a status field that reads:
+A Vantara operative steps out of a doorway — hazmat gear, tranq rifle. They haven't seen you yet. They're between you and home.`,choices:[{text:'Neutralize the operative',tag:'combat',encounter:'vantara',win:'ch2_operative_down',lose:'ch2_operative_captured',label:'FIGHT THEM'},{text:'Backtrack — find another route',tag:'safe',next:'ch2_operative_bypassed',label:'BACKTRACK'},{text:"Let Yara handle it — she might know them",tag:'trust',next:'ch2_operative_bypassed',label:'LET YARA ACT'}]},
+  'ch2_operative_down':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Keycard',text:`The operative goes down. In their jacket: a red-trimmed keycard. Vantara logo. And a dossier — your photograph, your name, and a status field:
 
 <em>SUBJECT ZERO — COLLECTION PRIORITY: CRITICAL</em>
 
-Yara reads over your shoulder and says nothing for a long moment.
+<strong>"They know exactly who you are. They've known since before the outbreak started."</strong>`,choices:[{text:'"What do they want with me, Yara? The full truth."',tag:'trust',next:'ch2_colony_arrived',label:'DEMAND TRUTH'},{text:'Pocket the keycard. Talk later.',tag:'safe',next:'ch2_colony_arrived',label:'KEEP MOVING'}]},
+  'ch2_operative_captured':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Processed',text:`The tranq round finds your neck. You wake in a Vantara station. Dr. Holt introduces herself.
 
-<strong>"They know exactly who you are. They've known since before the outbreak started."</strong>
-
-She takes the keycard from you — carefully, like it matters more than the dead operative at your feet.`,
-    choices: [
-      { text: '"What do they want with me, Yara? The full truth."', next: 'ch2_colony_arrived', trust: 1, flag: 'confronted_yara' },
-      { text: 'Pocket the keycard and keep moving. Talk later.', next: 'ch2_colony_arrived', flag: 'has_keycard' },
-    ]
-  },
-
-  'ch2_operative_captured': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Processed',
-    text: `The tranq round finds your neck. You wake in a Vantara station — cot, locked door, antiseptic smell. Dr. Holt introduces herself with practiced warmth.
-
-<div class="capture-callout">Captured by Vantara before you even understand what Vantara is. They have your blood type, your name, a photograph that predates the outbreak. They've been waiting for you to surface.</div>`,
-    choices: [
-      { text: 'Play along. Learn what you can.', next: 'ch3_play_along', flag: 'playing_dumb', tag: 'safe' },
-      { text: 'Refuse to cooperate with anything', next: 'ch3_vantara_captive_resist' },
-    ]
-  },
-
-  'ch2_operative_bypassed': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Night Three',
-    text: `You make it back. But on night three, you follow Yara.
-
-She meets with a man you've never seen — gray suit, completely out of place in the apocalypse. He hands her an envelope. She says:
+<div class="capture-callout">Captured by Vantara before you understand what Vantara is. They have your blood type, your name, a photograph that predates the outbreak.</div>`,choices:[{text:'Play along. Learn what you can.',tag:'safe',next:'ch3_play_along',label:'PLAY DUMB'},{text:'Refuse to cooperate',tag:'risk',next:'ch3_vantara_captive_resist',label:'RESIST'}]},
+  'ch2_operative_bypassed':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Night Three',text:`On night three, you follow Yara. She meets with a man in a gray suit. He hands her an envelope. She says:
 
 <strong>"The subject is stable. Memory loss holding. Ready for Phase Two."</strong>
 
-<div class="twist-callout">"The subject" is you. Your memory loss wasn't caused by trauma from the outbreak. It was chemically induced beforehand. You have been someone's ongoing experiment since before any of this began.</div>`,
-    choices: [
-      { text: 'Confront them both right now', next: 'ch3_confront_both', trust: -1, health: -15, flag: 'confronted_both', tag: 'risk' },
-      { text: 'Back off and follow the gray-suited man', next: 'ch3_follow_gray_man', flag: 'followed_gray_man' },
-      { text: 'Say nothing. Let them think you don\'t know.', next: 'ch3_play_along', trust: 1, flag: 'playing_dumb', tag: 'safe' },
-    ]
-  },
+<div class="twist-callout">"The subject" is you. Your memory loss was chemically induced beforehand. You have been someone's experiment since before any of this began.</div>`,choices:[{text:'Confront them both right now',tag:'risk',next:'ch3_confront_both',label:'CONFRONT BOTH'},{text:'Follow the gray-suited man',tag:'default',next:'ch3_follow_gray_man',label:'FOLLOW HIM'},{text:"Say nothing. Let them think you don't know.",tag:'safe',next:'ch3_play_along',label:'STAY HIDDEN'}]},
+  'ch2_alone_after_yara':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Alone is Honest',text:`You go alone. On day two you find an overrun camp. One survivor: a child, nine years old, hiding under a truck. <strong>Emil</strong>. He says he knows a way through the pharmacy block.
 
-  'ch2_alone_after_yara': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Alone is Honest',
-    text: `You go alone. Harder than expected — the dead have spread faster than any report suggested. You learn to move at dusk when they're slower. You learn which sounds mean nothing and which mean run.
-
-On day two you find an overrun camp. Everyone dead except one: a child, nine years old, hiding under a truck. His name is <strong>Emil</strong>. He watches you until you show him you're not scared.
-
-You're scared. You show him anyway.
-
-The road forward passes through what Emil calls "the pharmacy block" — a long commercial strip now thick with the dead. He says there's a way through, but it's tight. He's scouted it four times.
-
-<strong>"I'll guide you. But you have to stay close and stay quiet."</strong>`,
-    choices: [
-      { text: 'Follow Emil\'s route through the pharmacy block', combat: true, encounter: 'crawler', win: 'ch2_alone_survived_crawler', lose: 'ch2_alone_crawler_down', tag: 'risk' },
-      { text: 'Take the long way around — add two hours, save the risk', next: 'ch2_alone_survived_crawler', health: -8, tag: 'safe' },
-    ]
-  },
-
-  'ch2_alone_survived_crawler': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'What Emil Knows',
-    text: `You clear the block. Emil watches the exit route while you breathe.
-
-He's been alone four days and he's been <em>watching</em> — memorizing the city the way children memorize things that matter to them. He tells you about a man in a gray suit who came through yesterday, leading a group of "volunteers" toward the old hospital.
+<strong>"I'll guide you. But you have to stay close."</strong>`,choices:[{text:"Follow Emil's route through the pharmacy block",tag:'combat',encounter:'crawler',win:'ch2_alone_survived_crawler',lose:'ch2_alone_crawler_down',label:'PHARMACY BLOCK'},{text:'Take the long way around',tag:'safe',next:'ch2_alone_survived_crawler',label:'LONG ROUTE'}]},
+  'ch2_alone_survived_crawler':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'What Emil Knows',text:`You clear the block. Emil tells you about a man in a gray suit who came through yesterday, leading "volunteers" toward the old hospital.
 
 <strong>"He said he could cure them. But they didn't look sick when they followed him. They looked... empty."</strong>
 
-<div class="twist-callout">The hospital was where the outbreak was formally declared. And the gray suit description pulls at something in your missing memory — a shape, a voice, a room with fluorescent lights. You've seen this person before. Somewhere important. Before.</div>`,
-    choices: [
-      { text: 'Take Emil to the Colony — he\'ll be safer there', next: 'ch3_colony_with_emil', trust: 2, flag: 'has_emil', tag: 'safe' },
-      { text: 'Follow the gray-suited man to the hospital', next: 'ch3_follow_gray_man', health: -10, flag: 'followed_gray_man', tag: 'risk' },
-      { text: 'Find Marcus first. He\'s the only thread left.', next: 'ch3_find_marcus_angry', flag: 'want_marcus' },
-    ]
-  },
+<div class="twist-callout">The hospital was where the outbreak was formally declared. The gray suit pulls at something in your missing memory.</div>`,choices:[{text:"Take Emil to the Colony — he'll be safer there",tag:'safe',next:'ch3_colony_with_emil',label:'TO THE COLONY'},{text:'Follow the gray-suited man to the hospital',tag:'risk',next:'ch3_follow_gray_man',label:'HOSPITAL'},{text:'Find Marcus first.',tag:'default',next:'ch3_find_marcus_angry',label:'FIND MARCUS'}]},
+  'ch2_alone_crawler_down':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Eight Limbs',text:`The thing pins you. Emil throws a bottle — the sound gives you a half-second. Half a second is enough. You come out damaged but moving.
 
-  'ch2_alone_crawler_down': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Eight Limbs',
-    text: `The thing pins you. Emil does something remarkable: throws a bottle against the far wall, and the sound gives you a half-second while it turns.
+<div class="capture-callout">You're hurt and lost your supplies. You have the boy and the road ahead.</div>`,choices:[{text:'Keep moving. Find shelter.',tag:'default',next:'ch2_alone_survived_crawler',label:'KEEP MOVING'}]},
+  'ch2_marcus_truth':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'What Marcus Knows',text:`Marcus worked for <strong>Vantara Solutions</strong>. A field test of a neurological compound went wrong. Vantara's cover story was a flu strain. Their cleanup protocol <em>became</em> the outbreak.
 
-Half a second is enough.
+You were one of three Vantara employees who discovered this. The other two are dead. Marcus saved you.
 
-You come out the other side damaged but moving. Emil holds your hand while you catch your breath. He's seen worse, evidently. He doesn't say so — he just waits.
+<strong>"The notes were a dead man's switch."</strong>
 
-<div class="capture-callout">You didn't pass out — but you're hurt and you lost your supplies in the scramble. You have the boy and the road ahead and whatever you can carry. Which is less than before.</div>`,
-    choices: [
-      { text: 'Keep moving. Find shelter and regroup.', next: 'ch2_alone_survived_crawler', health: -20, flag: 'has_emil' },
-    ]
-  },
+Now a Vantara squad is already moving through the streets outside.`,choices:[{text:'Fight through the operatives to escape',tag:'combat',encounter:'squad',win:'ch2_marcus_escaped',lose:'ch2_marcus_squad_captured',label:'FIGHT OUT'},{text:'Hide until they pass',tag:'safe',next:'ch2_marcus_escaped',label:'HIDE'},{text:"Use Marcus's knowledge to bluff through",tag:'trust',next:'ch2_marcus_escaped',label:'BLUFF'}]},
+  'ch2_marcus_escaped':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'What Was Left Behind',text:`You clear the block. At the secondary cache, Marcus sets down his bag carelessly. The zipper is open. Inside: a personnel file.
 
-  'ch2_marcus_truth': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'What Marcus Knows',
-    text: `Marcus sits with the photograph between you like evidence.
-
-<strong>"I'm not your enemy. I'm the reason you're still alive."</strong>
-
-He worked for a biotech firm — <strong>Vantara Solutions</strong>. Twelve weeks ago, a field test of a neurological compound went wrong. Catastrophically wrong. Vantara's cover story was a flu strain. Their cleanup protocol <em>became</em> the outbreak.
-
-You were one of three Vantara employees who discovered this. The other two are dead. You're alive because Marcus found you first — sedated you, induced memory loss, hid you in the basement before Vantara's asset hunters arrived.
-
-<strong>"The notes were a dead man's switch. In case I didn't reach you in time."</strong>
-
-On the route back from the warehouse, Vantara's people are already moving through the streets. Three operatives in hazmat gear, scanning doors. Professional. Patient.
-
-<strong>They'll find the warehouse in twenty minutes.</strong>`,
-    choices: [
-      { text: 'Fight through the operatives to escape the block', combat: true, encounter: 'squad', win: 'ch2_marcus_escaped', lose: 'ch2_marcus_squad_captured', tag: 'risk' },
-      { text: 'Hide in the warehouse until they pass', next: 'ch2_marcus_escaped', health: -10, tag: 'safe' },
-      { text: 'Use Marcus\'s knowledge to bluff through their checkpoint', next: 'ch2_marcus_escaped', trust: 1, flag: 'trust_marcus' },
-    ]
-  },
-
-  'ch2_marcus_escaped': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'What Was Left Behind',
-    text: `You clear the block — or avoid it. The warehouse is behind you.
-
-Marcus leads you through back routes to a secondary cache. While he works the lock, you notice the bag he carries everywhere. He sets it down carelessly. The zipper is open.
-
-Inside: documents. Technical files, dense with jargon. At the bottom, a personnel file.
-
-<em>Marcus Arthur Voss. Vantara Solutions, Research Division. Lead Investigator: neurological compound trials. Subject selection criteria: immune profile, proximity, vulnerability index—</em>
+<em>Marcus Arthur Voss. Lead Investigator. Subject selection criteria: immune profile, vulnerability index—</em>
 
 He chose you. Not to save you. To enroll you.
 
-<div class="twist-callout">Marcus didn't select you to protect you. He selected you as a trial subject because your immune profile matched the compound's requirements. Saving you was guilt — not the original plan.</div>`,
-    choices: [
-      { text: 'Confront him with what you found', next: 'ch3_read_marcus_files', flag: 'read_marcus_bag' },
-      { text: 'Say nothing. He\'s useful and you need him functional.', next: 'ch2_marcus_ally', flag: 'trust_marcus' },
-    ]
-  },
+<div class="twist-callout">Marcus didn't select you to protect you. He selected you as a trial subject. Saving you was guilt — not the original plan.</div>`,choices:[{text:'Confront him with what you found',tag:'default',next:'ch3_read_marcus_files',label:'CONFRONT MARCUS'},{text:"Say nothing. He's useful.",tag:'safe',next:'ch2_marcus_ally',label:'STAY QUIET'}]},
+  'ch2_marcus_squad_captured':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'The Collection',text:`The squad takes you both. Professional, efficient.
 
-  'ch2_marcus_squad_captured': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'The Collection',
-    text: `The squad takes you both. Professional, efficient, no unnecessary force. You wake in separate rooms.
+<div class="capture-callout">Vantara has you and Marcus. This is a collection point, not a prison. The difference matters.</div>`,choices:[{text:'Find Marcus before processing begins',tag:'risk',next:'ch3_vantara_captive_resist',label:'FIND MARCUS'},{text:'Cooperate and look for openings',tag:'safe',next:'ch3_play_along',label:'COOPERATE'}]},
+  'ch2_marcus_ally':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Two Against Everything',text:`You work together. Marcus teaches you how to survive at a level below attention.
 
-<div class="capture-callout">Vantara has you and Marcus. This is not a prison — it's a collection point. The difference matters: a prison keeps you contained. A collection point processes you.</div>`,
-    choices: [
-      { text: 'Find a way to reach Marcus before processing begins', next: 'ch3_vantara_captive_resist', flag: 'vantara_captured' },
-      { text: 'Cooperate and look for openings from the inside', next: 'ch3_play_along', flag: 'playing_dumb', tag: 'safe' },
-    ]
-  },
-
-  'ch2_marcus_ally': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Two Against Everything',
-    text: `You work together. Marcus teaches you what he knows: how to read infected movement patterns, how to move invisibly, how to survive at a level below attention.
-
-On day three, Yara appears at the warehouse. She and Marcus know each other. The look between them is not warm.
+On day three, Yara appears. She and Marcus know each other. The look between them is not warm.
 
 <strong>Marcus:</strong> "You weren't supposed to make contact yet."
-<strong>Yara:</strong> "The timeline changed. Vantara is moving the collection. Seventy-two hours."
 
-They both look at you the way you've learned means you're the point, not the audience.
+<div class="twist-callout">You are the only living person who carries both the pathogen and a fully developed antibody simultaneously. You are the end of the world — and the only possible cure for it.</div>`,choices:[{text:"Side with Marcus — contain it, make it public",tag:'trust',next:'ch3_side_marcus',label:'SIDE WITH MARCUS'},{text:"Hear Yara's side first",tag:'default',next:'ch3_yara_confrontation',label:'HEAR YARA'},{text:"Refuse to be anyone's asset. Walk away.",tag:'risk',next:'ch3_walk_away_both',label:'WALK AWAY'}]},
+  'ch2_alone_no_marcus':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Running Blind',text:`You survive on vending machine food for two days. A dead journalist's notebook: Vantara Solutions. Colony subjects. <strong>Protocol Lazarus.</strong>
 
-<div class="twist-callout">You are not a survivor who got lucky. You are the only living person who carries both the pathogen and a fully developed antibody simultaneously. You are the end of the world — and the only possible cure for it. Marcus and Yara represent competing organizations who each want something different from your blood.</div>`,
-    choices: [
-      { text: 'Side with Marcus — contain it, make it public', next: 'ch3_side_marcus', trust: 1, flag: 'sided_marcus' },
-      { text: 'Hear Yara\'s side first', next: 'ch3_yara_confrontation', flag: 'confronted_yara' },
-      { text: 'Refuse to be anyone\'s asset. Walk away from both.', next: 'ch3_walk_away_both', trust: -2, flag: 'refused_both', tag: 'risk' },
-    ]
-  },
-
-  'ch2_alone_no_marcus': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Running Blind',
-    text: `You run hard. Four blocks, five — until your lungs give out in a gas station bathroom.
-
-You survive on vending machine food for two days. On day two, a dead journalist. Recent. Clean — no bite marks. Their notebook, jacket pocket, is full of shorthand:
-
-Vantara Solutions. Colony subjects. Something called <strong>Protocol Lazarus.</strong>
-
-One entry is clear:
+One entry clear:
 
 <em>"Subject Zero doesn't know. They never told Subject Zero what they really are."</em>
 
-Dated the day the outbreak began. <strong>Your name is the entry.</strong>
+Your name is the entry. The road forward is blocked — a proper horde.`,choices:[{text:'Fight through — the notebook changes everything',tag:'combat',encounter:'horde',win:'ch2_notebook_survived',lose:'ch2_notebook_captured',label:'FIGHT THROUGH'},{text:'Wait them out.',tag:'safe',next:'ch2_notebook_survived',label:'WAIT'}]},
+  'ch2_notebook_survived':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Subject Zero',text:`You reach the other side. The notebook still in your jacket.
 
-The road from the gas station to anywhere is a long commercial block — and it's full. Not one or two. A proper horde, slow and thick.
+<div class="twist-callout">Subject Zero. You are the origin point — not because someone chose you maliciously, but because someone chose you as a trial subject and something went very wrong.</div>
 
-You can't go around. The side roads are flooded.`,
-    choices: [
-      { text: 'Fight through — the notebook changes everything', combat: true, encounter: 'horde', win: 'ch2_notebook_survived', lose: 'ch2_notebook_captured', tag: 'risk' },
-      { text: 'Wait them out. Hours, if necessary.', next: 'ch2_notebook_survived', health: -5, tag: 'safe' },
-    ]
-  },
+You find the Colony by accident. Briggs looks you over.
 
-  'ch2_notebook_survived': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Subject Zero',
-    text: `You reach the other side. The notebook is still in your jacket.
+<strong>"You look like you've been through something. Talk when you've eaten."</strong>`,choices:[{text:"Find Marcus — his name is in the notebook",tag:'default',next:'ch3_find_marcus_angry',label:'FIND MARCUS'},{text:'Tell the Colony what you know',tag:'risk',next:'ch3_told_colony',label:'TELL EVERYONE'},{text:'Go to the hospital alone.',tag:'risk',next:'ch3_walk_away_both',label:'GO ALONE'}]},
+  'ch2_notebook_captured':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Fallen',text:`The horde takes you. You come back to consciousness in a clean room. Vantara. The notebook is gone.
 
-<div class="twist-callout">Subject Zero. You are the origin point of the outbreak — not because someone chose you maliciously, but because someone chose you as a trial subject and something went very wrong. The question is whether you were chosen carelessly, experimentally, or deliberately. The journalist seemed to know. The journalist is dead.</div>
+<div class="capture-callout">Captured before you could use the information. But they can't take what's already in your head.</div>`,choices:[{text:'Play the patient survivor until an opening appears',tag:'safe',next:'ch3_play_along',label:'PLAY DUMB'},{text:'Demand to speak to Marcus',tag:'risk',next:'ch3_vantara_captive_resist',label:'DEMAND MARCUS'}]},
+  'ch2_coordinates':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:"Into the Lion's Mouth",text:`The coordinates lead to the civic center — swept clean, powered, staffed by analysts.
 
-You find the Colony by accident — a survivor's runner spots you and brings you in. Briggs looks you over.
+Dr. Lena Holt introduces herself. She knows your name before you give it.
 
-<strong>"You look like you've been through something. We can talk about what when you've eaten."</strong>`,
-    choices: [
-      { text: 'Find Marcus — his name is in the notebook', next: 'ch3_find_marcus_angry', flag: 'has_notebook', trust: -1 },
-      { text: 'Tell the Colony what you know', next: 'ch3_told_colony', trust: -1, flag: 'told_colony', tag: 'risk' },
-      { text: 'Go to the hospital alone. No allies. No trust.', next: 'ch3_walk_away_both', trust: -2, flag: 'refused_both', tag: 'risk' },
-    ]
-  },
+You see the processing line: survivors walking out the other end with their lights turned down. Alive. Present. Just... managed.
 
-  'ch2_notebook_captured': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Fallen',
-    text: `The horde takes you at the underpass. You come back to consciousness in a clean room. Vantara. Dr. Holt is there.
-
-The notebook is gone.
-
-<div class="capture-callout">Captured twice now — or captured for the first time, properly. The notebook is gone. What you read is not. Vantara took you before you could use the information, but they can't take what's already in your head.</div>`,
-    choices: [
-      { text: 'Play the patient survivor until an opening appears', next: 'ch3_play_along', flag: 'playing_dumb', tag: 'safe' },
-      { text: 'Demand to speak to Marcus', next: 'ch3_vantara_captive_resist', flag: 'vantara_captured' },
-    ]
-  },
-
-  'ch2_coordinates': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Into the Lion\'s Mouth',
-    text: `The coordinates lead to the civic center — swept clean, powered, staffed by people in hazmat-adjacent gear. Not soldiers. Analysts.
-
-Dr. Lena Holt introduces herself. She knows your name before you give it. She offers food, a bed, safety — with the ease of someone who knows you'll take it.
-
-You almost do. Until you see the processing line: survivors, moving through intake, walking out the other end with their lights turned down. Alive. Present. Just... managed.
-
-<strong>Holt notices you noticing.</strong>
-
-<strong>"The adjustment period is temporary. Completely healthy."</strong>
-
-A man in line turns and looks at you. His eyes are present but absent — like someone left the house running with no one home.
-
-The corridor to the right leads deeper into the facility. The door is unlocked — they don't expect anyone to want to go that direction.`,
-    choices: [
-      { text: 'Go deeper — find out what processing actually does', next: 'ch3_play_along', flag: 'playing_dumb', tag: 'safe' },
-      { text: 'Fight your way out right now', combat: true, encounter: 'squad', win: 'ch3_escaped_vantara', lose: 'ch3_play_along', tag: 'risk' },
-      { text: 'Pretend to comply while finding a way to warn others', next: 'ch3_play_along', trust: 1, flag: 'playing_dumb' },
-    ]
-  },
-
-  'ch2_yara_radio_truth': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'What Yara Confesses',
-    text: `Yara sits with you on the steps of an abandoned deli.
-
-She was a field nurse for Vantara — hired to monitor trial subjects. She monitored you. Six weeks of vitals, responses, reactions. She liked you. That's why she ran when the collection order came.
+<strong>The corridor to the right leads deeper into the facility. The door is unlocked.</strong>`,choices:[{text:'Go deeper — find out what processing actually does',tag:'safe',next:'ch3_play_along',label:'GO DEEPER'},{text:'Fight your way out right now',tag:'combat',encounter:'squad',win:'ch3_escaped_vantara',lose:'ch3_play_along',label:'FIGHT OUT'},{text:'Pretend to comply while finding a way to warn others',tag:'trust',next:'ch3_play_along',label:'PLAY ALONG'}]},
+  'ch2_yara_radio_truth':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'What Yara Confesses',text:`Yara was a field nurse for Vantara — hired to monitor trial subjects. She monitored you. Six weeks of vitals, responses. She liked you. That's why she ran when the collection order came.
 
 <strong>"They weren't going to treat you. They were going to harvest the antibodies. The process is not survivable."</strong>
 
-The street behind you is clear. The street ahead is not.
+A bloated shape blocks the intersection — something that used to be a man.`,choices:[{text:'Fight through the Bloater together',tag:'combat',encounter:'bloater',win:'ch2_bloater_survived',lose:'ch2_bloater_captured',label:'FIGHT BLOATER'},{text:'Find a way around',tag:'safe',next:'ch2_bloater_survived',label:'GO AROUND'}]},
+  'ch2_bloater_survived':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'After',text:`You reach safety. Yara explains the compound — in most people fatal within days. In very few — people like you — it produces something the immune system eventually overcomes.
 
-A bloated shape blocks the intersection — something that used to be a very large man, distended now, pulsing with whatever the compound did to its biology over weeks. It's between you and anywhere useful.`,
-    choices: [
-      { text: 'Fight through the Bloater together', combat: true, encounter: 'bloater', win: 'ch2_bloater_survived', lose: 'ch2_bloater_captured', tag: 'risk' },
-      { text: 'Find a way around — you need Yara functional, not heroic', next: 'ch2_bloater_survived', health: -12, tag: 'safe' },
-    ]
-  },
+<div class="twist-callout">Yara is still not saying the whole truth. She's omitting that she filed the monitoring report that put your name on Vantara's collection list.</div>`,choices:[{text:'"You put my name on their list."',tag:'risk',next:'ch3_yara_confrontation',label:'CONFRONT YARA'},{text:"Forgive her. She's trying to fix it.",tag:'trust',next:'ch3_marcus_partner',label:'FORGIVE HER'},{text:'Leave her. Find Marcus alone.',tag:'default',next:'ch3_find_marcus_angry',label:'LEAVE HER'}]},
+  'ch2_bloater_captured':{chapter:2,label:'CHAPTER 2 — THE COLONY',title:'Acid and Dark',text:`The Bloater ruptures. You're conscious long enough to see Yara pull you clear, then darkness. Vantara arrives before you wake. Yara is gone.
 
-  'ch2_bloater_survived': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'After',
-    text: `You reach safety. Yara is shaken — not from the fight, from what she saw it do to something that was human.
+<div class="capture-callout">Whether Yara sold you to Vantara or just couldn't stop them, you don't know. The result is the same.</div>`,choices:[{text:'Play cooperative. Find the angle.',tag:'safe',next:'ch3_play_along',label:'COOPERATE'},{text:'Make noise. Demand Marcus.',tag:'risk',next:'ch3_vantara_captive_resist',label:'RESIST'}]},
 
-<strong>"The compound accelerates certain cellular processes. In most people it's fatal within days. In very few — people like you — it produces something the immune system eventually overcomes. What you just saw is what happens to the ones in the middle."</strong>
+  'ch3_yara_confrontation':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'What She Really Did',text:`Yara doesn't deny it.
 
-<div class="twist-callout">You filed a report on yourself. Yara is still not saying the whole truth — she's omitting that she filed the monitoring report that put your name on Vantara's collection list. Guilt and betrayal are not mutually exclusive.</div>`,
-    choices: [
-      { text: '"You put my name on their list."', next: 'ch3_yara_confrontation', trust: -1, flag: 'confronted_yara' },
-      { text: 'Forgive her. She\'s trying to fix it.', next: 'ch3_marcus_partner', trust: 2, flag: 'forgave_yara', tag: 'trust' },
-      { text: 'Leave her. Find Marcus alone.', next: 'ch3_find_marcus_angry', flag: 'want_marcus' },
-    ]
-  },
+<strong>"Yes. I filed the report. I chose me. I've hated myself for it every day since."</strong>
 
-  'ch2_bloater_captured': {
-    chapter: 2, label: 'CHAPTER 2 — THE COLONY',
-    title: 'Acid and Dark',
-    text: `The Bloater ruptures. You're conscious long enough to see Yara pull you clear, then the darkness takes you.
-
-Vantara arrives before you wake. Yara is gone when you open your eyes. Dr. Holt is there instead.
-
-<div class="capture-callout">Whether Yara sold you to Vantara or just couldn't stop them, you don't know. The result is the same. You're in a clean room. The door is locked. And your blood — your very specific, very valuable blood — is the reason you're still alive instead of processed and discarded.</div>`,
-    choices: [
-      { text: 'Play cooperative. Find the angle.', next: 'ch3_play_along', flag: 'playing_dumb', tag: 'safe' },
-      { text: 'Make noise. Demand Marcus.', next: 'ch3_vantara_captive_resist', flag: 'vantara_captured' },
-    ]
-  },
-
-  /* ═══════════ CHAPTER 3 ═══════════ */
-
-  'ch3_yara_confrontation': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'What She Really Did',
-    text: `Yara doesn't deny it.
-
-<strong>"Yes. I filed the report. If I hadn't, they'd know I was covering you, and I'd be on the list too. I chose me. I've hated myself for it every day since."</strong>
-
-She tells you what you actually need: Protocol Lazarus is Vantara's endgame. A biological cure — not synthesized, living in the immune system of the one person who survived full exposure to both pathogen strains. You.
-
-The old hospital across the river is where they're staging the final collection. Marcus is already inside — taken two days ago. Yara has a Vantara access badge that will get you to Room 4B.
+She tells you about Protocol Lazarus. The old hospital across the river — Marcus is already inside. She has a Vantara access badge for Room 4B.
 
 She holds it out.
 
-<strong>"Whatever you decide about me after — this is yours."</strong>
-
-The bridge to the hospital is not unguarded. Vantara has a checkpoint. And something has been killing people at that checkpoint — something that moves too fast for standard infected.`,
-    choices: [
-      { text: 'Fight through the checkpoint', combat: true, encounter: 'vantara', win: 'ch4_hospital_entry', lose: 'ch4_captured_entry', tag: 'risk' },
-      { text: 'Use the badge — walk through legitimately', next: 'ch4_hospital_entry', trust: 1, flag: 'yara_with_you', tag: 'safe' },
-      { text: 'Find a way under the bridge', next: 'ch4_hospital_entry', health: -15, flag: 'breached_hospital' },
-    ]
-  },
-
-  'ch3_find_marcus_angry': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'The Empty Warehouse',
-    text: `The warehouse is empty. Marcus gone. The camp light still warm, a mug steaming, boot prints on the floor — two sets — and a smear of blood too small to be a wound. A professional removal.
-
-On the table, one thing left deliberately: a keycard. Red trim, Vantara logo. Marcus's handwriting on the back:
+<strong>"Whatever you decide about me after — this is yours."</strong>`,choices:[{text:'Fight through the checkpoint',tag:'combat',encounter:'vantara',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:'FIGHT THROUGH'},{text:"Use the badge — walk through legitimately",tag:'safe',next:'ch4_hospital_entry',label:'USE BADGE'},{text:'Find a way under the bridge',tag:'risk',next:'ch4_hospital_entry',label:'UNDER BRIDGE'}]},
+  'ch3_find_marcus_angry':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'The Empty Warehouse',text:`The warehouse is empty. Marcus gone. Camp light still warm. One thing left deliberately — a keycard:
 
 <em>"Come anyway. Room 4B. You need to see what they built with your blood. —M"</em>
 
-He knew they were coming. He planned for it.
+Outside, you hear it before you see it: a low clicking, like a geiger counter made of bone. The Crawler drops from the fire escape.`,choices:[{text:'Fight the Crawler',tag:'combat',encounter:'crawler',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:'FIGHT CRAWLER'},{text:'Retreat and find another path',tag:'safe',next:'ch4_hospital_entry',label:'RETREAT'}]},
+  'ch3_told_colony':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'The Weight of Truth',text:`You tell them. All of it. Forty pairs of eyes. The silence afterward is the worst thing you've heard.
 
-Outside the warehouse, the street to the hospital runs through a stretch that's been abandoned even by the dead — which means something else has claimed it. You hear it before you see it: a low, continuous clicking, like a geiger counter made of bone.
+Briggs finds you at dawn:
 
-The <strong>Crawler</strong> drops from the fire escape above.`,
-    choices: [
-      { text: 'Fight the Crawler — you have no other route', combat: true, encounter: 'crawler', win: 'ch4_hospital_entry', lose: 'ch4_captured_entry', tag: 'risk' },
-      { text: 'Retreat and find another path to the hospital', next: 'ch4_hospital_entry', health: -20, tag: 'safe' },
-    ]
-  },
+<strong>"If your blood ends this, we get you to a real lab."</strong>
 
-  'ch3_told_colony': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'The Weight of Truth',
-    text: `You tell them. All of it. In the gymnasium, dinner half-eaten, forty pairs of eyes.
-
-The silence that follows is the worst thing you've heard since the outbreak.
-
-Three people leave that night. Two were people you liked. By morning, something fragile has broken. Children are kept across the room from you.
-
-Briggs finds you at dawn with a plan — not gentle, but real:
-
-<strong>"If your blood ends this, we get you to a real lab. University of Northern went dark early. Their work might still be there."</strong>
-
-He's already confirmed it on radio. He doesn't mention who confirmed it. On the road to the university, Vantara's squad has the main route sealed. The only way through is through them.`,
-    choices: [
-      { text: 'The Colony fights through together', combat: true, encounter: 'squad', win: 'ch4_hospital_entry', lose: 'ch4_captured_entry', flag: 'colony_backup', tag: 'risk' },
-      { text: 'Take a longer route — you\'ve cost them enough', next: 'ch4_hospital_entry', health: -15, flag: 'colony_backup', tag: 'safe' },
-    ]
-  },
-
-  'ch3_confront_both': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'Caught and Cornered',
-    text: `You step from the shadows. The gray-suited man reaches for his jacket. Yara moves between you, fast.
+On the road, Vantara's squad has the main route sealed.`,choices:[{text:'The Colony fights through together',tag:'combat',encounter:'squad',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:'FIGHT TOGETHER'},{text:"Take a longer route — you've cost them enough",tag:'safe',next:'ch4_hospital_entry',label:'LONGER ROUTE'}]},
+  'ch3_confront_both':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'Caught and Cornered',text:`You step from the shadows. The gray-suited man reaches for his jacket. Yara moves between you.
 
 <strong>"Don't."</strong> Not to you. To him.
 
-He freezes. Whatever authority Yara's demonstrated, it ranks him.
+Behind him, a Bloater has drifted in from the side street. It hasn't noticed anyone yet. The gray man's back is to it.`,choices:[{text:'Use the Bloater as a distraction — trigger it and run',tag:'combat',encounter:'bloater',win:'ch4_hospital_entry',lose:'ch3_play_along',label:'USE BLOATER'},{text:'Let Yara negotiate',tag:'trust',next:'ch4_hospital_entry',label:'LET YARA TALK'},{text:"Agree to go with them. Use the access.",tag:'safe',next:'ch4_hospital_entry',label:'COMPLY'}]},
+  'ch3_follow_gray_man':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'The Man the Dead Ignore',text:`Six blocks. Not a single infected comes near him. He doesn't register as prey.
 
-The gray-suited man — Dr. Holt's superior, the architect of Vantara's collection program — speaks with the flat tone of someone reading terms and conditions:
+Inside the hospital: a functioning laboratory. Rows of beds. People breathing, eyes open, nobody home. Room 4B: Marcus's voice arguing with Dr. Holt about consent.
 
-<strong>"Cooperate, and you'll be comfortable for the rest of a short, painless life. Resist, and the same outcome becomes less comfortable."</strong>
+Before you can decide what to do, the Crawler drops through a ceiling tile above you.`,choices:[{text:'Fight the Crawler in the corridor',tag:'combat',encounter:'crawler',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:"FIGHT CRAWLER"},{text:"Open Room 4B's door — let the confusion be your cover",tag:'safe',next:'ch4_hospital_entry',label:'BURST IN'}]},
+  'ch3_play_along':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'The Performance',text:`You play dumb. It works for forty-eight hours.
 
-Behind him, at the end of the alley, a Bloater has drifted in from the side street. It hasn't noticed any of you yet. The gray man's back is to it.`,
-    choices: [
-      { text: 'Use the Bloater as a distraction — trigger it and run', combat: true, encounter: 'bloater', win: 'ch4_hospital_entry', lose: 'ch3_play_along', tag: 'risk' },
-      { text: 'Let Yara negotiate — you need information more than escape', next: 'ch4_hospital_entry', trust: 1, flag: 'yara_with_you' },
-      { text: 'Agree to go with them. Use the access.', next: 'ch4_hospital_entry', flag: 'playing_dumb', tag: 'safe' },
-    ]
-  },
+You learn: the layout, the names, the location of the synthesis lab — Room 4B — and where Marcus is held. You also learn the cure, once synthesized, can be mass-produced. Distributed.
 
-  'ch3_follow_gray_man': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'The Man the Dead Ignore',
-    text: `Six blocks. Not a single infected comes near him. They look at him and look away — he doesn't register as prey. A different compound in his system. Not immune: <em>invisible.</em>
+Vantara's plan is to control distribution — to rebuild society with leverage over every government that needs the cure.
 
-You follow him into the hospital through a loading dock. Inside: a functioning laboratory, Vantara uniforms, rows of beds. People in them — breathing, eyes open, nobody home.
+On hour forty-nine, an alarm. Something has gotten into the building. The guards leave their posts. <strong>Your window is now.</strong>`,choices:[{text:'Move while the alarm covers you — go to Room 4B',tag:'safe',next:'ch4_hospital_entry',label:'ROOM 4B'},{text:"Find Marcus's cell first",tag:'trust',next:'ch4_hospital_entry',label:'FIND MARCUS'}]},
+  'ch3_vantara_captive_resist':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'What Resistance Costs',text:`Dr. Holt brings you to a conference room. A file is on the table. Your name at the top. The rows below — previous trial subjects, their outcomes.
 
-Room 4B: shouting on the other side. Marcus's voice.
+Forty-seven names. Forty-six: DECEASED. Yours: ACTIVE.
 
-You listen at the door. He's arguing with Dr. Holt about <em>consent.</em> She says the form you signed was legally adequate. He says you didn't understand what you were signing. They've had this argument many times. It sounds like guilt wearing a business dispute's clothing.
+<div class="twist-callout">You are not a lucky survivor. You are the only survivor. Whatever makes your biology different is why Vantara needs you — and why they'll do anything to keep you alive long enough to extract it.</div>`,choices:[{text:'Use this knowledge to negotiate from inside',tag:'trust',next:'ch4_hospital_entry',label:'NEGOTIATE'},{text:'Find a weapon and fight out',tag:'combat',encounter:'squad',win:'ch4_hospital_entry',lose:'ch4_hospital_entry',label:'FIGHT OUT'}]},
+  'ch3_escaped_vantara':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'Outside',text:`You're out. A note taped to a stop sign in Marcus's handwriting:
 
-Before you can decide what to do, the Crawler from the pharmacy block drops through a ceiling tile above you. It came in through the ventilation. It's been following your heat.`,
-    choices: [
-      { text: 'Fight the Crawler in the corridor', combat: true, encounter: 'crawler', win: 'ch4_hospital_entry', lose: 'ch4_captured_entry', tag: 'risk' },
-      { text: 'Open Room 4B\'s door — let the confusion be your cover', next: 'ch4_hospital_entry', flag: 'dramatic_entrance' },
-    ]
-  },
+<em>"When you're ready: south dock. I'll be watching. —M"</em>`,choices:[{text:'Go to the south dock',tag:'safe',next:'ch4_hospital_entry',label:'SOUTH DOCK'},{text:'Circle the building first',tag:'default',next:'ch4_hospital_entry',label:'SCOUT FIRST'}]},
+  'ch3_walk_away_both':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'Subject Zero Goes Alone',text:`You walk away from both of them. You watch the hospital for a full day. Learn the patterns. The weak points.
 
-  'ch3_play_along': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'The Performance',
-    text: `You play dumb. You let them think the memory loss is total.
-
-It works for forty-eight hours.
-
-During those hours you learn: the layout of Vantara's operation, the names of the people running it, the location of the synthesis lab — Room 4B — and where Marcus is held. You also learn something nobody told you:
-
-The cure, once synthesized from your antibodies, can be mass-produced. Distributed. The extraction is dangerous but not fatal.
-
-Vantara's plan is to control distribution — to rebuild society on their terms, with leverage over every government that needs the cure.
-
-On hour forty-nine, an alarm. Not for you — something has gotten into the building. The lights flicker. From somewhere below comes the wet clicking of the Crawler. It followed the heat signatures through the service tunnels.
-
-The guards leave their posts.
-
-<strong>Your window is now.</strong>`,
-    choices: [
-      { text: 'Move while the alarm covers you — go to Room 4B', next: 'ch4_hospital_entry', flag: 'has_plan', tag: 'safe' },
-      { text: 'Find Marcus\'s cell first', next: 'ch4_hospital_entry', trust: 1, flag: 'trust_marcus_full' },
-    ]
-  },
-
-  'ch3_vantara_captive_resist': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'What Resistance Costs',
-    text: `You make noise. You demand. Dr. Holt listens with the patience of someone who has more time than you do and knows it.
-
-Then she says something unexpected: <strong>"Ask for Marcus by name one more time and I'll tell you something about him that will make you wish you hadn't."</strong>
-
-She's not threatening you. She's warning you. There's a difference, and she seems to know you'll hear it.
-
-A guard brings you to a conference room. A file is on the table. Your name is at the top. But the rows below your name — the previous trial subjects, their outcomes — are what she wants you to see.
-
-Forty-seven names. Forty-six with the status: DECEASED.
-
-Yours: ACTIVE.
-
-<div class="twist-callout">You are not a lucky survivor. You are the only survivor. Whatever makes your biology different from forty-six other people who received the same compound — that difference is why Vantara needs you. And why they'll do anything to keep you alive long enough to extract it.</div>`,
-    choices: [
-      { text: 'Use this knowledge to negotiate from inside', next: 'ch4_hospital_entry', trust: 1, flag: 'playing_dumb' },
-      { text: 'Find a weapon and fight out', combat: true, encounter: 'squad', win: 'ch4_hospital_entry', lose: 'ch4_hospital_entry', flag: 'breached_hospital', tag: 'risk' },
-    ]
-  },
-
-  'ch3_escaped_vantara': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'Outside',
-    text: `You're out. The civic center is behind you, lit and humming with people who don't know they're losing something.
-
-You surface on the far side of the hospital block — the city moving you, the way cities sometimes do when you stop fighting the current.
-
-A note taped to a stop sign at eye level, in Marcus's handwriting:
-
-<em>"When you're ready: south dock. I'll be watching. —M"</em>`,
-    choices: [
-      { text: 'Go to the south dock', next: 'ch4_hospital_entry', flag: 'trust_marcus_full', tag: 'safe' },
-      { text: 'Circle the building first — know what you\'re walking into', next: 'ch4_hospital_entry', flag: 'has_plan' },
-    ]
-  },
-
-  'ch3_walk_away_both': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'Subject Zero Goes Alone',
-    text: `You walk away from both of them. Vantara notices after six hours. Marcus after two. Your head start is the dead journalist's notebook, Yara's fragments, and enough anger to keep moving.
-
-You watch the hospital for a full day. Learn the patterns. The weak points. The rhythm of the shifts.
-
-On day three, in your jacket pocket: a keycard you didn't put there. Marcus's handwriting on a note inside:
+On day three, in your jacket pocket — a keycard you didn't put there. Marcus's note:
 
 <em>"Room 4B. The synthesis is already done. I've been waiting for you to find your own way here. —M"</em>
 
-He's been inside the whole time. Working. Waiting. He knew you'd come alone.
+A Bloater has taken residence at the south entrance, drawn by the generator heat.`,choices:[{text:'Fight the Bloater to reach the dock',tag:'combat',encounter:'bloater',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:'FIGHT BLOATER'},{text:'Find the service entrance — north side',tag:'safe',next:'ch4_hospital_entry',label:'SERVICE ENTRANCE'}]},
+  'ch3_colony_with_emil':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'What Emil Knows',text:`Emil tells you what he's been watching: the gray-suited man made three trips to the hospital. Each time, he brought people who looked normal. Each time, he left alone.
 
-The approach to the loading dock is clear — except for the Bloater that has taken up residence at the south entrance, drawn by the generator heat.`,
-    choices: [
-      { text: 'Fight the Bloater to reach the dock', combat: true, encounter: 'bloater', win: 'ch4_hospital_entry', lose: 'ch4_captured_entry', tag: 'risk' },
-      { text: 'Find the service entrance — north side, riskier but unguarded', next: 'ch4_hospital_entry', health: -15, flag: 'went_alone', tag: 'safe' },
-    ]
-  },
+<strong>Marcus is already at the Colony.</strong> He found it through you. He and Briggs have made a plan.
 
-  'ch3_colony_with_emil': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'What Emil Knows',
-    text: `The Colony takes Emil in. The survivors welcome him with the tenderness people show for children in disasters — as if caring for something small and innocent is proof they're still human.
-
-Emil sits with you that night and tells you what he's been watching with a child's patient attention:
-
-The gray-suited man made three trips to the hospital. Each time, he brought people who looked normal. Each time, he left alone. But once, a man came out — soldier-looking, angry, hands bloody. He's been watching from the Colony perimeter for two days.
-
-<strong>Marcus is already here.</strong>
-
-He found the Colony through you. He pooled what he knows with what Briggs knows. They've made a plan. It's a good plan. There's one problem:
-
-The bridge to the hospital is guarded by a Vantara squad — and something else, something that drops from high places.`,
-    choices: [
-      { text: 'Fight through with Marcus and Colony backup', combat: true, encounter: 'squad', win: 'ch4_hospital_entry', lose: 'ch4_captured_entry', flag: 'trust_marcus_full', tag: 'risk' },
-      { text: 'Take Emil\'s route — he scouted a drain tunnel under the bridge', next: 'ch4_hospital_entry', health: -10, flag: 'has_emil', tag: 'safe' },
-    ]
-  },
-
-  'ch3_read_marcus_files': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'The File',
-    text: `The bag is full of documents. At the bottom: Marcus's personnel file.
-
-<em>Marcus Arthur Voss. Vantara Solutions, Research Division. Lead Investigator. Trial subject selection: immune profile, vulnerability index, proximity matrix.</em>
-
-He designed your enrollment. Not to save you. To use you.
+The bridge to the hospital is guarded by a Vantara squad — and something that drops from high places.`,choices:[{text:'Fight through with Marcus and Colony backup',tag:'combat',encounter:'squad',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:'COLONY ASSAULT'},{text:"Take Emil's route — drain tunnel under the bridge",tag:'safe',next:'ch4_hospital_entry',label:'TUNNEL ROUTE'}]},
+  'ch3_read_marcus_files':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'The File',text:`He designed your enrollment. Not to save you. To use you.
 
 He wakes before you can process it. He sees the file in your hands. He doesn't reach for it.
 
 <strong>"I know what that looks like. I need you to let me explain."</strong>
 
-<div class="twist-callout">What he explains: he selected you because you were the only person whose pre-existing immune profile could survive the compound without dying. He was trying to prove the trial could work by finding the one subject who would live. He didn't anticipate that surviving would make you a target. He says this is not a good explanation. He says it is a true one.</div>
+<div class="twist-callout">He selected you because your immune profile was the only one that could survive the compound. He didn't anticipate that surviving would make you a target. He says this is not a good explanation. He says it is a true one.</div>`,choices:[{text:'Believe him. Go together.',tag:'trust',next:'ch4_hospital_entry',label:'FORGIVE MARCUS'},{text:'Go alone. His guilt is his problem.',tag:'risk',next:'ch4_hospital_entry',label:'GO ALONE'}]},
+  'ch3_marcus_partner':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'The Plan',text:`You work together. Properly.
 
-The hospital is still the destination. Room 4B is still the goal. The question is whether you go there with him or despite him.`,
-    choices: [
-      { text: 'Believe him. Go together.', next: 'ch4_hospital_entry', trust: 1, flag: 'forgave_marcus', tag: 'trust' },
-      { text: 'Go alone. His guilt is his problem.', next: 'ch4_hospital_entry', trust: -2, flag: 'went_alone', tag: 'risk' },
-    ]
-  },
+Marcus has documents, chain-of-custody records. Goal: reach Room 4B, complete the synthesis, copy the data beyond Vantara's reach.
 
-  'ch3_marcus_partner': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'The Plan',
-    text: `You work together. Properly. Something close to trust, functional as trust.
+The north approach has a problem: a Bloater has colonized the loading area. The staff routes around it.`,choices:[{text:'Fight the Bloater and take the north wing',tag:'combat',encounter:'bloater',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:'NORTH WING'},{text:'South dock — clean and quiet',tag:'safe',next:'ch4_hospital_entry',label:'SOUTH DOCK'}]},
+  'ch3_side_marcus':{chapter:3,label:'CHAPTER 3 — THE HOSPITAL',title:'Choosing Containment',text:`You side with Marcus. Yara doesn't fight it.
 
-Marcus has documents, testimony, chain-of-custody records. He's building a legal case against Vantara from inside a functioning collapse. The goal: reach Room 4B, complete the synthesis, copy the data beyond Vantara's reach.
+<strong>"Then you'll need me too. I know the building better than he does."</strong>
 
-The hospital's south dock. Two non-soldiers. The north wing holds processed patients — alive, mostly, but managed.
+On the bridge, a Vantara squad checkpoint. Yara has a badge. Marcus has a cover story. The Crawler that's been tracking you will make the decision irrelevant if you stand here too long.`,choices:[{text:"Use Yara's badge — walk through clean",tag:'safe',next:'ch4_hospital_entry',label:'USE BADGE'},{text:'Fight through instead',tag:'combat',encounter:'vantara',win:'ch4_hospital_entry',lose:'ch4_captured_entry',label:'FIGHT THROUGH'}]},
 
-<strong>Marcus:</strong> <em>"North wing is optional. The dock is the mission."</em>
+  'ch4_hospital_entry':{chapter:4,label:'CHAPTER 4 — ROOM 4B',title:'Inside',text:`The hospital is colder than the dead city outside. Room 4B is real — a laboratory retrofitted from a patient room. On the central table: synthesis apparatus. Two vials of functional cure already complete.
 
-You look at each other. You both know what "optional" means when people are behind that door.
+Then the door opens. Dr. Holt. The gray-suited man. Two Colony faces. <strong>Briggs sold you out.</strong>
 
-The north approach has a problem: a Bloater has colonized the loading area. It's been there three days. The staff routes around it. So does everyone else.`,
-    choices: [
-      { text: 'Fight the Bloater and take the north wing', combat: true, encounter: 'bloater', win: 'ch4_hospital_entry', lose: 'ch4_captured_entry', flag: 'save_patients', tag: 'risk' },
-      { text: 'South dock — clean and quiet', next: 'ch4_hospital_entry', flag: 'trust_marcus_full', tag: 'safe' },
-    ]
-  },
+<strong>"You can do this cooperatively, or we can do it the other way. The outcome doesn't change. Only your experience does."</strong>
 
-  'ch3_side_marcus': {
-    chapter: 3, label: 'CHAPTER 3 — THE HOSPITAL',
-    title: 'Choosing Containment',
-    text: `You side with Marcus. Yara doesn't fight it.
+<strong>What do you do in the next ten seconds?</strong>`,choices:[{text:"Buy time — fight the security detail",tag:'combat',encounter:'vantara',win:'ch5_negotiate',lose:'ch5_captured_lab',label:'FIGHT DETAIL'},{text:'Destroy the apparatus. If you fall, it falls with you.',tag:'risk',next:'ch5_destroy',label:'DESTROY IT'},{text:'Negotiate — on your terms, not hers',tag:'trust',next:'ch5_negotiate',label:'NEGOTIATE'},{text:'Release the two vials into the ventilation right now',tag:'risk',next:'ch5_ventilation',label:'RELEASE VIALS'}]},
+  'ch4_captured_entry':{chapter:4,label:'CHAPTER 4 — ROOM 4B',title:'The Room You Wake In',text:`You wake in a clean bed. Dr. Holt enters. She puts two things on the table: a glass of water, and a consent form.
 
-<strong>"Then you'll need me too. I know the building better than he does. I built the intake protocol."</strong>
+<strong>"Sign this and the process is painless. Don't sign it and we proceed anyway — but I'd rather have the form."</strong>
 
-Nobody is entirely good here. You're learning to operate with that.
+You are still the key to everything. Including this door, if you're patient enough.`,choices:[{text:'Sign — and use the access to reach Room 4B',tag:'safe',next:'ch5_negotiate',label:'SIGN & PLAN'},{text:'Refuse and find your own way',tag:'combat',encounter:'squad',win:'ch5_destroy',lose:'ch5_captured_lab',label:'REFUSE & FIGHT'}]},
 
-Three of you. One goal: Room 4B. The cure goes public, not proprietary.
+  'ch5_negotiate':{chapter:5,label:'CHAPTER 5 — THE END',title:'The Deal',text:`Four hours. Two broken promises from Holt. One moment where the gray-suited man looks at you with something that might be actual respect.
 
-On the bridge, a Vantara squad checkpoint. Yara has a badge. Marcus has a cover story. You have the piece they actually want.
+Your terms: synthesis completes. Every dose to a neutral coalition. Vantara's proprietary rights: voided. Marcus released. Yara's testimony protected.
 
-If the badge works, you walk in. If it doesn't, you fight. The Crawler that's been tracking you since the pharmacy block will make the decision irrelevant if you stand here too long.`,
-    choices: [
-      { text: 'Use Yara\'s badge — walk through clean', next: 'ch4_hospital_entry', flag: 'yara_with_you', tag: 'safe' },
-      { text: 'The badge is a risk — fight through instead', combat: true, encounter: 'vantara', win: 'ch4_hospital_entry', lose: 'ch4_captured_entry', tag: 'risk' },
-    ]
-  },
+They agree — eventually.
 
-  /* ═══════════ CHAPTER 4 ═══════════ */
-
-  'ch4_hospital_entry': {
-    chapter: 4, label: 'CHAPTER 4 — ROOM 4B',
-    title: 'Inside',
-    text: `The hospital is colder than the dead city outside. Generator hum. Clinical white lights designed to prevent secrets.
-
-Room 4B is real. A patient room retrofitted into a laboratory — equipment that took months and significant funding to install. Someone planned this long before the outbreak began.
-
-On the central table: synthesis apparatus. Two vials — six doses of functional cure product already complete.
-
-Marcus says (if he's with you): <em>"Twelve hours with your blood and this machine produces enough for citywide distribution."</em>
-
-Then the door opens.
-
-Dr. Holt. Not with soldiers — with the gray-suited man, and behind them, two Colony faces. Briggs's people.
-
-<strong>Briggs sold you out.</strong>
-
-<strong>Holt:</strong> <em>"You can do this cooperatively, or we can do it the other way. The outcome — your blood, the synthesis — doesn't change. Only your experience does."</em>
-
-The lab has three other exits. The synthesis apparatus is on the table. The two completed vials sit in a rack, unguarded.
-
-<strong>What do you do in the next ten seconds?</strong>`,
-    choices: [
-      { text: 'Buy time — fight the gray man\'s security detail', combat: true, encounter: 'vantara', win: 'ch5_negotiate', lose: 'ch5_captured_lab', tag: 'risk' },
-      { text: 'Destroy the apparatus. If you fall, it falls with you.', next: 'ch5_destroy', tag: 'risk' },
-      { text: 'Negotiate — on your terms, not hers', next: 'ch5_negotiate' },
-      { text: 'Release the two vials into the ventilation right now', next: 'ch5_ventilation', trust: -2, health: -10, tag: 'risk' },
-    ]
-  },
-
-  'ch4_captured_entry': {
-    chapter: 4, label: 'CHAPTER 4 — ROOM 4B',
-    title: 'The Room You Wake In',
-    text: `You wake in a clean bed. The ceiling is unfamiliar. Clean, warm, quiet — the specific quality of quiet that means you're inside something that means to keep you that way.
-
-Dr. Holt enters. She sits. She speaks the way you imagine a surgeon might speak to someone who's going to be on the table tomorrow.
-
-<strong>"You're not in danger. You've been in danger for days and now you're not. I'd like you to appreciate the difference."</strong>
-
-She puts two things on the table: a glass of water, and a document. The document is a consent form. Your name is pre-filled.
-
-<strong>"Sign this and the process is painless, fast, and leaves you in better health than you arrived. Don't sign it and we proceed anyway — but I'd rather have the form."</strong>
-
-Marcus is somewhere in this building. Room 4B is somewhere in this building. The synthesis apparatus is somewhere in this building.
-
-You are still the key to everything. Including this door, if you're patient enough.`,
-    choices: [
-      { text: 'Sign — and use the access it grants to reach Room 4B', next: 'ch5_negotiate', flag: 'playing_dumb', tag: 'safe' },
-      { text: 'Refuse and find your own way', combat: true, encounter: 'squad', win: 'ch5_destroy', lose: 'ch5_captured_lab', tag: 'risk' },
-    ]
-  },
-
-  /* ═══════════ CHAPTER 5 / ENDINGS ═══════════ */
-
-  'ch5_negotiate': {
-    chapter: 5, label: 'CHAPTER 5 — THE END',
-    title: 'The Deal',
-    text: `You negotiate.
-
-Four hours. Two broken promises from Holt (both anticipated). One moment where the gray-suited man looks at you across the table with something that might be actual respect.
-
-Your terms: synthesis completes. Every dose to a neutral coalition — no government exclusive, no corporate license. Vantara's proprietary rights: voided. Marcus released. Yara's testimony protected.
-
-Vantara agrees — eventually. Because you have what they need more than leverage: you are the only functioning apparatus on the planet, and you are willing to walk away from it.
-
-Twelve hours. You spend them watching the machine work, not sleeping.`,
-    ending: 'ending_negotiated'
-  },
-
-  'ch5_destroy': {
-    chapter: 5, label: 'CHAPTER 5 — THE END',
-    title: 'If Not Me, Then No One',
-    text: `You destroy it.
-
-Three precise impacts with a fire extinguisher — the apparatus that represents months of Vantara's work collapses in sparks and bent metal. The data drives follow. Then the two existing vials, broken against the concrete floor.
-
-Holt watches. The gray-suited man watches.
+Twelve hours. You spend them watching the machine work, not sleeping.`,ending:'ending_negotiated'},
+  'ch5_destroy':{chapter:5,label:'CHAPTER 5 — THE END',title:'If Not Me, Then No One',text:`You destroy it. Three precise impacts with a fire extinguisher — the apparatus collapses in sparks. The data drives follow. Then the two vials, broken against the floor.
 
 <strong>"You can't monetize what doesn't exist."</strong>
 
-They have every legal right to detain you. They also know — and you know they know — that you're standing among people who will riot if you're arrested, and outside is a world that has run out of patience for institutional authority.
-
 They let you walk.
 
-The outbreak continues four more months before a parallel research team develops a different cure. Slower. Messier. More people die than had to.
+The outbreak continues four more months before a parallel team develops a different cure. More people die than had to. You live with that number.`,ending:'ending_burned'},
+  'ch5_colony_revolt':{chapter:5,label:'CHAPTER 5 — THE END',title:'The People',text:`The Colony comes. Not Briggs — the others. Yara, Emil, the survivors who chose to follow rather than be led.
 
-You live with that number.`,
-    ending: 'ending_burned'
-  },
+Vantara makes a calculation: the alternative — violence, exposure, the story of what they did — ends them entirely. They retreat.
 
-  'ch5_colony_revolt': {
-    chapter: 5, label: 'CHAPTER 5 — THE END',
-    title: 'The People',
-    text: `The Colony comes.
+Six months later, you teach an outbreak response class to nineteen survivors in the Colony gymnasium. Emil is in the front row.`,ending:'ending_people'},
+  'ch5_ventilation':{chapter:5,label:'CHAPTER 5 — THE END',title:'The Act',text:`You release the existing doses into the ventilation. Not enough for a cure — proof of concept. Airborne delivery. You photograph the synthesis data in twelve seconds and upload it to every academic server in the dead journalist's notebook.
 
-Not Briggs — the others. Yara, Emil, the survivors who chose to follow rather than be led. They arrive at the hospital like a tide: not an army, but too many to stop without a bloodbath Holt won't authorize.
+You're arrested. At trial, you testify about everything.
 
-Vantara makes a calculation. Fast, professional, correct:
+Sentence: eighteen months, suspended. Zero days served. The courtroom applauds.`,ending:'ending_sacrifice'},
+  'ch5_captured_lab':{chapter:5,label:'CHAPTER 5 — THE END',title:'Protocol Lazarus',text:`They take you in Room 4B. The extraction process begins at dawn.
 
-The cure distributed freely ends their leverage. The alternative — violence, exposure, the story of what they did — ends them entirely.
+Twelve hours later, the synthesis is complete. Vantara distributes the cure on their terms: tiered access, government licensing, production monopoly. Within three years, the world has largely recovered — under a new kind of architecture.
 
-They choose retreat.
-
-The synthesis completes. Doses go out first to the Colony, then to every survivor network Yara spent years quietly building. The cure spreads person to person, without permission, without control.
-
-Six months later, you teach a class on outbreak response to nineteen survivors in the Colony gymnasium.
-
-Emil is in the front row.`,
-    ending: 'ending_people'
-  },
-
-  'ch5_ventilation': {
-    chapter: 5, label: 'CHAPTER 5 — THE END',
-    title: 'The Act',
-    text: `You release the existing doses into the ventilation.
-
-Not enough for a cure — fractions of effective concentration across a large building. But something else: proof of concept. Airborne delivery.
-
-You photograph the synthesis data on your phone in twelve seconds before Holt's people take it from you. You upload it through the hospital's live network connection to every academic server address in the dead journalist's notebook.
-
-You're arrested. Not by Vantara — by federal authority that arrives forty minutes later because someone was watching the building.
-
-At trial, you testify about everything. Vantara. The compound. What was done to you. What you did in Room 4B.
-
-The judge calls your actions "illegal, reckless, and without question the proximate cause of the eventual synthesis and public release of the cure."
-
-Sentence: eighteen months, suspended. Zero days served. The courtroom applauds.
-
-<div class="twist-callout">Three years later, the molecule you were given is the basis of a new class of neural immunomodulators — used carefully, ethically, to treat autoimmune disorders in children. Your name is in the paper's acknowledgments. You didn't write it there.</div>`,
-    ending: 'ending_sacrifice'
-  },
-
-  'ch5_captured_lab': {
-    chapter: 5, label: 'CHAPTER 5 — THE END',
-    title: 'Protocol Lazarus',
-    text: `They take you in Room 4B. Professionally. There's no violence — there doesn't need to be.
-
-The extraction process begins at dawn.
-
-It is, as Holt promised, painless. You are aware throughout — present enough to watch the machine work, detached enough that the watching doesn't cost you anything. The compound they give you to ensure cooperation is the same one that made you Subject Zero: familiar, almost.
-
-Twelve hours later, the synthesis is complete.
-
-Vantara distributes the cure on their terms: tiered access, government licensing, production monopoly. Within eighteen months, the outbreak is contained. Within three years, the world has largely recovered — under a new kind of architecture, the invisible infrastructure of a corporation that holds the patent on the thing that saved everyone.
-
-You are alive. Comfortable, even. Free to go, now that your blood has been banked and the process documented.
-
-You leave the hospital on a Tuesday. The sky is the particular blue of something that has survived something.
-
-You walk into it without knowing what you'll do next.
-
-<div class="twist-callout">This is not a good ending. It is not a bad ending. It is the ending that comes from being the most important person in the world and not quite finding the moment to use that importance before someone else used it for you. The world is rebuilt. You are fine. Some things are not reconcilable, and that is simply true.</div>`,
-    ending: 'ending_captured'
-  },
-
+You leave the hospital on a Tuesday. The sky is the particular blue of something that has survived something. You walk into it without knowing what you'll do next.`,ending:'ending_captured'},
 };
 
-/* ═══════════════════════════════════════════════════
-   ENDINGS DATA
-═══════════════════════════════════════════════════ */
 const endings = {
-  ending_negotiated: {
-    badge: 'ENDING I — THE DIPLOMAT', color: '#2980b9',
-    title: 'A Deal With the Devil (and Everyone Lived)',
-    text: `The cure works.
+  ending_negotiated:{badge:'ENDING I — THE DIPLOMAT',color:'#2980b9',title:"A Deal With the Devil (and Everyone Lived)",text:`The cure works. Distributed imperfectly, grudgingly, through channels that required seven months of argument.
 
-Distributed imperfectly, grudgingly, through channels that required seven months of argument to establish. Vantara Solutions dissolved under regulatory pressure eighteen months later, its assets divided among three nonprofit research foundations.
-
-You never fully recover your memories. The six weeks before the outbreak remain blurred — feelings without events, faces without names.
+You never fully recover your memories. The six weeks before the outbreak remain blurred.
 
 This, you decide, is a reasonable price.
 
@@ -1324,297 +1091,622 @@ Marcus retires somewhere coastal. Yara takes a position at a rebuilt WHO field o
 
 You are fine.
 
-The thing about surviving is that most of it looks exactly like ordinary life. Getting up. Making coffee if coffee exists. Deciding what to do with the day. Not every decision changes the world. Most of them just take you through it.
+The thing about surviving is that most of it looks exactly like ordinary life.
 
-<em>You survived by being useful and by being willing to compromise. The world is messier for it — more entangled, less clean. Also: more people are alive. You count that as a win.</em>`
-  },
+You survived by being useful and by being willing to compromise. The world is messier for it. Also: more people are alive. You count that as a win.`},
+  ending_burned:{badge:'ENDING II — THE TORCH',color:'#c0392b',title:"You Burned It Down",text:`You live alone for a while. Pass through communities, offer what you can, keep moving.
 
-  ending_burned: {
-    badge: 'ENDING II — THE TORCH', color: '#c0392b',
-    title: 'You Burned It Down',
-    text: `You live alone for a while. Not dramatically — you pass through communities, offer what you can, keep moving. Never staying anywhere long enough for the questions to catch up.
+The other cure arrives slowly, from an unexpected direction, found by people just trying to solve a problem. You read about it in a hand-printed newsletter at a supply cache.
 
-The other cure arrives the way all the best things do: slowly, from an unexpected direction, found by people just trying to solve a problem.
+Your contribution — in the final accounting — is negative: you destroyed the faster path. Positive: you prevented one entity from owning it.
 
-You read about it in a hand-printed newsletter at a supply cache.
+Some nights you think about the people who died in those four months. Some nights you just sleep.
 
-Your contribution — in the final accounting — is negative: you destroyed the faster path. Positive: you prevented one entity from owning it. The math depends on what a cure owned by Vantara would have been worth compared to one that took four months longer and arrived free.
+You sacrificed the faster answer for the freer one. You will spend the rest of your life deciding if that was right.`},
+  ending_people:{badge:'ENDING III — THE VILLAGE',color:'#27ae60',title:"It Takes Everyone",text:`The Colony becomes the template. Not because it was perfect. Because the Colony survived, and survival is its own argument.
 
-You never finish the math. You stop trying.
+Emil grows up in the Colony. He writes a book about the outbreak. Your name appears eleven times.
 
-Some nights you think about the people who died in those four months.
-
-Some nights you think about the world Vantara would have built if you'd let them keep the synthesis.
-
-Some nights you just sleep.
-
-<em>You sacrificed the faster answer for the freer one. You will spend the rest of your life deciding if that was right. The rest of your life is long.</em>`
-  },
-
-  ending_people: {
-    badge: 'ENDING III — THE VILLAGE', color: '#27ae60',
-    title: 'It Takes Everyone',
-    text: `The Colony becomes the template.
-
-Not because it was perfect — it wasn't. Briggs's betrayal nearly broke it. The fractures from your revelation never fully healed. But the Colony survived, and survival is its own argument.
-
-The cure spreads the way the pathogen spread — except this time the spreading is chosen. People carry it carefully, distribute it deliberately, return to communities that had given up.
-
-Emil grows up in the Colony. He becomes the kind of person who remembers things accurately and records them carefully — a nine-year-old who watched everything and never learned to assume adults had it handled.
-
-He writes a book about the outbreak. Your name appears eleven times. In one passage, you are described as "the kind of person who doesn't make things easier, exactly, but makes them possible."
+In one passage, you are described as "the kind of person who doesn't make things easier, exactly, but makes them possible."
 
 You decide that's enough.
 
-<em>You survived by refusing to be anyone's asset and by building something with people instead of for them. The world is rebuilt slowly, badly, beautifully, by ordinary people who had no other choice. You are one of them.</em>`
-  },
-
-  ending_sacrifice: {
-    badge: 'ENDING IV — THE SIGNAL', color: '#e67e22',
-    title: 'You Were the Broadcast All Along',
-    text: `The information reaches further than the doses ever could.
-
-Seventeen research teams receive the synthesis data. Three act on it within thirty days. The cure arrives from three directions simultaneously — imperfect, competitive, cross-verified, impossible for any single entity to own.
+You survived by refusing to be anyone's asset and by building something with people instead of for them.`},
+  ending_sacrifice:{badge:'ENDING IV — THE SIGNAL',color:'#e67e22',title:"You Were the Broadcast All Along",text:`The information reaches further than the doses ever could. Seventeen research teams receive the synthesis data. The cure arrives from three directions simultaneously.
 
 Zero days served of your sentence.
 
-You testify in congressional hearings broadcast on whatever remains of broadcasting infrastructure. In academic proceedings that take two years to convene. In quiet offices of lawyers trying to establish what a human being's biological material is legally classified as.
+The judge who suspended it gives a commencement address at a rebuilt medical school. She quotes you:
 
-You become a landmark case. Not a hero — a precedent.
-
-The judge who suspended your sentence retires and gives a commencement address at a rebuilt medical school. She quotes you:
-
-<em>"If the only way to keep a secret safe is to give it to everyone, then you give it to everyone."</em>
+"If the only way to keep a secret safe is to give it to everyone, then you give it to everyone."
 
 You didn't say that, exactly. But it's close enough to what you meant.
 
-<em>You survived by becoming a signal rather than a subject. The world is louder for it, more contested, more alive.</em>`
-  },
-
-  ending_captured: {
-    badge: 'ENDING V — THE COST', color: '#8e44ad',
-    title: 'What Saving the World Looks Like',
-    text: `You leave the hospital on a Tuesday.
+You survived by becoming a signal rather than a subject.`},
+  ending_captured:{badge:'ENDING V — THE COST',color:'#8e44ad',title:"What Saving the World Looks Like",text:`You leave the hospital on a Tuesday.
 
 The cure is in the world. The world is recovering. People who would have died are alive. This is true, and it is not nothing.
 
-Vantara's logo appears on the packaging of the distributed treatment. Their distribution network is now essential infrastructure. The governments that once might have regulated them have become, quietly, dependent on them.
+You think about Room 4B sometimes. The choices that felt like the last choices and weren't.
 
-You think about Room 4B sometimes. The twelve seconds you spent photographing data you didn't manage to send. The choices that felt like the last choices and weren't.
-
-You think about Emil, who sends you letters from the Colony. He's twelve now. He wants to be a doctor. He asks about you in a way that makes clear he sees you as someone who did something important.
+Emil sends you letters from the Colony. He's twelve now. He wants to be a doctor. He asks about you in a way that makes clear he sees you as someone who did something important.
 
 You don't correct him.
 
-The world was saved. The cost was who got to own the saving. You tell yourself the second part might still be fixable.
+The world was saved. The cost was who got to own the saving.
 
-Some days you believe it.
-
-<em>You survived the end of the world. The world that came after it is not the one you would have built. You live in it anyway, because that is what surviving means — continuing into the world that arrives, not the one you planned for.</em>`
-  },
-
-  ending_5: {
-    badge: 'ENDING — THE GHOST', color: '#6b6b78',
-    title: 'You Disappeared',
-    text: `Nobody finds you.
-
-This is, for a long time, the point. You move through the aftermath like a rumor — too careful to be caught, too alone to be betrayed. You know what you carry. You know what everyone wants from it.
-
-You decide not to let them have it.
-
-The world recovers through other paths — slower, more expensive in lives, but real. The outbreak ends the way most catastrophes end: not with a solution, but with exhaustion. A gradual tipping of the ratio between the living and the dead until the living have enough room to breathe.
-
-You watch from the edges. You help where you can, quietly, without explaining your blood or your past.
-
-You become a folk story. Survivors in three cities have a legend about a person who wandered through and left things better — food caches, cleared paths, strangers guided to safety — and was gone before names could be exchanged.
-
-They call the figure the Ghost.
-
-You find out from Emil, who is sixteen and researching outbreak folklore. He mails you the transcript and a note:
-
-<em>"I know it's you. You don't have to tell me if you don't want to."</em>
-
-You write back. You use your name.
-
-<em>You survived by becoming invisible. The cost was belonging. The gift was freedom. You spent a long time deciding if the trade was worth it, then stopped deciding and just lived.</em>`
-  }
+Some days you believe it might still be fixable.`},
 };
 
 /* ═══════════════════════════════════════════════════
-   COMBAT BRIDGE
+   GAME STATE
 ═══════════════════════════════════════════════════ */
-let pendingCombat = null;
-
-function launchCombat(encounter, winScene, loseScene) {
-  pendingCombat = { winScene, loseScene };
-  const url = `combat.html?encounter=${encounter}&win=${encodeURIComponent(winScene)}&lose=${encodeURIComponent(loseScene)}&hp=${state.health}&trust=${state.trust}`;
-  const frame = document.getElementById('combat-frame');
-  frame.src = url;
-  document.getElementById('combat-overlay').classList.add('active');
-}
-
-window.addEventListener('message', (e) => {
-  if (!e.data || e.data.type !== 'COMBAT_RESULT') return;
-  document.getElementById('combat-overlay').classList.remove('active');
-  document.getElementById('combat-frame').src = '';
-
-  const { result, hp } = e.data;
-  // Update health from combat outcome
-  state.health = Math.max(1, hp);
-  updateStatus();
-
-  if (!pendingCombat) return;
-  const nextScene = (result === 'win' || result === 'flee')
-    ? pendingCombat.winScene
-    : pendingCombat.loseScene;
-  pendingCombat = null;
-  goToScene(nextScene);
-});
+let state = { day:1, trust:0, health:100, chapter:1, flags:{} };
 
 /* ═══════════════════════════════════════════════════
-   ENGINE
+   MAP ENGINE
 ═══════════════════════════════════════════════════ */
-function updateStatus() {
-  document.getElementById('stat-day').textContent = state.day;
-  document.getElementById('stat-trust').textContent = (state.trust > 0 ? '+' : '') + state.trust;
-  document.getElementById('stat-health').textContent = Math.max(0, state.health);
-  document.getElementById('stat-chapter').textContent = state.chapter + ' / 5';
+const canvas = document.getElementById('map-canvas');
+const ctx = canvas.getContext('2d');
+
+let mapState = {
+  grid: null,
+  buildings: [],
+  cars: [],
+  hotspots: [],
+  player: { x:0, y:0, dir:'down', speed:2 },
+  zombies: [],
+  frame: 0,
+  nearHotspot: null,
+  mapReady: false,
+  pulseT: 0,
+};
+
+// Input
+const keys = {};
+const mobileDir = {};
+
+function initCanvas() {
+  const panel = document.getElementById('map-panel');
+  canvas.width = panel.clientWidth;
+  canvas.height = panel.clientHeight;
 }
 
-function addToLog(title) {
-  const log = document.getElementById('scene-log');
-  const entry = document.createElement('div');
-  entry.className = 'log-entry';
-  entry.textContent = '↳ ' + title;
-  log.appendChild(entry);
-  while (log.children.length > 4) log.removeChild(log.firstChild);
+function buildMap(sceneId) {
+  const scene = scenes[sceneId];
+  if (!scene) return;
+
+  // Generate map from scene seed
+  const seed = sceneId.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const gen = generateMap(seed);
+  mapState.grid = gen.grid;
+  mapState.buildings = gen.buildings;
+  mapState.cars = gen.cars;
+
+  // Place player at center road intersection
+  const cw = canvas.width / COLS, ch = canvas.height / ROWS;
+  mapState.player.x = 12.5 * cw;
+  mapState.player.y = 8.5 * ch;
+  mapState.player.dir = 'down';
+
+  // Place hotspots for each choice
+  mapState.hotspots = placeHotspots(scene.choices, gen, cw, ch);
+
+  // Spawn ambient zombies
+  mapState.zombies = [];
+  for (let i=0; i<6; i++) {
+    const rng = gen.rng;
+    let zc, zr;
+    do {
+      zc = Math.floor(rng()*(COLS-2))+1;
+      zr = Math.floor(rng()*(ROWS-2))+1;
+    } while (mapState.grid[zr][zc] !== T.ROAD && mapState.grid[zr][zc] !== T.SIDE && mapState.grid[zr][zc] !== T.BLOOD);
+    mapState.zombies.push({
+      x: (zc+0.5)*cw, y: (zr+0.5)*ch,
+      dx: (rng()-0.5)*0.4, dy: (rng()-0.5)*0.4,
+      variant: i, wander: 0, wanderDir: rng()*Math.PI*2,
+    });
+  }
+
+  mapState.mapReady = true;
+  mapState.nearHotspot = null;
+  hideTooltip();
 }
+
+function placeHotspots(choices, gen, cw, ch) {
+  // Distribute hotspots across different quadrants
+  const positions = [
+    {qc:1, qr:1},   // top-left building zone
+    {qc:15, qr:1},  // top-right
+    {qc:1, qr:11},  // bottom-left
+    {qc:15, qr:11}, // bottom-right
+    // extras near roads
+    {qc:5, qr:8},   // left road
+    {qc:18, qr:9},  // right road
+    {qc:12, qr:3},  // top center road
+    {qc:13, qr:14}, // bottom center road
+  ];
+
+  return choices.map((choice, i) => {
+    const pos = positions[i % positions.length];
+    // Find nearest walkable tile in quadrant
+    let bestC = pos.qc, bestR = pos.qr;
+    for (let dr=-3; dr<=3; dr++) for (let dc=-3; dc<=3; dc++) {
+      const r=pos.qr+dr, c=pos.qc+dc;
+      if(r<0||r>=ROWS||c<0||c>=COLS) continue;
+      const t=mapState.grid[r][c];
+      if(t===T.ROAD||t===T.SIDE||t===T.BLOOD) { bestC=c; bestR=r; break; }
+    }
+    return {
+      x: (bestC+0.5)*cw,
+      y: (bestR+0.5)*ch,
+      label: choice.label || choice.text.slice(0,20)+'…',
+      fullText: choice.text,
+      tag: choice.encounter ? 'combat' : (choice.tag || 'default'),
+      choice: choice,
+      reached: false,
+    };
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   GAME LOOP
+═══════════════════════════════════════════════════ */
+let animId;
+
+function gameLoop() {
+  animId = requestAnimationFrame(gameLoop);
+  if (!mapState.mapReady) return;
+
+  mapState.frame++;
+  mapState.pulseT += 0.06;
+
+  updatePlayer();
+  updateZombies();
+  checkHotspots();
+  renderMap();
+}
+
+function updatePlayer() {
+  const p = mapState.player;
+  const cw = canvas.width / COLS, ch = canvas.height / ROWS;
+  let dx=0, dy=0;
+
+  if (keys['ArrowUp']||keys['KeyW']||mobileDir.up)    dy=-1;
+  if (keys['ArrowDown']||keys['KeyS']||mobileDir.down) dy=1;
+  if (keys['ArrowLeft']||keys['KeyA']||mobileDir.left) dx=-1;
+  if (keys['ArrowRight']||keys['KeyD']||mobileDir.right) dx=1;
+
+  if (dx||dy) {
+    const len=Math.sqrt(dx*dx+dy*dy);
+    dx/=len; dy/=len;
+
+    const nx=p.x+dx*p.speed, ny=p.y+dy*p.speed;
+    const nc=Math.floor(nx/cw), nr=Math.floor(ny/ch);
+
+    // Collision — can't walk into buildings
+    if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS) {
+      const t=mapState.grid[nr][nc];
+      if(t!==T.BUILD&&t!==T.FENCE) {
+        p.x=Math.max(8,Math.min(canvas.width-8,nx));
+        p.y=Math.max(8,Math.min(canvas.height-8,ny));
+      }
+    }
+
+    // Direction
+    if (Math.abs(dx)>Math.abs(dy)) p.dir=dx>0?'right':'left';
+    else p.dir=dy>0?'down':'up';
+
+    p.moving = true;
+  } else {
+    p.moving = false;
+  }
+}
+
+function updateZombies() {
+  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
+  mapState.zombies.forEach(z => {
+    z.wander++;
+    if(z.wander>80+z.variant*20) {
+      z.wanderDir += (Math.random()-0.5)*1.2;
+      z.wander=0;
+    }
+    const speed=0.3;
+    const nx=z.x+Math.cos(z.wanderDir)*speed;
+    const ny=z.y+Math.sin(z.wanderDir)*speed;
+    const nc=Math.floor(nx/cw), nr=Math.floor(ny/ch);
+    if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS) {
+      const t=mapState.grid[nr][nc];
+      if(t!==T.BUILD&&t!==T.FENCE) {
+        z.x=Math.max(8,Math.min(canvas.width-8,nx));
+        z.y=Math.max(8,Math.min(canvas.height-8,ny));
+      } else {
+        z.wanderDir += Math.PI + (Math.random()-0.5)*0.5;
+      }
+    }
+  });
+}
+
+function checkHotspots() {
+  const p=mapState.player;
+  const RADIUS=36;
+  mapState.nearHotspot=null;
+  mapState.hotspots.forEach(h=>{
+    const d=Math.hypot(p.x-h.x, p.y-h.y);
+    if(d<RADIUS) mapState.nearHotspot=h;
+  });
+  if(mapState.nearHotspot) showTooltip(mapState.nearHotspot);
+  else hideTooltip();
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════════════ */
+function renderMap() {
+  const cw=canvas.width/COLS, ch=canvas.height/ROWS;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // Tiles
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) {
+    // Scale tile to canvas
+    ctx.save();
+    ctx.translate(c*cw-c*TILE+(c*cw), r*ch-r*TILE+(r*ch));
+    // Just draw scaled
+    ctx.restore();
+    drawTileScaled(ctx, c, r, mapState.grid[r][c], cw, ch);
+  }
+
+  // Road markings (dashed center lines)
+  ctx.strokeStyle='rgba(60,60,70,0.5)';
+  ctx.lineWidth=1;
+  ctx.setLineDash([cw*0.4,cw*0.6]);
+  ctx.beginPath();
+  ctx.moveTo(0, 8.5*ch); ctx.lineTo(canvas.width, 8.5*ch);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(12.5*cw, 0); ctx.lineTo(12.5*cw, canvas.height);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Buildings
+  mapState.buildings.forEach(b => {
+    drawBuildingScaled(ctx, b, cw, ch);
+  });
+
+  // Cars
+  mapState.cars.forEach(car => {
+    drawCarScaled(ctx, car, cw, ch);
+  });
+
+  // Hotspots
+  mapState.hotspots.forEach(h=>{
+    const drawFn = HOTSPOT_ICONS[h.tag] || HOTSPOT_ICONS.default;
+    drawFn(ctx, h.x, h.y, mapState.pulseT + mapState.hotspots.indexOf(h)*1.2, h.label);
+  });
+
+  // Zombies (behind player)
+  mapState.zombies.sort((a,b)=>a.y-b.y).forEach(z=>{
+    if(z.y<mapState.player.y) drawZombie(ctx, z.x, z.y, mapState.frame, z.variant);
+  });
+
+  // Player
+  drawPlayer(ctx, mapState.player.x, mapState.player.y, mapState.player.dir, mapState.frame, mapState.player.moving);
+
+  // Zombies (in front of player)
+  mapState.zombies.forEach(z=>{
+    if(z.y>=mapState.player.y) drawZombie(ctx, z.x, z.y, mapState.frame, z.variant);
+  });
+
+  // Near-hotspot highlight ring on player
+  if(mapState.nearHotspot) {
+    ctx.save();
+    ctx.globalAlpha=0.3+0.15*Math.sin(mapState.pulseT*3);
+    ctx.strokeStyle='#e74c3c';
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.arc(mapState.player.x, mapState.player.y, 14, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function drawTileScaled(ctx, c, r, type, cw, ch) {
+  const x=c*cw, y=r*ch;
+  switch(type) {
+    case T.ROAD:
+      ctx.fillStyle=C.road;
+      ctx.fillRect(x,y,cw+1,ch+1);
+      if((c+r)%4===0){ ctx.fillStyle='rgba(255,255,255,0.015)'; ctx.fillRect(x,y,cw,ch); }
+      break;
+    case T.SIDE:
+      ctx.fillStyle=C.sidewalk;
+      ctx.fillRect(x,y,cw+1,ch+1);
+      if((c*3+r*7)%9===0){
+        ctx.strokeStyle='rgba(0,0,0,0.25)'; ctx.lineWidth=0.5;
+        ctx.beginPath(); ctx.moveTo(x+2,y+2); ctx.lineTo(x+cw-2,y+ch-2); ctx.stroke();
+      }
+      break;
+    case T.BUILD:
+      ctx.fillStyle=C.buildB;
+      ctx.fillRect(x,y,cw+1,ch+1);
+      break;
+    case T.RUBBLE:
+      ctx.fillStyle=C.rubble;
+      ctx.fillRect(x,y,cw+1,ch+1);
+      ctx.fillStyle='rgba(90,80,70,0.35)';
+      ctx.fillRect(x+2,y+2,cw*0.3,ch*0.3);
+      ctx.fillRect(x+cw*0.6,y+ch*0.5,cw*0.25,ch*0.25);
+      break;
+    case T.BLOOD:
+      ctx.fillStyle=C.road;
+      ctx.fillRect(x,y,cw+1,ch+1);
+      ctx.fillStyle=C.blood;
+      ctx.beginPath();
+      ctx.ellipse(x+cw/2,y+ch/2,cw*0.38,ch*0.3,c*0.5,0,Math.PI*2);
+      ctx.fill();
+      break;
+    case T.CAR:
+      ctx.fillStyle=C.road;
+      ctx.fillRect(x,y,cw+1,ch+1);
+      break;
+  }
+}
+
+function drawBuildingScaled(ctx, b, cw, ch) {
+  const x=b.c*cw, y=b.r*ch, w=b.w*cw, h=b.h*ch;
+  const colors=[C.buildA,C.buildB,C.buildC];
+  ctx.fillStyle=colors[b.color%3];
+  ctx.fillRect(x,y,w,h);
+  ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
+  ctx.strokeRect(x+0.5,y+0.5,w-1,h-1);
+  // Windows
+  const wCols=Math.max(1,b.w-1), wRows=Math.max(1,b.h-1);
+  const ww=cw*0.55, wh=ch*0.5;
+  for(let wr=0;wr<wRows;wr++) for(let wc=0;wc<wCols;wc++) {
+    const wx=x+(wc+0.5)*(w/wCols)-ww/2;
+    const wy=y+(wr+0.5)*(h/wRows)-wh/2;
+    const litRand=(b.c*17+b.r*13+wr*7+wc*3)%11;
+    ctx.fillStyle=litRand<4?C.window0:litRand<7?C.window1:litRand<9?C.window2:C.window0;
+    ctx.fillRect(wx,wy,ww,wh);
+    if((b.c+b.r+wr+wc)%9===0){
+      ctx.fillStyle=C.windowL; ctx.globalAlpha=0.4;
+      ctx.fillRect(wx+1,wy+1,ww-2,wh-2);
+      ctx.globalAlpha=1;
+    }
+  }
+}
+
+function drawCarScaled(ctx, car, cw, ch) {
+  const x=car.c*cw, y=car.r*ch;
+  const carColors=[C.car1,C.car2,C.car3];
+  ctx.save();
+  ctx.translate(x+cw/2, y+ch/2);
+  if(car.rot%2===1) ctx.rotate(Math.PI*0.5);
+  const bw=cw*0.75, bh=ch*0.55;
+  ctx.fillStyle=carColors[car.color%3];
+  ctx.fillRect(-bw/2,-bh/2,bw,bh);
+  ctx.fillStyle='rgba(100,150,200,0.12)';
+  ctx.fillRect(-bw/2+2,-bh/2+2,bw-4,bh-4);
+  ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.lineWidth=1;
+  ctx.strokeRect(-bw/2,-bh/2,bw,bh);
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════════════
+   TOOLTIP
+═══════════════════════════════════════════════════ */
+function showTooltip(h) {
+  const el=document.getElementById('choice-tooltip');
+  const txt=document.getElementById('tooltip-text');
+  const tagColors={combat:C.hotspot,risk:C.hotspot,safe:C.hotspotG,trust:C.amber,default:C.hotspotB};
+  const color=tagColors[h.tag]||C.hotspotB;
+  const tagLabel=h.tag==='combat'?'⚔ COMBAT':h.tag==='risk'?'⚠ RISK':h.tag==='safe'?'🛡 SAFE':h.tag==='trust'?'♦ TRUST':'';
+  txt.innerHTML=`<span style="color:${color}">${h.label}</span>${tagLabel?`<br><span style="font-size:0.58rem;color:${color};opacity:0.7">${tagLabel}</span>`:''}`;
+  el.style.display='block';
+}
+
+function hideTooltip() {
+  document.getElementById('choice-tooltip').style.display='none';
+}
+
+/* ═══════════════════════════════════════════════════
+   SCENE MANAGEMENT
+═══════════════════════════════════════════════════ */
+let currentScene = null;
+let pendingCombat = null;
 
 function goToScene(sceneId) {
   const scene = scenes[sceneId];
   if (!scene) { console.warn('Scene not found:', sceneId); return; }
 
+  currentScene = sceneId;
   state.chapter = scene.chapter;
   state.day++;
   updateStatus();
 
-  const currentTitle = document.getElementById('scene-title').textContent;
-  if (currentTitle) addToLog(currentTitle);
+  // Fade transition
+  const ov=document.getElementById('transition-overlay');
+  ov.classList.add('fade-in');
 
-  document.getElementById('scene-label').textContent = scene.label;
+  setTimeout(()=>{
+    // Update story text
+    document.getElementById('scene-label').textContent=scene.label;
+    document.getElementById('scene-title').textContent=scene.title;
+    document.getElementById('scene-text').innerHTML=scene.text;
 
-  const box = document.getElementById('scene-box');
-  box.style.opacity = 0;
-  box.style.transform = 'translateY(8px)';
+    // Scroll story to top
+    document.getElementById('story-panel').scrollTop=0;
 
-  setTimeout(() => {
-    document.getElementById('scene-title').textContent = scene.title;
-    document.getElementById('scene-text').innerHTML = scene.text;
+    // Rebuild map
+    buildMap(sceneId);
 
-    const choicesEl = document.getElementById('choices');
-    choicesEl.innerHTML = '';
+    ov.classList.remove('fade-in');
+    ov.classList.add('fade-out');
+    setTimeout(()=>ov.classList.remove('fade-out'),350);
+  }, 320);
 
-    if (scene.ending) {
-      const btn = document.createElement('button');
-      btn.className = 'choice-btn';
-      btn.textContent = 'Continue…';
-      btn.onclick = () => showEnding(scene.ending);
-      choicesEl.appendChild(btn);
-    } else if (scene.choices) {
-      scene.choices.forEach(choice => {
-        const btn = document.createElement('button');
-        btn.className = 'choice-btn' + (choice.combat ? ' combat-choice' : '');
-
-        let label = choice.text;
-        if (choice.tag && !choice.combat) {
-          label += ` <span class="tag tag-${choice.tag}">${choice.tag.toUpperCase()}</span>`;
-        }
-        btn.innerHTML = label;
-
-        btn.onclick = () => handleChoice(choice);
-        choicesEl.appendChild(btn);
-      });
-    }
-
-    box.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      box.style.opacity = 1;
-      box.style.transform = 'translateY(0)';
-    }));
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 200);
+  // Handle immediate ending scene
+  if (scene.ending && !scene.choices) {
+    setTimeout(()=>showEnding(scene.ending), 1200);
+  }
 }
 
 function handleChoice(choice) {
-  // Apply stat changes
-  if (choice.trust)  state.trust  = Math.max(-5, Math.min(5, state.trust + choice.trust));
-  if (choice.health) state.health = Math.max(0, Math.min(100, state.health + choice.health));
-  if (choice.flag)   state.flags[choice.flag] = true;
-  if (choice.flag2)  state.flags[choice.flag2] = true;
+  if (choice.trust)  state.trust  = Math.max(-5, Math.min(5, state.trust+choice.trust));
+  if (choice.health) state.health = Math.max(0, Math.min(100, state.health+choice.health));
+  if (choice.flag)   state.flags[choice.flag]=true;
+  if (choice.flag2)  state.flags[choice.flag2]=true;
 
-  // Ghost ending trigger
-  if (state.trust <= -4 && state.chapter >= 4) {
-    showEnding('ending_5');
-    return;
-  }
-
-  if (state.health <= 0) {
-    showEnding('ending_burned');
-    return;
-  }
+  // Ghost ending
+  if (state.trust<=-4 && state.chapter>=4) { showEnding('ending_5'); return; }
+  if (state.health<=0) { showEnding('ending_burned'); return; }
 
   updateStatus();
 
-  if (choice.combat) {
+  if (choice.encounter) {
     launchCombat(choice.encounter, choice.win, choice.lose);
-  } else {
-    goToScene(choice.next);
+  } else if (choice.next) {
+    if (choice.ending) showEnding(choice.ending);
+    else goToScene(choice.next);
+  } else if (scenes[currentScene] && scenes[currentScene].ending) {
+    showEnding(scenes[currentScene].ending);
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   INTERACT — called when player presses E/Space
+═══════════════════════════════════════════════════ */
+function interact() {
+  if (!mapState.nearHotspot) return;
+  const h=mapState.nearHotspot;
+  mapState.nearHotspot=null;
+  hideTooltip();
+  handleChoice(h.choice);
+}
+
+/* ═══════════════════════════════════════════════════
+   COMBAT BRIDGE
+═══════════════════════════════════════════════════ */
+function launchCombat(encounter, winScene, loseScene) {
+  pendingCombat={winScene, loseScene};
+  const url=`dead_signal_combat.html?encounter=${encounter}&win=${encodeURIComponent(winScene)}&lose=${encodeURIComponent(loseScene)}&hp=${state.health}&trust=${state.trust}`;
+  document.getElementById('combat-frame').src=url;
+  document.getElementById('combat-overlay').classList.add('active');
+}
+
+window.addEventListener('message', (e)=>{
+  if(!e.data||e.data.type!=='COMBAT_RESULT') return;
+  document.getElementById('combat-overlay').classList.remove('active');
+  document.getElementById('combat-frame').src='';
+  const {result, hp}=e.data;
+  state.health=Math.max(1,hp);
+  updateStatus();
+  if(!pendingCombat) return;
+  const next=(result==='win'||result==='flee')?pendingCombat.winScene:pendingCombat.loseScene;
+  pendingCombat=null;
+  goToScene(next);
+});
+
+/* ═══════════════════════════════════════════════════
+   ENDINGS
+═══════════════════════════════════════════════════ */
+const ending_5={badge:'ENDING — THE GHOST',color:'#6b6b78',title:"You Disappeared",text:`Nobody finds you. This is, for a long time, the point.
+
+The world recovers through other paths — slower, more expensive in lives, but real. The outbreak ends the way most catastrophes end: not with a solution, but with exhaustion.
+
+You become a folk story. Survivors in three cities have a legend about a person who wandered through and left things better, and was gone before names could be exchanged.
+
+Emil sends you the transcript and a note: "I know it's you. You don't have to tell me if you don't want to."
+
+You write back. You use your name.`};
 
 function showEnding(endingId) {
-  const ending = endings[endingId];
-  if (!ending) { console.warn('Ending not found:', endingId); return; }
-
-  document.getElementById('scene-box').style.display = 'none';
-
-  const screen = document.getElementById('ending-screen');
-  screen.style.display = 'block';
-
-  const badge = document.getElementById('ending-badge');
-  badge.textContent = ending.badge;
-  badge.style.color = ending.color;
-  badge.style.borderColor = ending.color;
-
-  document.getElementById('ending-title').textContent = ending.title;
-  document.getElementById('ending-text').textContent = ending.text;
-
-  screen.style.opacity = 0;
-  screen.style.transform = 'translateY(12px)';
-  screen.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    screen.style.opacity = 1;
-    screen.style.transform = 'translateY(0)';
-  }));
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const e=endings[endingId]||(endingId==='ending_5'?ending_5:null);
+  if(!e){console.warn('No ending:',endingId);return;}
+  cancelAnimationFrame(animId);
+  const ov=document.getElementById('ending-overlay');
+  const badge=document.getElementById('ending-badge');
+  badge.textContent=e.badge;
+  badge.style.color=e.color;
+  badge.style.borderColor=e.color;
+  document.getElementById('ending-title').textContent=e.title;
+  document.getElementById('ending-text').textContent=e.text;
+  ov.classList.add('show');
 }
 
+/* ═══════════════════════════════════════════════════
+   STATUS
+═══════════════════════════════════════════════════ */
+function updateStatus() {
+  document.getElementById('stat-day').textContent=state.day;
+  const t=state.trust;
+  document.getElementById('stat-trust').textContent=(t>0?'+':'')+t;
+  document.getElementById('stat-health').textContent=Math.max(0,state.health);
+  document.getElementById('stat-chapter').textContent=state.chapter+'/5';
+}
+
+/* ═══════════════════════════════════════════════════
+   INPUT
+═══════════════════════════════════════════════════ */
+document.addEventListener('keydown', e=>{
+  keys[e.code]=true;
+  if(e.code==='KeyE'||e.code==='Space') { e.preventDefault(); interact(); }
+});
+document.addEventListener('keyup', e=>{ keys[e.code]=false; });
+
+// Mobile D-pad
+document.querySelectorAll('.dpad-btn').forEach(btn=>{
+  const dir=btn.dataset.dir;
+  btn.addEventListener('touchstart',e=>{e.preventDefault();mobileDir[dir]=true;btn.classList.add('pressed');},{passive:false});
+  btn.addEventListener('touchend',  e=>{e.preventDefault();mobileDir[dir]=false;btn.classList.remove('pressed');},{passive:false});
+  btn.addEventListener('mousedown', e=>{mobileDir[dir]=true; btn.classList.add('pressed');});
+  btn.addEventListener('mouseup',   e=>{mobileDir[dir]=false;btn.classList.remove('pressed');});
+});
+
+document.getElementById('interact-btn').addEventListener('click', interact);
+document.getElementById('interact-btn').addEventListener('touchstart', e=>{e.preventDefault();interact();},{passive:false});
+
+/* ═══════════════════════════════════════════════════
+   MOBILE DETECTION
+═══════════════════════════════════════════════════ */
+function checkMobile() {
+  const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+  document.getElementById('dpad').style.display = isMobile ? 'block' : 'none';
+  document.getElementById('interact-btn').style.display = isMobile ? 'flex' : 'none';
+  document.getElementById('map-hint').textContent = isMobile
+    ? 'D-PAD — di chuyển  |  E — tương tác'
+    : 'WASD / MŨI TÊN — di chuyển  |  E / SPACE — tương tác';
+}
+
+/* ═══════════════════════════════════════════════════
+   RESIZE
+═══════════════════════════════════════════════════ */
+window.addEventListener('resize', ()=>{
+  initCanvas();
+  if(currentScene) buildMap(currentScene);
+  checkMobile();
+});
+
+/* ═══════════════════════════════════════════════════
+   START
+═══════════════════════════════════════════════════ */
 function startGame() {
-  state = { day: 1, trust: 0, health: 100, chapter: 1, flags: {} };
-  pendingCombat = null;
-  document.getElementById('scene-log').innerHTML = '';
-  document.getElementById('scene-box').style.display = 'block';
-  document.getElementById('scene-box').style.opacity = 1;
-  document.getElementById('scene-box').style.transform = 'none';
-  document.getElementById('ending-screen').style.display = 'none';
+  state={day:1,trust:0,health:100,chapter:1,flags:{}};
+  pendingCombat=null;
+  mapState.mapReady=false;
+  mapState.frame=0;
+  mapState.pulseT=0;
+  document.getElementById('ending-overlay').classList.remove('show');
   document.getElementById('combat-overlay').classList.remove('active');
   updateStatus();
+  initCanvas();
+  checkMobile();
+  cancelAnimationFrame(animId);
+  gameLoop();
   goToScene('intro');
 }
 
-startGame();
+window.addEventListener('DOMContentLoaded', startGame);
 </script>
 </body>
 </html>
