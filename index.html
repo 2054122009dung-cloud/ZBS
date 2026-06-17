@@ -1589,7 +1589,7 @@ function interact() {
 ═══════════════════════════════════════════════════ */
 function launchCombat(encounter, winScene, loseScene) {
   pendingCombat={winScene, loseScene};
-  const url=`dead_signal_combat.html?encounter=${encounter}&win=${encodeURIComponent(winScene)}&lose=${encodeURIComponent(loseScene)}&hp=${state.health}&trust=${state.trust}`;
+  const url=`combat.html?encounter=${encounter}&win=${encodeURIComponent(winScene)}&lose=${encodeURIComponent(loseScene)}&hp=${state.health}&trust=${state.trust}`;
   document.getElementById('combat-frame').src=url;
   document.getElementById('combat-overlay').classList.add('active');
 }
